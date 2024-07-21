@@ -1,29 +1,26 @@
 package JejuDorang.JejuDorang.tag;
 
+import JejuDorang.JejuDorang.achievement.Achievement;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
-public class Tag {
+public class AchievementTag {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tag_id")
     private Long id;
 
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "tag_id")
+    private Tag tag;
 
-    @OneToMany(mappedBy = "tag")
-    private List<AchievementTag> achievementTagList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "tag")
-    private List<DiaryTag> diaryTagList = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "achievement_id")
+    private Achievement achievement;
 }
