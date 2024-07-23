@@ -1,7 +1,7 @@
-package JejuDorang.JejuDorang.like;
+package JejuDorang.JejuDorang.like.data;
 
-import JejuDorang.JejuDorang.diary.Diary;
-import JejuDorang.JejuDorang.member.Member;
+import JejuDorang.JejuDorang.diary.data.Diary;
+import JejuDorang.JejuDorang.member.data.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

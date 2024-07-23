@@ -1,7 +1,9 @@
-package JejuDorang.JejuDorang.achievement;
+package JejuDorang.JejuDorang.achievement.data;
 
-import JejuDorang.JejuDorang.item.Item;
-import JejuDorang.JejuDorang.tag.AchievementTag;
+import JejuDorang.JejuDorang.achievement.enums.AchievementType;
+import JejuDorang.JejuDorang.item.data.Item;
+import JejuDorang.JejuDorang.member.data.MemberAchievement;
+import JejuDorang.JejuDorang.tag.data.AchievementTag;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -38,4 +40,7 @@ public class Achievement {
 
     @OneToMany(mappedBy = "achievement")
     private List<AchievementTag> achievementTagList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "achievement")
+    private List<MemberAchievement> memberAchievementList = new ArrayList<>();
 }
