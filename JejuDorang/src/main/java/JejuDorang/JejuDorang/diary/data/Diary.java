@@ -1,7 +1,9 @@
-package JejuDorang.JejuDorang.diary;
+package JejuDorang.JejuDorang.diary.data;
 
-import JejuDorang.JejuDorang.like.LikeDiary;
-import JejuDorang.JejuDorang.tag.DiaryTag;
+import JejuDorang.JejuDorang.diary.enums.SecretType;
+import JejuDorang.JejuDorang.like.data.LikeDiary;
+import JejuDorang.JejuDorang.member.data.Member;
+import JejuDorang.JejuDorang.tag.data.DiaryTag;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -34,7 +36,7 @@ public class Diary {
     private SecretType secret;
 
     @ManyToOne
-    @JoinColumn("member_id")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToMany(mappedBy = "diary")

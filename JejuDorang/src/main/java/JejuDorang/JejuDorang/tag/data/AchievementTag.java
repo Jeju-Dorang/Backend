@@ -1,6 +1,6 @@
-package JejuDorang.JejuDorang.tag;
+package JejuDorang.JejuDorang.tag.data;
 
-import JejuDorang.JejuDorang.achievement.Achievement;
+import JejuDorang.JejuDorang.achievement.data.Achievement;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

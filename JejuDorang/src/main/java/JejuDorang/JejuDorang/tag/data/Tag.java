@@ -1,4 +1,4 @@
-package JejuDorang.JejuDorang.tag;
+package JejuDorang.JejuDorang.tag.data;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

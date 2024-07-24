@@ -1,5 +1,6 @@
-package JejuDorang.JejuDorang.character;
+package JejuDorang.JejuDorang.character.data;
 
+import JejuDorang.JejuDorang.member.data.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,8 @@ public class Character {
 
     private String image;
 
-//    @OneToOne
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+   @OneToOne
+   @JoinColumn(name = "member_id")
+   private Member member;
 
 }

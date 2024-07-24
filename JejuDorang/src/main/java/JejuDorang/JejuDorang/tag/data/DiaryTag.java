@@ -1,6 +1,6 @@
-package JejuDorang.JejuDorang.tag;
+package JejuDorang.JejuDorang.tag.data;
 
-import JejuDorang.JejuDorang.diary.Diary;
+import JejuDorang.JejuDorang.diary.data.Diary;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
