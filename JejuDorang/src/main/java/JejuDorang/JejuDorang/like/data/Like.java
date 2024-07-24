@@ -1,4 +1,4 @@
-package JejuDorang.JejuDorang.like;
+package JejuDorang.JejuDorang.like.data;
 
 import jakarta.persistence.Entity;
 

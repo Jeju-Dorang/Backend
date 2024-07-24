@@ -1,7 +1,8 @@
-package JejuDorang.JejuDorang.item;
+package JejuDorang.JejuDorang.item.data;
 
-import JejuDorang.JejuDorang.achievement.Achievement;
-import JejuDorang.JejuDorang.character.Character;
+import JejuDorang.JejuDorang.achievement.data.Achievement;
+import JejuDorang.JejuDorang.character.data.Character;
+import JejuDorang.JejuDorang.item.enums.ItemType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
