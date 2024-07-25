@@ -1,10 +1,12 @@
 package JejuDorang.JejuDorang.auth.controller;
 
 import JejuDorang.JejuDorang.auth.dto.KakaoConfig;
+import JejuDorang.JejuDorang.auth.service.AuthService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
+
+    private final AuthService authService;
 
     @Autowired
     private KakaoConfig kakaoConfig;
@@ -31,10 +35,14 @@ public class AuthController {
     }
 
     @GetMapping("/kakao/callback")
-    public ResponseEntity<String> kakaoCallback(@RequestParam String code)
+    public ResponseEntity kakaoCallback(@RequestParam String code)
     {
-        return ResponseEntity.status(200)
-                .header("Location", code)
-                .build();
+        // AccessToken 받아오기
+        String accessToken = authService.getAccessToken(code);
+
+        System.out.println("accessToken: " + accessToken);
+
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
