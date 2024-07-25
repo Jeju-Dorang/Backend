@@ -21,9 +21,9 @@ public class LikeDiary {
 
     private LocalDateTime date;
 
-    @ManyToOne
-    @JoinColumn(name = "memberId")
-    private Member member;
+//    @ManyToOne
+//    @JoinColumn(name = "memberId")
+//    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "diary_id")
