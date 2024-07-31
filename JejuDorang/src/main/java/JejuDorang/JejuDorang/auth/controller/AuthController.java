@@ -1,22 +1,23 @@
 package JejuDorang.JejuDorang.auth.controller;
 
-import JejuDorang.JejuDorang.auth.dto.AuthToken;
+import JejuDorang.JejuDorang.auth.dto.KakaoAccessTokenDto;
 import JejuDorang.JejuDorang.auth.dto.KakaoConfig;
-import JejuDorang.JejuDorang.auth.service.AuthService;
-import lombok.Getter;
+import JejuDorang.JejuDorang.auth.dto.KakaoUserInfoDto;
+import JejuDorang.JejuDorang.auth.service.KakaoService;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.cert.CertificateExpiredException;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
+    private final KakaoService kakaoService;
 
     @Autowired
     private KakaoConfig kakaoConfig;
@@ -39,10 +40,11 @@ public class AuthController {
     public ResponseEntity kakaoCallback(@RequestParam String code)
     {
         // AccessToken 받아오기
-        String accessToken = authService.getAccessToken(code);
+        KakaoAccessTokenDto accessToken = kakaoService.getAccessToken(code);
 
         // User 정보 받아오기
-        String userProfile = authService.getUserProfile(accessToken);
+        KakaoUserInfoDto kakaoUserInfo = kakaoService.getUserProfile(accessToken);
+
 
         return new ResponseEntity(HttpStatus.OK);
     }
