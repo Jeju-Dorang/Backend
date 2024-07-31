@@ -3,7 +3,7 @@ package JejuDorang.JejuDorang.auth.dto;
 import lombok.Data;
 
 @Data
-public class KakaoProfile {
+public class KakaoUserInfoDto {
 
     public Long id;
     public String connected_at;

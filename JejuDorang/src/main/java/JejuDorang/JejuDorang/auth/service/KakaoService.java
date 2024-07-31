@@ -1,8 +1,8 @@
 package JejuDorang.JejuDorang.auth.service;
 
-import JejuDorang.JejuDorang.auth.dto.AuthToken;
+import JejuDorang.JejuDorang.auth.dto.KakaoAccessTokenDto;
 import JejuDorang.JejuDorang.auth.dto.KakaoConfig;
-import JejuDorang.JejuDorang.auth.dto.KakaoProfile;
+import JejuDorang.JejuDorang.auth.dto.KakaoUserInfoDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,12 +19,12 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class KakaoService {
 
     @Autowired
     private KakaoConfig kakaoConfig;
 
-    public String getAccessToken(String code)
+    public KakaoAccessTokenDto getAccessToken(String code)
     {
         // httpHeader 오브젝트 생성
         HttpHeaders headers = new HttpHeaders();
@@ -50,24 +50,26 @@ public class AuthService {
                 String.class
         );
 
+        System.out.println("=====" + response.getBody());
+
         // json 데이터 object에 담기
         ObjectMapper objectMapper = new ObjectMapper();
-        AuthToken authToken = null;
+        KakaoAccessTokenDto accessToken = null;
         try {
-            authToken = objectMapper.readValue(response.getBody(), AuthToken.class);
+            accessToken = objectMapper.readValue(response.getBody(), KakaoAccessTokenDto.class);
         } catch (JsonMappingException e) {
             e.printStackTrace();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return (authToken.getAccess_token());
+        return (accessToken);
     }
 
-    public String getUserProfile(String accessToken)
+    public KakaoUserInfoDto getUserProfile(KakaoAccessTokenDto accessToken)
     {
         // httpHeader 오브젝트 생성
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + accessToken);
+        headers.add("Authorization", "Bearer " + accessToken.getAccess_token());
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
         // httpEntity에 header 담아주기
@@ -85,15 +87,15 @@ public class AuthService {
 
         // json 데이터 object에 담기
         ObjectMapper objectMapper = new ObjectMapper();
-        KakaoProfile kakaoProfile = null;
+        KakaoUserInfoDto kakaoProfile = null;
         try {
-            kakaoProfile = objectMapper.readValue(response.getBody(), KakaoProfile.class);
+            kakaoProfile = objectMapper.readValue(response.getBody(), KakaoUserInfoDto.class);
         } catch (JsonMappingException e) {
             e.printStackTrace();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
-        return (response.getBody());
+        return (kakaoProfile);
     }
 }
