@@ -1,5 +1,6 @@
 package JejuDorang.JejuDorang.auth.controller;
 
+import JejuDorang.JejuDorang.auth.dto.AuthToken;
 import JejuDorang.JejuDorang.auth.dto.KakaoConfig;
 import JejuDorang.JejuDorang.auth.service.AuthService;
 import lombok.Getter;
@@ -40,8 +41,8 @@ public class AuthController {
         // AccessToken 받아오기
         String accessToken = authService.getAccessToken(code);
 
-        System.out.println("accessToken: " + accessToken);
-
+        // User 정보 받아오기
+        String userProfile = authService.getUserProfile(accessToken);
 
         return new ResponseEntity(HttpStatus.OK);
     }
