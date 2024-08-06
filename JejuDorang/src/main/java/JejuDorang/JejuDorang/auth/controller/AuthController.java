@@ -58,7 +58,6 @@ public class AuthController {
         // JWT 토큰 헤더에 담아 전달
         response.setHeader("Authorization", "bearer " + jwtToken);
         response.setHeader("keyCode", keyCode);
-        response.setHeader("AccessToken", "bearer " + accessToken);
 
         return new ResponseEntity(HttpStatus.OK);
     }

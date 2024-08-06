@@ -50,8 +50,6 @@ public class KakaoService {
                 String.class
         );
 
-        System.out.println("=====" + response.getBody());
-
         // json 데이터 object에 담기
         ObjectMapper objectMapper = new ObjectMapper();
         KakaoAccessTokenDto accessToken = null;
