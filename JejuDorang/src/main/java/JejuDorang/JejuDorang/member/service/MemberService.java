@@ -12,8 +12,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public String saveMemberByKeyCode(KakaoUserInfoDto kakaoUserInfoDto)
-    {
+    public String saveMemberByKeyCode(KakaoUserInfoDto kakaoUserInfoDto) {
         String keyCode = kakaoUserInfoDto.getId().toString();
         String name = kakaoUserInfoDto.getProperties().getNickname();
 

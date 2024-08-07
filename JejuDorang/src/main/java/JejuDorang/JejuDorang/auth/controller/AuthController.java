@@ -29,8 +29,7 @@ public class AuthController {
     private KakaoConfig kakaoConfig;
 
     @GetMapping("/kakao/login")
-    public ResponseEntity<String> kakoLogin()
-    {
+    public ResponseEntity<String> kakoLogin() {
         String kakaoLoginUrl
                 = "https://kauth.kakao.com/oauth/authorize?response_type=code"
                 + "&client_id=" + kakaoConfig.getClientId()
@@ -43,8 +42,7 @@ public class AuthController {
     }
 
     @GetMapping("/kakao/callback")
-    public ResponseEntity kakaoCallback(@RequestParam String code, HttpServletResponse response)
-    {
+    public ResponseEntity kakaoCallback(@RequestParam String code, HttpServletResponse response) {
         // AccessToken 받아오기
         KakaoAccessTokenDto accessToken = kakaoService.getAccessToken(code);
         // User 정보 받아오기
