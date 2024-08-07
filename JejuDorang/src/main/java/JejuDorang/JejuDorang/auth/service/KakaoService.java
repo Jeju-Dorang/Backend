@@ -24,8 +24,7 @@ public class KakaoService {
     @Autowired
     private KakaoConfig kakaoConfig;
 
-    public KakaoAccessTokenDto getAccessToken(String code)
-    {
+    public KakaoAccessTokenDto getAccessToken(String code) {
         // httpHeader 오브젝트 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -63,8 +62,7 @@ public class KakaoService {
         return (accessToken);
     }
 
-    public KakaoUserInfoDto getUserProfile(KakaoAccessTokenDto accessToken)
-    {
+    public KakaoUserInfoDto getUserProfile(KakaoAccessTokenDto accessToken) {
         // httpHeader 오브젝트 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken.getAccess_token());
