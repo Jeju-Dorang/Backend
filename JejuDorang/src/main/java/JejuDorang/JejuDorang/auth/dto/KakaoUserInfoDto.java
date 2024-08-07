@@ -5,31 +5,31 @@ import lombok.Data;
 @Data
 public class KakaoUserInfoDto {
 
-    public Long id;
-    public String connected_at;
-    public Properties properties;
-    public KakaoAccount kakao_account;
+    private Long id;
+    private String connected_at;
+    private Properties properties;
+    private KakaoAccount kakao_account;
 
     @Data
     public static class Properties {
-        public String nickname;
-        public String profile_image;
-        public String thumbnail_image;
+        private String nickname;
+        private String profile_image;
+        private String thumbnail_image;
     }
 
     @Data
     public static class KakaoAccount {
-        public Boolean profile_nickname_needs_agreement;
-        public Boolean profile_image_needs_agreement;
-        public Profile profile;
+        private Boolean profile_nickname_needs_agreement;
+        private Boolean profile_image_needs_agreement;
+        private Profile profile;
 
         @Data
         public static class Profile {
-            public String nickname;
-            public String thumbnail_image_url;
-            public String profile_image_url;
-            public Boolean is_default_image;
-            public Boolean is_default_nickname;
+            private String nickname;
+            private String thumbnail_image_url;
+            private String profile_image_url;
+            private Boolean is_default_image;
+            private Boolean is_default_nickname;
         }
     }
 }
