@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class QuestionInputDto {
+public class QuestionInputRequest {
 
     private final String title;
     private final String content;
