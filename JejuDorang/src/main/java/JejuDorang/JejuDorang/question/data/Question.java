@@ -9,15 +9,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 public class Question {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +30,4 @@ public class Question {
 	private LocalDateTime date;
 
 	private String content;
-
-	private String image;
 }

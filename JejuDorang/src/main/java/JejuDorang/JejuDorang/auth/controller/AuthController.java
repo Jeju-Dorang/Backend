@@ -53,6 +53,8 @@ public class AuthController {
         // JWT 토큰 생성
         String jwtToken = jwtTokenProvider.createToken(keyCode);
 
+        System.out.println("jwt: " + jwtToken);
+
         // JWT 토큰 헤더에 담아 전달
         response.setHeader("Authorization", "bearer " + jwtToken);
         response.setHeader("keyCode", keyCode);
