@@ -1,14 +1,12 @@
 package JejuDorang.JejuDorang.question.data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import JejuDorang.JejuDorang.comment.data.Comment;
 import JejuDorang.JejuDorang.member.data.Member;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -30,4 +28,7 @@ public class Question {
 	private LocalDateTime date;
 
 	private String content;
+
+	@OneToMany(mappedBy = "question")
+	private List<Comment> commentList = new ArrayList<>();
 }

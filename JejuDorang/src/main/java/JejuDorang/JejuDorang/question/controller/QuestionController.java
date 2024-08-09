@@ -1,6 +1,7 @@
 package JejuDorang.JejuDorang.question.controller;
 
 
+import JejuDorang.JejuDorang.question.dto.QuestionDetailResponse;
 import JejuDorang.JejuDorang.question.dto.QuestionInputRequest;
 import JejuDorang.JejuDorang.question.dto.QuestionResponse;
 import JejuDorang.JejuDorang.question.service.QuestionService;
@@ -30,5 +31,14 @@ public class QuestionController {
 
         List<QuestionResponse> questions = questionService.getQuestions();
         return ResponseEntity.ok(questions);
+    }
+
+    @GetMapping("/question/{questionPostId}")
+    public ResponseEntity<QuestionDetailResponse> getQuestionDetail
+            (@PathVariable("questionPostId") Long questionPostId) {
+
+        QuestionDetailResponse questionDetailResponse
+            = questionService.getQuestionDetail(questionPostId);
+        return ResponseEntity.ok(questionDetailResponse);
     }
 }

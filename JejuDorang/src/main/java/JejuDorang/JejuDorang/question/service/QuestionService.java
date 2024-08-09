@@ -1,7 +1,9 @@
 package JejuDorang.JejuDorang.question.service;
 
+import JejuDorang.JejuDorang.comment.data.Comment;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.question.data.Question;
+import JejuDorang.JejuDorang.question.dto.QuestionDetailResponse;
 import JejuDorang.JejuDorang.question.dto.QuestionInputRequest;
 import JejuDorang.JejuDorang.question.dto.QuestionResponse;
 import JejuDorang.JejuDorang.question.repository.QuestionRepository;
@@ -47,6 +49,27 @@ public class QuestionService {
                     question.getContent()
             ));
         }
+        return response;
+    }
+
+    public QuestionDetailResponse getQuestionDetail(Long questionPostId) {
+        Question question = questionRepository.findById(questionPostId)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 질문 글입니다 : " + questionPostId));
+        List<QuestionDetailResponse.Comment> comments = new ArrayList<>();
+
+        for(Comment comment : question.getCommentList()) {
+            comments.add(new QuestionDetailResponse.Comment(
+                    comment.getMember().getName(),
+                    comment.getMember().getImage(),
+                    comment.getContent()
+            ));
+        }
+        QuestionDetailResponse response = new QuestionDetailResponse(
+                question.getTitle(),
+                question.getContent(),
+                question.getMember().getName(),
+                comments
+        );
         return response;
     }
 }
