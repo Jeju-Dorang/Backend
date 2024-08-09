@@ -2,24 +2,27 @@ package JejuDorang.JejuDorang.question.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class QuestionDetailResponse {
 
-    private final String title;
-    private final String content;
-    private final String author;
-    private final List<Comment> comments;
+    private String title;
+    private String content;
+    private String author;
+    private List<Comment> comments;
 
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Comment {
-        private final String commenter;
-        private final String commenterImage;
-        private final String commentContent;
+        private String commenter;
+        private String commenterImage;
+        private String commentContent;
 //        private final Long likeCount;
 //        private final Boolean alreadyLike;
     }

@@ -1,6 +1,7 @@
 package JejuDorang.JejuDorang.comment.service;
 
 import JejuDorang.JejuDorang.comment.data.Comment;
+import JejuDorang.JejuDorang.comment.dto.CommentRequest;
 import JejuDorang.JejuDorang.comment.repository.CommentRepository;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.question.data.Question;
@@ -19,7 +20,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final QuestionRepository questionRepository;
 
-    public void createComment(Long questionPostId, String content) {
+    public void createComment(Long questionPostId, CommentRequest commentRequest) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) authentication.getPrincipal();
@@ -30,7 +31,7 @@ public class CommentService {
         Comment comment = Comment.builder()
                 .member(member)
                 .question(questionPost)
-                .content(content)
+                .content(commentRequest.getContent())
                 .date(LocalDateTime.now())
                 .build();
 
