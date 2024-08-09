@@ -1,5 +1,6 @@
 package JejuDorang.JejuDorang.comment.controller;
 
+import JejuDorang.JejuDorang.comment.dto.CommentRequest;
 import JejuDorang.JejuDorang.comment.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,9 @@ public class CommentController {
     @PostMapping("/posts/comment/{questionPostId}")
     public ResponseEntity createComment(
             @PathVariable Long questionPostId,
-            @RequestBody String content) {
+            @RequestBody CommentRequest commentRequest) {
 
-        commentService.createComment(questionPostId, content);
+        commentService.createComment(questionPostId, commentRequest);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
