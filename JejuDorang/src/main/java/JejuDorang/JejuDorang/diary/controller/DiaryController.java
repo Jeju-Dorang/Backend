@@ -1,14 +1,12 @@
 package JejuDorang.JejuDorang.diary.controller;
 
+import JejuDorang.JejuDorang.diary.dto.DiaryDetailResponse;
 import JejuDorang.JejuDorang.diary.dto.DiaryRequest;
 import JejuDorang.JejuDorang.diary.service.DiaryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -22,5 +20,13 @@ public class DiaryController {
 
         diaryService.createDiary(diaryRequest);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/diaries/{diaryId}")
+    public ResponseEntity<DiaryDetailResponse> getDiaryDetail(@PathVariable Long diaryId) {
+
+        DiaryDetailResponse diaryDetailResponse
+                = diaryService.getDiaryDetail(diaryId);
+        return ResponseEntity.ok(diaryDetailResponse);
     }
 }
