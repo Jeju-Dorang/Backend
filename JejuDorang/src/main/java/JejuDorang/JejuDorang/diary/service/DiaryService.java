@@ -2,7 +2,9 @@ package JejuDorang.JejuDorang.diary.service;
 
 import JejuDorang.JejuDorang.diary.data.Diary;
 import JejuDorang.JejuDorang.diary.dto.DiaryDetailResponse;
+import JejuDorang.JejuDorang.diary.dto.DiaryPublicResponse;
 import JejuDorang.JejuDorang.diary.dto.DiaryRequest;
+import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import JejuDorang.JejuDorang.member.data.Member;
 import lombok.AllArgsConstructor;
@@ -11,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -46,6 +50,21 @@ public class DiaryService {
                 diary.getImage(),
                 diary.getContent()
         );
+        return response;
+    }
+
+    // 다른 멤버들의 public 일기 가져오기
+    public List<DiaryPublicResponse> getPublicDiaries() {
+        List<Diary> diaryList = diaryRepository.findBySecretAndDate(SecretType.PUBLIC, LocalDateTime.now());
+        List<DiaryPublicResponse> response = new ArrayList<>();
+
+        for(Diary diary : diaryList) {
+            response.add( new DiaryPublicResponse(
+                    diary.getId(),
+                    diary.getMember().getName(),
+                    diary.getImage()
+            ));
+        }
         return response;
     }
 }
