@@ -1,12 +1,16 @@
 package JejuDorang.JejuDorang.diary.controller;
 
 import JejuDorang.JejuDorang.diary.dto.DiaryDetailResponse;
+import JejuDorang.JejuDorang.diary.dto.DiaryPublicResponse;
 import JejuDorang.JejuDorang.diary.dto.DiaryRequest;
 import JejuDorang.JejuDorang.diary.service.DiaryService;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -28,5 +32,13 @@ public class DiaryController {
         DiaryDetailResponse diaryDetailResponse
                 = diaryService.getDiaryDetail(diaryId);
         return ResponseEntity.ok(diaryDetailResponse);
+    }
+
+    @GetMapping("/diaries")
+    public ResponseEntity<List<DiaryPublicResponse>> getPublicDiaries() {
+
+        List<DiaryPublicResponse> diaryPublicResponses
+                = diaryService.getPublicDiaries();
+        return ResponseEntity.ok(diaryPublicResponses);
     }
 }
