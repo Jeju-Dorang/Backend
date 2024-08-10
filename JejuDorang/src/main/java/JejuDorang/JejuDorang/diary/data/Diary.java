@@ -5,10 +5,7 @@ import JejuDorang.JejuDorang.like.data.LikeDiary;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.tag.data.DiaryTag;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,6 +15,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
+@Builder
 public class Diary {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
