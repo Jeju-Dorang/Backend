@@ -1,8 +1,11 @@
 package JejuDorang.JejuDorang.diary.dto;
 
+import lombok.Getter;
+
+@Getter
 public class DiaryIdDto {
 
-	Long diaryId;
+	private final Long diaryId;
 
 	public DiaryIdDto(Long diaryId) {
 		this.diaryId = diaryId;
