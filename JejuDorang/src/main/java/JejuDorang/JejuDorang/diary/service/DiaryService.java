@@ -27,15 +27,22 @@ public class DiaryService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) authentication.getPrincipal();
 
+        // public, private 판별
+        SecretType secretType;
+        if (diaryRequest.getSecret().equals("public"))
+            secretType = SecretType.PUBLIC;
+        else
+            secretType = SecretType.PRIVATE;
+
+        // 일기 DB에 저장
         Diary diary = Diary.builder()
                 .title(diaryRequest.getTitle())
                 .date(LocalDateTime.now())
                 .content(diaryRequest.getContent())
                 .image(diaryRequest.getImageUrl())
-                .secret(diaryRequest.getType())
+                .secret(secretType)
                 .member(member)
                 .build();
-
         diaryRepository.save(diary);
     }
 
