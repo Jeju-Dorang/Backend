@@ -1,7 +1,7 @@
 package JejuDorang.JejuDorang.member.data;
 
 import JejuDorang.JejuDorang.achievement.data.Achievement;
-import JejuDorang.JejuDorang.member.enums.AchievementStatus;
+import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

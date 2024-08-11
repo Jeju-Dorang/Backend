@@ -33,8 +33,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 		NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		String token = jwtTokenProvider.resolveToken((HttpServletRequest) webRequest.getNativeRequest());
 		String keyCode = jwtTokenProvider.getUserPk(token);
-		System.out.println("keyCode==================");
-		System.out.println(keyCode);
 		return memberRepository.findByKeyCode(keyCode)
 			.orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 회원입니다."));
 	}
