@@ -20,10 +20,10 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @PostMapping("/diary")
-    public ResponseEntity createDiary(@RequestBody DiaryRequest diaryRequest) {
+    public ResponseEntity<Void> createDiary(@RequestBody DiaryRequest diaryRequest) {
 
         diaryService.createDiary(diaryRequest);
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/diaries/{diaryId}")
