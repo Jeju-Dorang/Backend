@@ -1,5 +1,6 @@
 package JejuDorang.JejuDorang.diary.dto;
 
+import JejuDorang.JejuDorang.tag.dto.TagDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,12 +16,5 @@ public class DiaryRequest {
     private String content;
     private String imageUrl;
     private String secret;
-    private List<Tag> tagList;
-
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Tag {
-        private String tagName;
-    }
+    private List<TagDto> tagList;
 }
