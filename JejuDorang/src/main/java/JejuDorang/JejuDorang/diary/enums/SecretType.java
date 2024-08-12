@@ -1,5 +1,11 @@
 package JejuDorang.JejuDorang.diary.enums;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum SecretType {
-    PUBLIC, PRIVATE
+    @JsonProperty("public")
+    PUBLIC,
+
+    @JsonProperty("private")
+    PRIVATE
 }

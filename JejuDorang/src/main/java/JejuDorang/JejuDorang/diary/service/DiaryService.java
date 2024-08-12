@@ -17,7 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,20 +34,13 @@ public class DiaryService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) authentication.getPrincipal();
 
-        // public, private 판별
-        SecretType secretType;
-        if (diaryRequest.getSecret().equals("public"))
-            secretType = SecretType.PUBLIC;
-        else
-            secretType = SecretType.PRIVATE;
-
         // 일기 DB에 저장
         Diary diary = Diary.builder()
                 .title(diaryRequest.getTitle())
-                .date(LocalDateTime.now())
+                .date(LocalDate.now())
                 .content(diaryRequest.getContent())
                 .image(diaryRequest.getImageUrl())
-                .secret(secretType)
+                .secret(diaryRequest.getSecret())
                 .member(member)
                 .build();
         diaryRepository.save(diary);
@@ -84,7 +77,7 @@ public class DiaryService {
 
     // 다른 멤버들의 public 일기 가져오기
     public List<DiaryPublicResponse> getPublicDiaries() {
-        List<Diary> diaryList = diaryRepository.findBySecretAndDate(SecretType.PUBLIC, LocalDateTime.now());
+        List<Diary> diaryList = diaryRepository.findBySecretAndDate(SecretType.PUBLIC, LocalDate.now());
         List<DiaryPublicResponse> response = new ArrayList<>();
 
         for(Diary diary : diaryList) {

@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -14,7 +14,7 @@ import java.util.List;
 public class DiaryDetailResponse {
 
     private String name;
-    private LocalDateTime date;
+    private LocalDate date;
     private String image;
     private String content;
 //    private boolean alreadyLike;
