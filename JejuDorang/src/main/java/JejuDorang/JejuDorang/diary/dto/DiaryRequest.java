@@ -1,10 +1,10 @@
 package JejuDorang.JejuDorang.diary.dto;
 
-import JejuDorang.JejuDorang.diary.enums.SecretType;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -15,4 +15,12 @@ public class DiaryRequest {
     private String content;
     private String imageUrl;
     private String secret;
+    private List<Tag> tagList;
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Tag {
+        private String tagName;
+    }
 }

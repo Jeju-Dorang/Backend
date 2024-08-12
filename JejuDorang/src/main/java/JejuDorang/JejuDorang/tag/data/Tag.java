@@ -1,10 +1,7 @@
 package JejuDorang.JejuDorang.tag.data;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +10,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
+@Builder
 public class Tag {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +24,8 @@ public class Tag {
 
     @OneToMany(mappedBy = "tag")
     private List<DiaryTag> diaryTagList = new ArrayList<>();
+
+    public Tag(String name) {
+        this.name = name;
+    }
 }

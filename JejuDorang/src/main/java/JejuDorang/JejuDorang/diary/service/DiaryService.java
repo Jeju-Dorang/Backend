@@ -7,6 +7,9 @@ import JejuDorang.JejuDorang.diary.dto.DiaryRequest;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import JejuDorang.JejuDorang.member.data.Member;
+import JejuDorang.JejuDorang.tag.data.DiaryTag;
+import JejuDorang.JejuDorang.tag.data.Tag;
+import JejuDorang.JejuDorang.tag.service.TagService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 public class DiaryService {
 
+    private final TagService tagService;
     private final DiaryRepository diaryRepository;
 
     // 일기 작성
@@ -44,6 +48,12 @@ public class DiaryService {
                 .member(member)
                 .build();
         diaryRepository.save(diary);
+
+        // 태그 저장
+        for (DiaryRequest.Tag tag : diaryRequest.getTagList()) {
+            Tag newTag = tagService.saveTag(tag.getTagName());
+            DiaryTag diaryTag = new DiaryTag(newTag, diary);
+        }
     }
 
     // 스토리의 일기 상세 정보를 보여줌
