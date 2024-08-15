@@ -6,6 +6,7 @@ import JejuDorang.JejuDorang.diary.dto.DiaryPublicResponse;
 import JejuDorang.JejuDorang.diary.dto.DiaryRequest;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
+import JejuDorang.JejuDorang.like.service.LikeService;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.streak.service.StreakService;
 import JejuDorang.JejuDorang.tag.data.DiaryTag;
@@ -28,6 +29,7 @@ public class DiaryService {
 
     private final TagService tagService;
     private final StreakService streakService;
+    private final LikeService likeService;
     private final DiaryRepository diaryRepository;
     private final DiaryTagRepository diaryTagRepository;
 
@@ -60,6 +62,9 @@ public class DiaryService {
 
     // 스토리의 일기 상세 정보를 보여줌
     public DiaryDetailResponse getDiaryDetail(Long diaryId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) authentication.getPrincipal();
+
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 일기 글입니다 : " + diaryId));
 
@@ -75,6 +80,7 @@ public class DiaryService {
                 diary.getDate(),
                 diary.getImage(),
                 diary.getContent(),
+                likeService.alreadyLikeDiary(diary.getId(), member.getId()),
                 tagList
         );
         return response;
