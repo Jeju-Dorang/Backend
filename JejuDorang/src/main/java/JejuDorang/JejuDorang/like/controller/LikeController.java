@@ -21,4 +21,11 @@ public class LikeController {
         likeService.createLikeComment(commentId);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/diary/{diaryId}")
+    public ResponseEntity<Void> createLikeDiary(@PathVariable Long diaryId) {
+
+        likeService.createLikeDiary(diaryId);
+        return ResponseEntity.ok().build();
+    }
 }

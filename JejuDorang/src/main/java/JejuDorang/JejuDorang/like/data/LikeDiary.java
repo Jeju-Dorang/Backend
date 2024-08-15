@@ -3,10 +3,7 @@ package JejuDorang.JejuDorang.like.data;
 import JejuDorang.JejuDorang.diary.data.Diary;
 import JejuDorang.JejuDorang.member.data.Member;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
+@Builder
 public class LikeDiary {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +19,9 @@ public class LikeDiary {
 
     private LocalDateTime date;
 
-//    @ManyToOne
-//    @JoinColumn(name = "memberId")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "memberId")
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "diary_id")
