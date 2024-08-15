@@ -1,6 +1,7 @@
 package JejuDorang.JejuDorang.question.service;
 
 import JejuDorang.JejuDorang.comment.data.Comment;
+import JejuDorang.JejuDorang.like.service.LikeService;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.question.data.Question;
 import JejuDorang.JejuDorang.question.dto.QuestionDetailResponse;
@@ -21,6 +22,7 @@ import java.util.List;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final LikeService likeService;
 
     public void createQuestion(QuestionInputRequest questionInputRequest) {
 
@@ -52,7 +54,11 @@ public class QuestionService {
         return response;
     }
 
+    // 질문글 상세 페이지 정보 가져오기
     public QuestionDetailResponse getQuestionDetail(Long questionPostId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) authentication.getPrincipal();
+
         Question question = questionRepository.findById(questionPostId)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 질문 글입니다 : " + questionPostId));
         List<QuestionDetailResponse.Comment> comments = new ArrayList<>();
@@ -61,7 +67,9 @@ public class QuestionService {
             comments.add(new QuestionDetailResponse.Comment(
                     comment.getMember().getName(),
                     comment.getMember().getImage(),
-                    comment.getContent()
+                    comment.getContent(),
+                    likeService.countLikeComment(comment.getId()),
+                    likeService.alreadyLikeComment(comment.getId(), member.getId())
             ));
         }
         QuestionDetailResponse response = new QuestionDetailResponse(

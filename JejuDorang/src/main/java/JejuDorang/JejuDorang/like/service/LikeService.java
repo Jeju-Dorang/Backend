@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -19,6 +20,7 @@ public class LikeService {
     private final LikeCommentRepository likeCommentRepository;
     private final CommentRepository commentRepository;
 
+    // 댓글 좋아요 생성
     public void createLikeComment(Long commentId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Member member = (Member) authentication.getPrincipal();
@@ -33,4 +35,19 @@ public class LikeService {
                 .build();
         likeCommentRepository.save(likeComment);
     }
+
+    // 댓글 좋아요 수 계산
+    public int countLikeComment(Long commentId) {
+
+        List<LikeComment> likeComments = likeCommentRepository.findAllByCommentId(commentId);
+        return likeComments.size();
+    }
+
+    // 현재 유저가 특정 댓글에 좋아요를 눌렀는지 여부
+    public boolean alreadyLikeComment(Long commentId, Long memberId) {
+
+        boolean alreadyLike = likeCommentRepository.existsByCommentIdAndMemberId(commentId, memberId);
+        return alreadyLike;
+    }
+
 }
