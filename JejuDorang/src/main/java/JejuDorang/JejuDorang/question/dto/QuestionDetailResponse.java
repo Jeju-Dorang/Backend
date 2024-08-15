@@ -23,7 +23,7 @@ public class QuestionDetailResponse {
         private String commenter;
         private String commenterImage;
         private String commentContent;
-//        private final Long likeCount;
-//        private final Boolean alreadyLike;
+        private int likeCount;
+        private boolean alreadyLike;
     }
 }
