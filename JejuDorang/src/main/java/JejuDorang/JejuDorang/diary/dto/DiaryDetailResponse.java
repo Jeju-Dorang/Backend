@@ -17,7 +17,6 @@ public class DiaryDetailResponse {
     private LocalDate date;
     private String image;
     private String content;
-//    private boolean alreadyLike;
-
+    private boolean alreadyLike;
     private List<TagDto> tagList;
 }
