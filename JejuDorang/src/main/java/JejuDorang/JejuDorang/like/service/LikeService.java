@@ -2,8 +2,12 @@ package JejuDorang.JejuDorang.like.service;
 
 import JejuDorang.JejuDorang.comment.data.Comment;
 import JejuDorang.JejuDorang.comment.repository.CommentRepository;
+import JejuDorang.JejuDorang.diary.data.Diary;
+import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import JejuDorang.JejuDorang.like.data.LikeComment;
+import JejuDorang.JejuDorang.like.data.LikeDiary;
 import JejuDorang.JejuDorang.like.repository.LikeCommentRepository;
+import JejuDorang.JejuDorang.like.repository.LikeDiaryRepository;
 import JejuDorang.JejuDorang.member.data.Member;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -18,7 +22,9 @@ import java.util.List;
 public class LikeService {
 
     private final LikeCommentRepository likeCommentRepository;
+    private final LikeDiaryRepository likeDiaryRepository;
     private final CommentRepository commentRepository;
+    private final DiaryRepository diaryRepository;
 
     // 댓글 좋아요 생성
     public void createLikeComment(Long commentId) {
@@ -50,4 +56,26 @@ public class LikeService {
         return alreadyLike;
     }
 
+
+    // 일기 좋아요 생성
+    public void createLikeDiary(Long diaryId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) authentication.getPrincipal();
+
+        Diary diary = diaryRepository.findById(diaryId)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 일기입니다 : " + diaryId));
+
+        LikeDiary likeDiary = LikeDiary.builder()
+                .diary(diary)
+                .member(member)
+                .date(LocalDateTime.now())
+                .build();
+        likeDiaryRepository.save(likeDiary);
+    }
+
+    // 현재 유저가 특정 일기에 좋아요를 눌렀는지 여부
+    public boolean alreadyLikeDiary(Long diaryId, Long memberId) {
+        boolean alreadyLike = likeDiaryRepository.existsByDiaryIdAndMemberId(diaryId, memberId);
+        return alreadyLike;
+    }
 }
