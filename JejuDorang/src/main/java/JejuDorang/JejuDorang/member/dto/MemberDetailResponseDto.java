@@ -5,7 +5,9 @@ import java.util.List;
 import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryIdDto;
 import JejuDorang.JejuDorang.member.data.Member;
+import lombok.Getter;
 
+@Getter
 public class MemberDetailResponseDto {
 	private final Long id;
 	private final String memberName;
