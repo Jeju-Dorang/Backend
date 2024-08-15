@@ -7,6 +7,7 @@ import JejuDorang.JejuDorang.diary.dto.DiaryRequest;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import JejuDorang.JejuDorang.member.data.Member;
+import JejuDorang.JejuDorang.streak.service.StreakService;
 import JejuDorang.JejuDorang.tag.data.DiaryTag;
 import JejuDorang.JejuDorang.tag.data.Tag;
 import JejuDorang.JejuDorang.tag.dto.TagDto;
@@ -26,6 +27,7 @@ import java.util.List;
 public class DiaryService {
 
     private final TagService tagService;
+    private final StreakService streakService;
     private final DiaryRepository diaryRepository;
     private final DiaryTagRepository diaryTagRepository;
 
@@ -51,6 +53,9 @@ public class DiaryService {
             DiaryTag diaryTag = new DiaryTag(newTag, diary);
             diaryTagRepository.save(diaryTag);
         }
+
+        // 스트릭 생성
+        streakService.createStreak(member);
     }
 
     // 스토리의 일기 상세 정보를 보여줌
