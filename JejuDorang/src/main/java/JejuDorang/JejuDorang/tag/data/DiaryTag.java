@@ -23,4 +23,9 @@ public class DiaryTag {
     @ManyToOne
     @JoinColumn(name = "diary_id")
     private Diary diary;
+
+    public DiaryTag(Tag tag, Diary diary) {
+        this.tag = tag;
+        this.diary = diary;
+    }
 }

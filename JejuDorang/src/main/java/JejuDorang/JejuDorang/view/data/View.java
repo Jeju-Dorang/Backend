@@ -1,23 +1,20 @@
-package JejuDorang.JejuDorang.like.data;
+package JejuDorang.JejuDorang.view.data;
 
 import JejuDorang.JejuDorang.diary.data.Diary;
 import JejuDorang.JejuDorang.member.data.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 @Builder
-public class LikeDiary {
+public class View {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "memberId")

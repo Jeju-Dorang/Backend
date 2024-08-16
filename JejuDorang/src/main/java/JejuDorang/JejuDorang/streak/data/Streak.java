@@ -1,6 +1,6 @@
 package JejuDorang.JejuDorang.streak.data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import JejuDorang.JejuDorang.member.data.Member;
 import jakarta.persistence.Entity;
@@ -9,15 +9,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 public class Streak {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +25,11 @@ public class Streak {
 	@JoinColumn(name = "member_id")
 	private Member member;
 
-	private LocalDateTime date;
+	private LocalDate date;
 
 	private long count;
+
+	public void incrementCount() {
+		this.count++;
+	}
 }
