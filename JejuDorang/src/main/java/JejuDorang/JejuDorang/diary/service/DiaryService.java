@@ -14,11 +14,15 @@ import JejuDorang.JejuDorang.tag.data.Tag;
 import JejuDorang.JejuDorang.tag.dto.TagDto;
 import JejuDorang.JejuDorang.tag.repository.DiaryTagRepository;
 import JejuDorang.JejuDorang.tag.service.TagService;
+import JejuDorang.JejuDorang.view.data.View;
+import JejuDorang.JejuDorang.view.repository.ViewRepository;
+import JejuDorang.JejuDorang.view.service.ViewService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.security.PrivateKey;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +34,10 @@ public class DiaryService {
     private final TagService tagService;
     private final StreakService streakService;
     private final LikeService likeService;
+    private final ViewService viewService;
     private final DiaryRepository diaryRepository;
     private final DiaryTagRepository diaryTagRepository;
+    private final ViewRepository viewRepository;
 
     // 일기 작성
     public void createDiary(DiaryRequest diaryRequest) {
@@ -75,6 +81,16 @@ public class DiaryService {
             tagList.add(new TagDto(diaryTag.getTag().getName()));
         }
 
+        // 현재 유저가 해당 일기 봤음을 기록
+        View view = viewRepository.findByDiaryIdAndMemberId(diary.getId(), member.getId());
+        if (view == null) {
+            View newView = View.builder()
+                    .diary(diary)
+                    .member(member)
+                    .build();
+            viewRepository.save(newView);
+        }
+
         DiaryDetailResponse response = new DiaryDetailResponse (
                 diary.getMember().getName(),
                 diary.getDate(),
@@ -88,6 +104,9 @@ public class DiaryService {
 
     // 다른 멤버들의 public 일기 가져오기
     public List<DiaryPublicResponse> getPublicDiaries() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) authentication.getPrincipal();
+
         List<Diary> diaryList = diaryRepository.findBySecretAndDate(SecretType.PUBLIC, LocalDate.now());
         List<DiaryPublicResponse> response = new ArrayList<>();
 
@@ -95,7 +114,8 @@ public class DiaryService {
             response.add( new DiaryPublicResponse(
                     diary.getId(),
                     diary.getMember().getName(),
-                    diary.getImage()
+                    diary.getImage(),
+                    viewService.alreadyView(diary.getId(), member.getId())
             ));
         }
         return response;
