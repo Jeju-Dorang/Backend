@@ -90,4 +90,15 @@ public class Member implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Member{" +
+			"id=" + id +
+			", name='" + name + '\'' +
+			", email='" + email + '\'' +
+			", content='" + content + '\'' +
+			", homeAddress='" + homeAddress + '\'' +
+			'}';
+	}
 }

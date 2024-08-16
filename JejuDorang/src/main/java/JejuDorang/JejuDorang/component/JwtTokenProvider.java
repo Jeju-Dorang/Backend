@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,7 @@ public class JwtTokenProvider {
 
     private final UserDetailsService userDetailsService;
 
+    @Getter
     private final String secretKey = generateSecretKey();
 
     // 비밀 키 생성 메서드
@@ -35,18 +37,20 @@ public class JwtTokenProvider {
     public String createToken(String userPk) {
         Claims claims = Jwts.claims().setSubject(userPk);
         Date now = new Date();
+        long validityInMilliseconds = 3 * 24 * 60 * 60 * 1000L; // 3일
 
         return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + (30 * 60 * 1000L)))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(new Date(now.getTime() + validityInMilliseconds))
+            .signWith(SignatureAlgorithm.HS256, secretKey) // 비밀 키와 서명 알고리즘 사용
+            .compact();
     }
 
     // Request의 Header에서 token 값 가져오기
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("Authorization");
+        String token = request.getHeader("Authorization");
+        return token != null && token.startsWith("Bearer ") ? token.substring(7) : null;
     }
 
     // 토큰에서 회원 정보 추출 (복호화)
@@ -65,9 +69,18 @@ public class JwtTokenProvider {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            System.out.println("토큰이 만료되었습니다: " + e.getMessage());
+        } catch (io.jsonwebtoken.SignatureException e) {
+            System.out.println("서명이 유효하지 않습니다: " + e.getMessage());
+        } catch (io.jsonwebtoken.MalformedJwtException e) {
+            System.out.println("잘못된 JWT 형식입니다: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("토큰이 비어있거나 잘못된 형식입니다: " + e.getMessage());
         } catch (Exception e) {
-            return false;
+            System.out.println("알 수 없는 오류가 발생했습니다: " + e.getMessage());
         }
+        return false;
     }
 
 }
