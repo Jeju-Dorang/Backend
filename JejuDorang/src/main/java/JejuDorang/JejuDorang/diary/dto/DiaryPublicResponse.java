@@ -11,4 +11,5 @@ public class DiaryPublicResponse {
     private Long diaryId;
     private String name;
     private String image;
+    private boolean viewStatus;
 }
