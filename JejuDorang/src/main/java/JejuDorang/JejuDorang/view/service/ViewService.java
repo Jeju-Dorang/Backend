@@ -18,9 +18,7 @@ public class ViewService {
     private final ViewRepository viewRepository;
 
     // 유저가 일기 봤음을 기록
-    public void createView(Long diaryId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
+    public void createView(Long diaryId, Member member) {
 
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 일기입니다 : " + diaryId));
