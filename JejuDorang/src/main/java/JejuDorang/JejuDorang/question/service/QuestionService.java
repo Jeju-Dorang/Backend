@@ -24,10 +24,7 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final LikeService likeService;
 
-    public void createQuestion(QuestionInputRequest questionInputRequest) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
+    public void createQuestion(QuestionInputRequest questionInputRequest, Member member) {
 
         Question question = Question.builder()
                 .member(member)
@@ -55,9 +52,7 @@ public class QuestionService {
     }
 
     // 질문글 상세 페이지 정보 가져오기
-    public QuestionDetailResponse getQuestionDetail(Long questionPostId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
+    public QuestionDetailResponse getQuestionDetail(Long questionPostId, Member member) {
 
         Question question = questionRepository.findById(questionPostId)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 질문 글입니다 : " + questionPostId));

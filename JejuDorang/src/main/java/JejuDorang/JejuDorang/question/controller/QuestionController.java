@@ -1,6 +1,8 @@
 package JejuDorang.JejuDorang.question.controller;
 
 
+import JejuDorang.JejuDorang.auth.argumentresolver.Login;
+import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.question.dto.QuestionDetailResponse;
 import JejuDorang.JejuDorang.question.dto.QuestionInputRequest;
 import JejuDorang.JejuDorang.question.dto.QuestionResponse;
@@ -20,9 +22,9 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @PostMapping("/question")
-    public ResponseEntity createQuestion(@RequestBody QuestionInputRequest questionInputRequest) {
+    public ResponseEntity createQuestion(@RequestBody QuestionInputRequest questionInputRequest, @Login Member member) {
 
-        questionService.createQuestion(questionInputRequest);
+        questionService.createQuestion(questionInputRequest, member);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -35,10 +37,10 @@ public class QuestionController {
 
     @GetMapping("/question/{questionPostId}")
     public ResponseEntity<QuestionDetailResponse> getQuestionDetail
-            (@PathVariable("questionPostId") Long questionPostId) {
+            (@PathVariable("questionPostId") Long questionPostId, @Login Member member) {
 
         QuestionDetailResponse questionDetailResponse
-            = questionService.getQuestionDetail(questionPostId);
+            = questionService.getQuestionDetail(questionPostId, member);
         return ResponseEntity.ok(questionDetailResponse);
     }
 }
