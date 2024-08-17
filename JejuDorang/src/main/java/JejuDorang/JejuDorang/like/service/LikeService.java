@@ -27,9 +27,7 @@ public class LikeService {
     private final DiaryRepository diaryRepository;
 
     // 댓글 좋아요 생성
-    public void createLikeComment(Long commentId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
+    public void createLikeComment(Long commentId, Member member) {
 
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 댓글입니다 : " + commentId));
@@ -58,9 +56,7 @@ public class LikeService {
 
 
     // 일기 좋아요 생성
-    public void createLikeDiary(Long diaryId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
+    public void createLikeDiary(Long diaryId, Member member) {
 
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 일기입니다 : " + diaryId));
