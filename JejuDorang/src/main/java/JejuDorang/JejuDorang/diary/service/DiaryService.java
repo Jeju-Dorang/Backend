@@ -18,11 +18,8 @@ import JejuDorang.JejuDorang.view.data.View;
 import JejuDorang.JejuDorang.view.repository.ViewRepository;
 import JejuDorang.JejuDorang.view.service.ViewService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.security.PrivateKey;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +37,7 @@ public class DiaryService {
     private final ViewRepository viewRepository;
 
     // 일기 작성
-    public void createDiary(DiaryRequest diaryRequest) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
+    public void createDiary(DiaryRequest diaryRequest, Member member) {
 
         // 일기 DB에 저장
         Diary diary = Diary.builder()
@@ -67,9 +62,7 @@ public class DiaryService {
     }
 
     // 스토리의 일기 상세 정보를 보여줌
-    public DiaryDetailResponse getDiaryDetail(Long diaryId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
+    public DiaryDetailResponse getDiaryDetail(Long diaryId, Member member) {
 
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 일기 글입니다 : " + diaryId));
@@ -103,9 +96,7 @@ public class DiaryService {
     }
 
     // 다른 멤버들의 public 일기 가져오기
-    public List<DiaryPublicResponse> getPublicDiaries() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
+    public List<DiaryPublicResponse> getPublicDiaries(Member member) {
 
         List<Diary> diaryList = diaryRepository.findBySecretAndDate(SecretType.PUBLIC, LocalDate.now());
         List<DiaryPublicResponse> response = new ArrayList<>();
