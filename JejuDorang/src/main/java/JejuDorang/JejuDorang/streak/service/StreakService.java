@@ -40,9 +40,7 @@ public class StreakService {
     }
 
     // 멤버의 스트릭 반환
-    public List<StreakResponseDto> getStreaks() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
+    public List<StreakResponseDto> getStreaks(Member member) {
 
         List<Streak> streaks = streakRepository.findAllByMemberId(member.getId());
         List<StreakResponseDto> response = new ArrayList<>();

@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionResponse {
+public class QuestionInputRequestDto {
 
-    private Long postId;
     private String title;
     private String content;
 }

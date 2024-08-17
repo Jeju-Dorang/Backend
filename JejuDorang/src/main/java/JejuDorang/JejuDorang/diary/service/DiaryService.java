@@ -1,9 +1,9 @@
 package JejuDorang.JejuDorang.diary.service;
 
 import JejuDorang.JejuDorang.diary.data.Diary;
-import JejuDorang.JejuDorang.diary.dto.DiaryDetailResponse;
-import JejuDorang.JejuDorang.diary.dto.DiaryPublicResponse;
-import JejuDorang.JejuDorang.diary.dto.DiaryRequest;
+import JejuDorang.JejuDorang.diary.dto.DiaryDetailResponseDto;
+import JejuDorang.JejuDorang.diary.dto.DiaryPublicResponseDto;
+import JejuDorang.JejuDorang.diary.dto.DiaryRequestDto;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import JejuDorang.JejuDorang.like.service.LikeService;
@@ -18,11 +18,8 @@ import JejuDorang.JejuDorang.view.data.View;
 import JejuDorang.JejuDorang.view.repository.ViewRepository;
 import JejuDorang.JejuDorang.view.service.ViewService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.security.PrivateKey;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,23 +37,21 @@ public class DiaryService {
     private final ViewRepository viewRepository;
 
     // 일기 작성
-    public void createDiary(DiaryRequest diaryRequest) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
+    public void createDiary(DiaryRequestDto diaryRequestDto, Member member) {
 
         // 일기 DB에 저장
         Diary diary = Diary.builder()
-                .title(diaryRequest.getTitle())
+                .title(diaryRequestDto.getTitle())
                 .date(LocalDate.now())
-                .content(diaryRequest.getContent())
-                .image(diaryRequest.getImageUrl())
-                .secret(diaryRequest.getSecret())
+                .content(diaryRequestDto.getContent())
+                .image(diaryRequestDto.getImageUrl())
+                .secret(diaryRequestDto.getSecret())
                 .member(member)
                 .build();
         diaryRepository.save(diary);
 
         // 태그 저장
-        for (TagDto tag : diaryRequest.getTagList()) {
+        for (TagDto tag : diaryRequestDto.getTagList()) {
             Tag newTag = tagService.saveTag(tag.getTagName());
             DiaryTag diaryTag = new DiaryTag(newTag, diary);
             diaryTagRepository.save(diaryTag);
@@ -67,9 +62,7 @@ public class DiaryService {
     }
 
     // 스토리의 일기 상세 정보를 보여줌
-    public DiaryDetailResponse getDiaryDetail(Long diaryId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
+    public DiaryDetailResponseDto getDiaryDetail(Long diaryId, Member member) {
 
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 일기 글입니다 : " + diaryId));
@@ -91,7 +84,7 @@ public class DiaryService {
             viewRepository.save(newView);
         }
 
-        DiaryDetailResponse response = new DiaryDetailResponse (
+        DiaryDetailResponseDto response = new DiaryDetailResponseDto(
                 diary.getMember().getName(),
                 diary.getDate(),
                 diary.getImage(),
@@ -103,15 +96,13 @@ public class DiaryService {
     }
 
     // 다른 멤버들의 public 일기 가져오기
-    public List<DiaryPublicResponse> getPublicDiaries() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
+    public List<DiaryPublicResponseDto> getPublicDiaries(Member member) {
 
         List<Diary> diaryList = diaryRepository.findBySecretAndDate(SecretType.PUBLIC, LocalDate.now());
-        List<DiaryPublicResponse> response = new ArrayList<>();
+        List<DiaryPublicResponseDto> response = new ArrayList<>();
 
         for(Diary diary : diaryList) {
-            response.add( new DiaryPublicResponse(
+            response.add( new DiaryPublicResponseDto(
                     diary.getId(),
                     diary.getMember().getName(),
                     diary.getImage(),
