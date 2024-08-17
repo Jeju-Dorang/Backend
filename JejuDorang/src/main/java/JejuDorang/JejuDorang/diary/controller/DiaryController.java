@@ -1,14 +1,12 @@
 package JejuDorang.JejuDorang.diary.controller;
 
 import JejuDorang.JejuDorang.auth.argumentresolver.Login;
-import JejuDorang.JejuDorang.diary.dto.DiaryDetailResponse;
-import JejuDorang.JejuDorang.diary.dto.DiaryPublicResponse;
-import JejuDorang.JejuDorang.diary.dto.DiaryRequest;
+import JejuDorang.JejuDorang.diary.dto.DiaryDetailResponseDto;
+import JejuDorang.JejuDorang.diary.dto.DiaryPublicResponseDto;
+import JejuDorang.JejuDorang.diary.dto.DiaryRequestDto;
 import JejuDorang.JejuDorang.diary.service.DiaryService;
 import JejuDorang.JejuDorang.member.data.Member;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,25 +20,25 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @PostMapping("/diary")
-    public ResponseEntity<Void> createDiary(@RequestBody DiaryRequest diaryRequest, @Login Member member) {
+    public ResponseEntity<Void> createDiary(@RequestBody DiaryRequestDto diaryRequestDto, @Login Member member) {
 
-        diaryService.createDiary(diaryRequest, member);
+        diaryService.createDiary(diaryRequestDto, member);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/diaries/{diaryId}")
-    public ResponseEntity<DiaryDetailResponse> getDiaryDetail(@PathVariable Long diaryId, @Login Member member) {
+    public ResponseEntity<DiaryDetailResponseDto> getDiaryDetail(@PathVariable Long diaryId, @Login Member member) {
 
-        DiaryDetailResponse diaryDetailResponse
+        DiaryDetailResponseDto diaryDetailResponseDto
                 = diaryService.getDiaryDetail(diaryId, member);
-        return ResponseEntity.ok(diaryDetailResponse);
+        return ResponseEntity.ok(diaryDetailResponseDto);
     }
 
     @GetMapping("/diaries")
-    public ResponseEntity<List<DiaryPublicResponse>> getPublicDiaries(@Login Member member) {
+    public ResponseEntity<List<DiaryPublicResponseDto>> getPublicDiaries(@Login Member member) {
 
-        List<DiaryPublicResponse> diaryPublicResponses
+        List<DiaryPublicResponseDto> diaryPublicResponsDtos
                 = diaryService.getPublicDiaries(member);
-        return ResponseEntity.ok(diaryPublicResponses);
+        return ResponseEntity.ok(diaryPublicResponsDtos);
     }
 }

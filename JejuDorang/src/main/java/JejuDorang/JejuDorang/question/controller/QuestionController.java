@@ -3,9 +3,9 @@ package JejuDorang.JejuDorang.question.controller;
 
 import JejuDorang.JejuDorang.auth.argumentresolver.Login;
 import JejuDorang.JejuDorang.member.data.Member;
-import JejuDorang.JejuDorang.question.dto.QuestionDetailResponse;
-import JejuDorang.JejuDorang.question.dto.QuestionInputRequest;
-import JejuDorang.JejuDorang.question.dto.QuestionResponse;
+import JejuDorang.JejuDorang.question.dto.QuestionDetailResponseDto;
+import JejuDorang.JejuDorang.question.dto.QuestionInputRequestDto;
+import JejuDorang.JejuDorang.question.dto.QuestionResponseDto;
 import JejuDorang.JejuDorang.question.service.QuestionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,25 +22,25 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @PostMapping("/question")
-    public ResponseEntity createQuestion(@RequestBody QuestionInputRequest questionInputRequest, @Login Member member) {
+    public ResponseEntity createQuestion(@RequestBody QuestionInputRequestDto questionInputRequestDto, @Login Member member) {
 
-        questionService.createQuestion(questionInputRequest, member);
+        questionService.createQuestion(questionInputRequestDto, member);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("/questions")
-    public ResponseEntity<List<QuestionResponse>> getQuestions() {
+    public ResponseEntity<List<QuestionResponseDto>> getQuestions() {
 
-        List<QuestionResponse> questions = questionService.getQuestions();
+        List<QuestionResponseDto> questions = questionService.getQuestions();
         return ResponseEntity.ok(questions);
     }
 
     @GetMapping("/question/{questionPostId}")
-    public ResponseEntity<QuestionDetailResponse> getQuestionDetail
+    public ResponseEntity<QuestionDetailResponseDto> getQuestionDetail
             (@PathVariable("questionPostId") Long questionPostId, @Login Member member) {
 
-        QuestionDetailResponse questionDetailResponse
+        QuestionDetailResponseDto questionDetailResponseDto
             = questionService.getQuestionDetail(questionPostId, member);
-        return ResponseEntity.ok(questionDetailResponse);
+        return ResponseEntity.ok(questionDetailResponseDto);
     }
 }

@@ -1,7 +1,7 @@
 package JejuDorang.JejuDorang.comment.controller;
 
 import JejuDorang.JejuDorang.auth.argumentresolver.Login;
-import JejuDorang.JejuDorang.comment.dto.CommentRequest;
+import JejuDorang.JejuDorang.comment.dto.CommentRequestDto;
 import JejuDorang.JejuDorang.comment.service.CommentService;
 import JejuDorang.JejuDorang.member.data.Member;
 import lombok.AllArgsConstructor;
@@ -21,10 +21,10 @@ public class CommentController {
     @PostMapping("/posts/comment/{questionPostId}")
     public ResponseEntity createComment(
             @PathVariable Long questionPostId,
-            @RequestBody CommentRequest commentRequest,
+            @RequestBody CommentRequestDto commentRequestDto,
             @Login Member member) {
 
-        commentService.createComment(questionPostId, commentRequest, member);
+        commentService.createComment(questionPostId, commentRequestDto, member);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
