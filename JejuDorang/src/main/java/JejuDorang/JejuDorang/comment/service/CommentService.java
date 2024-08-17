@@ -20,10 +20,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final QuestionRepository questionRepository;
 
-    public void createComment(Long questionPostId, CommentRequest commentRequest) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = (Member) authentication.getPrincipal();
+    public void createComment(Long questionPostId, CommentRequest commentRequest, Member member) {
 
         Question questionPost = questionRepository.findById(questionPostId)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 질문 글입니다 : " + questionPostId));
