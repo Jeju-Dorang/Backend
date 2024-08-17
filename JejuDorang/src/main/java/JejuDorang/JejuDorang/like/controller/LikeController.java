@@ -1,6 +1,8 @@
 package JejuDorang.JejuDorang.like.controller;
 
+import JejuDorang.JejuDorang.auth.argumentresolver.Login;
 import JejuDorang.JejuDorang.like.service.LikeService;
+import JejuDorang.JejuDorang.member.data.Member;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,16 +18,16 @@ public class LikeController {
     private final LikeService likeService;
 
     @PostMapping("/comment/{commentId}")
-    public ResponseEntity<Void> createLikeComment(@PathVariable Long commentId) {
+    public ResponseEntity<Void> createLikeComment(@PathVariable Long commentId, @Login Member member) {
 
-        likeService.createLikeComment(commentId);
+        likeService.createLikeComment(commentId, member);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/diary/{diaryId}")
-    public ResponseEntity<Void> createLikeDiary(@PathVariable Long diaryId) {
+    public ResponseEntity<Void> createLikeDiary(@PathVariable Long diaryId, @Login Member member) {
 
-        likeService.createLikeDiary(diaryId);
+        likeService.createLikeDiary(diaryId, member);
         return ResponseEntity.ok().build();
     }
 }
