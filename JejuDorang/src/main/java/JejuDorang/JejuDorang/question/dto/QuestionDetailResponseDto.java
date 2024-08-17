@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionDetailResponse {
+public class QuestionDetailResponseDto {
 
     private String title;
     private String content;

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DiaryPublicResponse {
+public class DiaryPublicResponseDto {
     private Long diaryId;
     private String name;
     private String image;

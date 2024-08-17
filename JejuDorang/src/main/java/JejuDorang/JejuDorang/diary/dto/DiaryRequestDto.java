@@ -1,22 +1,27 @@
 package JejuDorang.JejuDorang.diary.dto;
 
+import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.tag.dto.TagDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-public class DiaryDetailResponse {
+@AllArgsConstructor
+public class DiaryRequestDto {
 
-    private String name;
-    private LocalDate date;
-    private String image;
+    private String title;
+
     private String content;
-    private boolean alreadyLike;
+
+    private String imageUrl;
+
+    @JsonProperty("secret")
+    private SecretType secret;
+
     private List<TagDto> tagList;
 }

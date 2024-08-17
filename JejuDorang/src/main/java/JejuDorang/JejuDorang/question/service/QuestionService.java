@@ -4,13 +4,11 @@ import JejuDorang.JejuDorang.comment.data.Comment;
 import JejuDorang.JejuDorang.like.service.LikeService;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.question.data.Question;
-import JejuDorang.JejuDorang.question.dto.QuestionDetailResponse;
-import JejuDorang.JejuDorang.question.dto.QuestionInputRequest;
-import JejuDorang.JejuDorang.question.dto.QuestionResponse;
+import JejuDorang.JejuDorang.question.dto.QuestionDetailResponseDto;
+import JejuDorang.JejuDorang.question.dto.QuestionInputRequestDto;
+import JejuDorang.JejuDorang.question.dto.QuestionResponseDto;
 import JejuDorang.JejuDorang.question.repository.QuestionRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,12 +22,12 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final LikeService likeService;
 
-    public void createQuestion(QuestionInputRequest questionInputRequest, Member member) {
+    public void createQuestion(QuestionInputRequestDto questionInputRequestDto, Member member) {
 
         Question question = Question.builder()
                 .member(member)
-                .title(questionInputRequest.getTitle())
-                .content(questionInputRequest.getContent())
+                .title(questionInputRequestDto.getTitle())
+                .content(questionInputRequestDto.getContent())
                 .date(LocalDateTime.now())
                 .build();
 
@@ -37,12 +35,12 @@ public class QuestionService {
     }
 
     // 최신순으로 질문글 정렬해서 반환
-    public List<QuestionResponse> getQuestions() {
+    public List<QuestionResponseDto> getQuestions() {
         List<Question> questions = questionRepository.findAllByOrderByDateDesc();
-        List<QuestionResponse> response = new ArrayList<>();
+        List<QuestionResponseDto> response = new ArrayList<>();
 
         for(Question question : questions) {
-            response.add(new QuestionResponse(
+            response.add(new QuestionResponseDto(
                     question.getId(),
                     question.getTitle(),
                     question.getContent()
@@ -52,14 +50,14 @@ public class QuestionService {
     }
 
     // 질문글 상세 페이지 정보 가져오기
-    public QuestionDetailResponse getQuestionDetail(Long questionPostId, Member member) {
+    public QuestionDetailResponseDto getQuestionDetail(Long questionPostId, Member member) {
 
         Question question = questionRepository.findById(questionPostId)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 질문 글입니다 : " + questionPostId));
-        List<QuestionDetailResponse.Comment> comments = new ArrayList<>();
+        List<QuestionDetailResponseDto.Comment> comments = new ArrayList<>();
 
         for(Comment comment : question.getCommentList()) {
-            comments.add(new QuestionDetailResponse.Comment(
+            comments.add(new QuestionDetailResponseDto.Comment(
                     comment.getMember().getName(),
                     comment.getMember().getImage(),
                     comment.getContent(),
@@ -67,7 +65,7 @@ public class QuestionService {
                     likeService.alreadyLikeComment(comment.getId(), member.getId())
             ));
         }
-        QuestionDetailResponse response = new QuestionDetailResponse(
+        QuestionDetailResponseDto response = new QuestionDetailResponseDto(
                 question.getTitle(),
                 question.getContent(),
                 question.getMember().getName(),
