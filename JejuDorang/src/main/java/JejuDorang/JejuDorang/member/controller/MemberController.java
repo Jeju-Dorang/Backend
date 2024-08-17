@@ -27,6 +27,6 @@ public class MemberController {
 	public ResponseEntity<MemberDetailResponseDto> getMemberDetail(@Login Member member) {
 
 		MemberDetailResponseDto memberDetailResponseDto = memberService.getMemberDetail(member);
-		return ResponseEntity.ok().body(memberDetailResponseDto);
+		return ResponseEntity.ok(memberDetailResponseDto);
 	}
 }

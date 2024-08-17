@@ -5,14 +5,16 @@ import java.util.List;
 import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryIdDto;
 import JejuDorang.JejuDorang.member.data.Member;
+import lombok.Getter;
 
+@Getter
 public class MemberDetailResponseDto {
-	Long id;
-	String memberName;
-	String email;
-	String memberComment;
-	String profileImage;
-	String lodgingAddress;
+	private final Long id;
+	private final String memberName;
+	private final String email;
+	private final String memberComment;
+	private final String profileImage;
+	private final String lodgingAddress;
 	private List<DiaryIdDto> diaries;
 	private List<AchievementDto> achievements;
 
