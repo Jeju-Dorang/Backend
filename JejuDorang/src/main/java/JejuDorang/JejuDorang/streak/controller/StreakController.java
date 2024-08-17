@@ -1,5 +1,7 @@
 package JejuDorang.JejuDorang.streak.controller;
 
+import JejuDorang.JejuDorang.auth.argumentresolver.Login;
+import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.streak.data.Streak;
 import JejuDorang.JejuDorang.streak.dto.StreakResponseDto;
 import JejuDorang.JejuDorang.streak.service.StreakService;
@@ -17,9 +19,9 @@ public class StreakController {
     private final StreakService streakService;
 
     @GetMapping("/posts/streaks")
-    public ResponseEntity<List<StreakResponseDto>> getStreaks() {
+    public ResponseEntity<List<StreakResponseDto>> getStreaks(@Login Member member) {
 
-        List<StreakResponseDto> streaks = streakService.getStreaks();
+        List<StreakResponseDto> streaks = streakService.getStreaks(member);
         return ResponseEntity.ok(streaks);
     }
 }
