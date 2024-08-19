@@ -37,9 +37,11 @@ public class Diary {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Builder.Default
     @OneToMany(mappedBy = "diary")
     private List<DiaryTag> diaryTagList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "diary")
     private List<LikeDiary> likeDiaryList = new ArrayList<>();
 
