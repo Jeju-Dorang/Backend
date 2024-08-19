@@ -33,7 +33,7 @@ public class Diary {
     @Enumerated(EnumType.STRING)
     private SecretType secret;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
