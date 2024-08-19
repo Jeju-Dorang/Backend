@@ -1,11 +1,14 @@
 package JejuDorang.JejuDorang.member.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import JejuDorang.JejuDorang.auth.argumentresolver.Login;
+import JejuDorang.JejuDorang.diary.dto.DiaryListResponseDTO;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
 import JejuDorang.JejuDorang.member.service.MemberService;
@@ -28,5 +31,11 @@ public class MemberController {
 
 		MemberDetailResponseDto memberDetailResponseDto = memberService.getMemberDetail(member);
 		return ResponseEntity.ok(memberDetailResponseDto);
+	}
+
+	@GetMapping("/diaries")
+	public ResponseEntity<List<DiaryListResponseDTO>> getDiaries(@Login Member member) {
+		List<DiaryListResponseDTO> diaryListResponseDTO = memberService.getDiaries(member);
+		return ResponseEntity.ok(diaryListResponseDTO);
 	}
 }
