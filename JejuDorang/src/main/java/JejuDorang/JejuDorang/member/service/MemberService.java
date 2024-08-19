@@ -6,6 +6,7 @@ import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
 import JejuDorang.JejuDorang.achievement.repository.AchievementRepository;
 import JejuDorang.JejuDorang.auth.dto.KakaoUserInfoDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryIdDto;
+import JejuDorang.JejuDorang.diary.dto.DiaryListResponseDTO;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
@@ -32,9 +33,9 @@ public class MemberService {
 
         // 존재하지 않다면 DB에 정보 저장
         Member member = Member.builder()
-                .keyCode(keyCode)
-                .name(name)
-                .build();
+            .keyCode(keyCode)
+            .name(name)
+            .build();
         memberRepository.save(member);
 
         return keyCode;
@@ -48,5 +49,9 @@ public class MemberService {
         List<AchievementDto> achievements = achievementRepository.findAllByMemberId(member.getId());
         memberDetailResponseDto.setAchievementsAndDiaries(achievements, diaries);
         return memberDetailResponseDto;
+    }
+
+    public List<DiaryListResponseDTO> getDiaries(Member member) {
+        return diaryRepository.findAllByMemberId(member.getId());
     }
 }
