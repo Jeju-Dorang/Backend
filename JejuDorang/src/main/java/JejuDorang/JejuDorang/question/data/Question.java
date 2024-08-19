@@ -29,6 +29,7 @@ public class Question {
 
 	private String content;
 
+	@Builder.Default
 	@OneToMany(mappedBy = "question")
 	private List<Comment> commentList = new ArrayList<>();
 }
