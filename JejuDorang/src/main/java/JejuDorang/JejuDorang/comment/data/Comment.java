@@ -26,11 +26,11 @@ public class Comment {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "question_id")
 	private Question question;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 
@@ -38,7 +38,7 @@ public class Comment {
 
 	private String content;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "comment")
+	@OneToMany(mappedBy = "comment")
 	private List<LikeComment> likeCommentList;
 
 }
