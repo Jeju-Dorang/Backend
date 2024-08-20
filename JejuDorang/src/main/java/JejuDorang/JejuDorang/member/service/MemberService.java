@@ -7,6 +7,7 @@ import JejuDorang.JejuDorang.achievement.repository.AchievementRepository;
 import JejuDorang.JejuDorang.auth.dto.KakaoUserInfoDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryIdDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryListResponseDTO;
+import JejuDorang.JejuDorang.diary.dto.MyDiaryDetailResponseDto;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
@@ -53,5 +54,9 @@ public class MemberService {
 
     public List<DiaryListResponseDTO> getDiaries(Member member) {
         return diaryRepository.findAllByMemberId(member.getId());
+    }
+
+    public MyDiaryDetailResponseDto getDiaryDetail(Long diaryId, Member member) {
+        return diaryRepository.findDiaryDetailByDiaryIdAndMemberId(diaryId, member.getId());
     }
 }
