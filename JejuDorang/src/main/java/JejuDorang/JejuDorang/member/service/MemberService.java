@@ -10,6 +10,7 @@ import JejuDorang.JejuDorang.diary.dto.DiaryListResponseDTO;
 import JejuDorang.JejuDorang.diary.dto.MyDiaryDetailResponseDto;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
+import JejuDorang.JejuDorang.error.exception.NotFoundException;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
 import JejuDorang.JejuDorang.member.repository.MemberRepository;
@@ -65,7 +66,7 @@ public class MemberService {
 	public void updateDiarySecret(Long diaryId, Member member, SecretType secret) {
         int updatedRows = diaryRepository.updateDiarySecret(diaryId, member.getId(), secret);
         if (updatedRows == 0) {
-            throw new IllegalArgumentException("해당 다이어리가 존재하지 않거나 권한이 없습니다.");
+            throw new NotFoundException();
         }
 	}
 }
