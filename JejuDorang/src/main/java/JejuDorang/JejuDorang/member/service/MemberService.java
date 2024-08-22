@@ -69,4 +69,12 @@ public class MemberService {
             throw new NotFoundException();
         }
 	}
+
+    @Transactional
+    public void deleteDiary(Long diaryId, Member member) {
+        int deletedRows = diaryRepository.deleteByIdAndMember(diaryId, member);
+        if (deletedRows == 0) {
+            throw new NotFoundException();
+        }
+    }
 }

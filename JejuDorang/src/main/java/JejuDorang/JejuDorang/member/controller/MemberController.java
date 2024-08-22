@@ -3,6 +3,7 @@ package JejuDorang.JejuDorang.member.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,6 +75,12 @@ public class MemberController {
 		@RequestParam("secret") SecretType secret
 	) {
 		memberService.updateDiarySecret(diaryId, member, secret);
+		return ResponseEntity.ok().build();
+	}
+
+	@DeleteMapping("/diary/{diaryId}")
+	public ResponseEntity<Void> deleteDiary(@PathVariable("diaryId") Long diaryId, @Login Member member) {
+		memberService.deleteDiary(diaryId, member);
 		return ResponseEntity.ok().build();
 	}
 }

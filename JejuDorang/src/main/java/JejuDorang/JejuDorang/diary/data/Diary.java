@@ -38,7 +38,7 @@ public class Diary {
     private Member member;
 
     @Builder.Default
-    @OneToMany(mappedBy = "diary")
+    @OneToMany(mappedBy = "diary", cascade = CascadeType.REMOVE)
     private List<DiaryTag> diaryTagList = new ArrayList<>();
 
     @Builder.Default
