@@ -13,6 +13,7 @@ import JejuDorang.JejuDorang.diary.data.QDiary;
 import JejuDorang.JejuDorang.diary.dto.DiaryIdDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryListResponseDTO;
 import JejuDorang.JejuDorang.diary.dto.MyDiaryDetailResponseDto;
+import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.like.data.QLikeDiary;
 import JejuDorang.JejuDorang.tag.data.QDiaryTag;
 import JejuDorang.JejuDorang.tag.data.QTag;
@@ -85,5 +86,18 @@ public class DiaryCustomRepositoryImpl implements DiaryCustomRepository{
 		}
 
 		return new MyDiaryDetailResponseDto(foundDiary);
+	}
+
+	@Override
+	public int updateDiarySecret(Long diaryId, long id, SecretType secret) {
+		QDiary diary = QDiary.diary;
+
+		long updatedRows = jpaQueryFactory
+			.update(diary)
+			.set(diary.secret, secret)
+			.where(diary.id.eq(diaryId)
+				.and(diary.member.id.eq(id)))
+			.execute();
+		return (int) updatedRows;
 	}
 }

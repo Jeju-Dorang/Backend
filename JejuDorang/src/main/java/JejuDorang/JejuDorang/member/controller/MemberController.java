@@ -4,13 +4,16 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import JejuDorang.JejuDorang.auth.argumentresolver.Login;
 import JejuDorang.JejuDorang.diary.dto.DiaryListResponseDTO;
 import JejuDorang.JejuDorang.diary.dto.MyDiaryDetailResponseDto;
+import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
 import JejuDorang.JejuDorang.member.service.MemberService;
@@ -55,5 +58,22 @@ public class MemberController {
 	public ResponseEntity<MyDiaryDetailResponseDto> getDiaryDetail(@PathVariable("diaryId") Long diaryId, @Login Member member) {
 		MyDiaryDetailResponseDto myDiaryDetailResponseDto = memberService.getDiaryDetail(diaryId, member);
 		return ResponseEntity.ok(myDiaryDetailResponseDto);
+	}
+
+	/**
+	 * 다이어리 비밀 여부 수정
+	 * @param diaryId
+	 * @param member
+	 * @param secret : public, private
+	 * @return ResponseEntity<Void>
+	 */
+	@PatchMapping("/diary/{diaryId}")
+	public ResponseEntity<Void> updateDiarySecret(
+		@PathVariable("diaryId") Long diaryId,
+		@Login Member member,
+		@RequestParam("secret") SecretType secret
+	) {
+		memberService.updateDiarySecret(diaryId, member, secret);
+		return ResponseEntity.ok().build();
 	}
 }
