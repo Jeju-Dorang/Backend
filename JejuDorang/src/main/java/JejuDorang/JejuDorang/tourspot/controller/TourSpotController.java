@@ -33,6 +33,7 @@ public class TourSpotController {
                 + "&mapY=" + tourSpotRequestDto.getMapY()
                 + "&radius=15000"
                 + "&serviceKey=" + tourSpotConfig.getServiceKey()
+                + "&contentTypeId=12"
                 + "&_type=json";
 
         tourSpotService.getTourSpot(requestUrl);
