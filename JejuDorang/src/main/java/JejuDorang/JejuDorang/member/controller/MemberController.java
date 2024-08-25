@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import JejuDorang.JejuDorang.achievement.dto.AchievementListDto;
 import JejuDorang.JejuDorang.auth.argumentresolver.Login;
 import JejuDorang.JejuDorang.diary.dto.DiaryListResponseDTO;
 import JejuDorang.JejuDorang.diary.dto.MyDiaryDetailResponseDto;
@@ -82,5 +83,11 @@ public class MemberController {
 	public ResponseEntity<Void> deleteDiary(@PathVariable("diaryId") Long diaryId, @Login Member member) {
 		memberService.deleteDiary(diaryId, member);
 		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/achievements")
+	public ResponseEntity<AchievementListDto> getAchievements(@Login Member member) {
+		AchievementListDto achievements = memberService.getAchievementList(member);
+		return ResponseEntity.ok(achievements);
 	}
 }

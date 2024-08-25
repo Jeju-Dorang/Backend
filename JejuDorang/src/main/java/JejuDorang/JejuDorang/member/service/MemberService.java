@@ -1,8 +1,13 @@
 package JejuDorang.JejuDorang.member.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import JejuDorang.JejuDorang.achievement.data.Achievement;
+import JejuDorang.JejuDorang.achievement.dto.AchievementAchieveResponseDto;
 import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
+import JejuDorang.JejuDorang.achievement.dto.AchievementListDto;
+import JejuDorang.JejuDorang.achievement.dto.AchievementResponseDto;
 import JejuDorang.JejuDorang.achievement.repository.AchievementRepository;
 import JejuDorang.JejuDorang.auth.dto.KakaoUserInfoDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryIdDto;
@@ -13,6 +18,7 @@ import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import JejuDorang.JejuDorang.error.exception.NotFoundException;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
+import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
 import JejuDorang.JejuDorang.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -76,5 +82,19 @@ public class MemberService {
         if (deletedRows == 0) {
             throw new NotFoundException();
         }
+    }
+
+    public AchievementListDto getAchievementList(Member member) {
+        List<AchievementDto> achievements = achievementRepository.findAllByMemberId(member.getId());
+        List<AchievementResponseDto> achievementResponseDtoList = new ArrayList<>();
+        List<AchievementAchieveResponseDto> achievementAchieveResponseDtoList = new ArrayList<>();
+        for (AchievementDto achievement : achievements) {
+            if (achievement.getAchievementStatus().equals(AchievementStatus.DONE)) {
+                achievementAchieveResponseDtoList.add(new AchievementAchieveResponseDto(achievement));
+            } else {
+                achievementResponseDtoList.add(new AchievementResponseDto(achievement));
+            }
+        }
+		return new AchievementListDto(achievementResponseDtoList, achievementAchieveResponseDtoList);
     }
 }
