@@ -1,8 +1,20 @@
-FROM openjdk:17
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
-ENV TZ=Asia/Seoul
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# 1. Gradle 기반 이미지 사용
+FROM gradle:8.0-jdk17 AS build
 
+# 2. 작업 디렉토리 생성
 WORKDIR /app
-COPY .env ./
+
+# 3. Gradle 캐시 디렉토리를 복사하여 종속성 다운로드 속도 향상
+COPY --chown=gradle:gradle . /app
+
+# 4. JAR 파일 빌드
+RUN gradle build --no-daemon
+
+# 5. 실행할 수 있는 경량화된 OpenJDK 이미지를 준비
+FROM openjdk:17-jdk-slim
+
+# 6. 이전 단계에서 빌드한 JAR 파일을 복사
+COPY --from=build /app/build/libs/your-app.jar /app/your-app.jar
+
+# 7. JAR 파일 실행 명령어
+ENTRYPOINT ["java", "-jar", "/app/your-app.jar"]
