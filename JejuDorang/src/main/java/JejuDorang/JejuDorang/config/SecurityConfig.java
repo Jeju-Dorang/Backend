@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -15,6 +16,7 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+import java.util.Arrays;
 
 @Configuration
 @RequiredArgsConstructor
@@ -26,8 +28,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(AbstractHttpConfigurer::disable) // CSRF 보호 비활성화
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
@@ -46,7 +48,8 @@ public class SecurityConfig {
         configuration.addAllowedOrigin("http://localhost:5173"); // 허용할 출처 설정
         configuration.addAllowedOrigin("http://localhost:8080");
         configuration.addAllowedHeader("*"); // 허용할 헤더 설정
-        configuration.addAllowedMethod("*"); // 허용할 메소드 설정
+//        configuration.addAllowedMethod("GET", "POST", "PUT", "DELETE", "PATCH"); // 허용할 메소드 설정
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH"));
         configuration.addExposedHeader("Authorization");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
