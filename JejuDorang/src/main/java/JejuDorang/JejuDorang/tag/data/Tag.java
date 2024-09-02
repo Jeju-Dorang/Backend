@@ -20,9 +20,11 @@ public class Tag {
     private String name;
 
     @OneToMany(mappedBy = "tag")
+    @Builder.Default
     private List<AchievementTag> achievementTagList = new ArrayList<>();
 
     @OneToMany(mappedBy = "tag")
+    @Builder.Default
     private List<DiaryTag> diaryTagList = new ArrayList<>();
 
     public Tag(String name) {
