@@ -1,5 +1,6 @@
 package JejuDorang.JejuDorang.config;
 
+import org.apache.catalina.filters.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -17,7 +18,7 @@ public class CorsConfig {
 
         config.setAllowCredentials(true);
         config.setAllowedOrigins(List.of("http://localhost:5173"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("*"));
 
@@ -25,4 +26,5 @@ public class CorsConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
 }
