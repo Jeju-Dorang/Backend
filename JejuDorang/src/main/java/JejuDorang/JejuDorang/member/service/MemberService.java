@@ -97,4 +97,8 @@ public class MemberService {
         }
 		return new AchievementListDto(achievementResponseDtoList, achievementAchieveResponseDtoList);
     }
+
+    public void updateName(String name, Member member) {
+        member.updateName(name);
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import JejuDorang.JejuDorang.diary.dto.MyDiaryDetailResponseDto;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
+import JejuDorang.JejuDorang.member.dto.MemberNameDto;
 import JejuDorang.JejuDorang.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 
@@ -89,5 +91,11 @@ public class MemberController {
 	public ResponseEntity<AchievementListDto> getAchievements(@Login Member member) {
 		AchievementListDto achievements = memberService.getAchievementList(member);
 		return ResponseEntity.ok(achievements);
+	}
+
+	@PatchMapping("/name")
+	public ResponseEntity<Void> updateName(@RequestBody MemberNameDto memberNameDto, @Login Member member) {
+		memberService.updateName(memberNameDto.getName(), member);
+		return ResponseEntity.ok().build();
 	}
 }
