@@ -102,4 +102,9 @@ public class MemberService {
         member.updateName(name);
         memberRepository.save(member);
     }
+
+    public void updateEmail(String memberEmail, Member member) {
+        member.updateEmail(memberEmail);
+        memberRepository.save(member);
+    }
 }
