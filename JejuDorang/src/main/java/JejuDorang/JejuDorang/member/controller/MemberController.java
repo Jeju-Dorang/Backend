@@ -19,8 +19,10 @@ import JejuDorang.JejuDorang.diary.dto.MyDiaryDetailResponseDto;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
+import JejuDorang.JejuDorang.member.dto.MemberEmailDto;
 import JejuDorang.JejuDorang.member.dto.MemberNameDto;
 import JejuDorang.JejuDorang.member.service.MemberService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -94,8 +96,14 @@ public class MemberController {
 	}
 
 	@PatchMapping("/name")
-	public ResponseEntity<Void> updateName(@RequestBody MemberNameDto memberNameDto, @Login Member member) {
+	public ResponseEntity<Void> updateName(@RequestBody @Valid MemberNameDto memberNameDto, @Login Member member) {
 		memberService.updateName(memberNameDto.getMemberName(), member);
+		return ResponseEntity.ok().build();
+	}
+
+	@PatchMapping("/email")
+	public ResponseEntity<Void> updateEmail(@RequestBody @Valid MemberEmailDto memberEmailDto, @Login Member member) {
+		memberService.updateEmail(memberEmailDto.getMemberEmail(), member);
 		return ResponseEntity.ok().build();
 	}
 }

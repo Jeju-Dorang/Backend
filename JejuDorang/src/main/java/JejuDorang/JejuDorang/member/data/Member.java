@@ -105,4 +105,8 @@ public class Member implements UserDetails {
 	public void updateName(String name) {
 		this.name = name;
 	}
+
+	public void updateEmail(String memberEmail) {
+		this.email = memberEmail;
+	}
 }
