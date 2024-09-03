@@ -100,5 +100,6 @@ public class MemberService {
 
     public void updateName(String name, Member member) {
         member.updateName(name);
+        memberRepository.save(member);
     }
 }

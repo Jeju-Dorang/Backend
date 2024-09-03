@@ -95,7 +95,7 @@ public class MemberController {
 
 	@PatchMapping("/name")
 	public ResponseEntity<Void> updateName(@RequestBody MemberNameDto memberNameDto, @Login Member member) {
-		memberService.updateName(memberNameDto.getName(), member);
+		memberService.updateName(memberNameDto.getMemberName(), member);
 		return ResponseEntity.ok().build();
 	}
 }
