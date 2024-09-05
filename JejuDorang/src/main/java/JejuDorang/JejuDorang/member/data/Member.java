@@ -101,4 +101,12 @@ public class Member implements UserDetails {
 			", homeAddress='" + homeAddress + '\'' +
 			'}';
 	}
+
+	public void updateName(String name) {
+		this.name = name;
+	}
+
+	public void updateEmail(String memberEmail) {
+		this.email = memberEmail;
+	}
 }

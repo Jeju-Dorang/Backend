@@ -19,7 +19,7 @@ public class Question {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 
@@ -29,6 +29,7 @@ public class Question {
 
 	private String content;
 
+	@Builder.Default
 	@OneToMany(mappedBy = "question")
 	private List<Comment> commentList = new ArrayList<>();
 }
