@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import JejuDorang.JejuDorang.member.data.Member;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,7 +22,7 @@ public class Streak {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 

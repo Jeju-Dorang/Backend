@@ -33,14 +33,15 @@ public class Diary {
     @Enumerated(EnumType.STRING)
     private SecretType secret;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "diary")
     @Builder.Default
+    @OneToMany(mappedBy = "diary", cascade = CascadeType.REMOVE)
     private List<DiaryTag> diaryTagList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "diary")
     @Builder.Default
     private List<LikeDiary> likeDiaryList = new ArrayList<>();
