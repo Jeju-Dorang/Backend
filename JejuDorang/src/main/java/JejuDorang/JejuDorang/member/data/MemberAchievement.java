@@ -3,6 +3,7 @@ package JejuDorang.JejuDorang.member.data;
 import JejuDorang.JejuDorang.achievement.data.Achievement;
 import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,11 +23,11 @@ public class MemberAchievement {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "achievement_id")
 	private Achievement achievement;
 

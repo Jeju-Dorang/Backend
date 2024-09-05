@@ -26,7 +26,7 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private ItemType category;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "character_id")
     private Character character;
 
