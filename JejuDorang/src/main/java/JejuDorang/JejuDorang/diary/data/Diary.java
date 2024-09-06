@@ -43,6 +43,7 @@ public class Diary {
 
     @Builder.Default
     @OneToMany(mappedBy = "diary")
+    @Builder.Default
     private List<LikeDiary> likeDiaryList = new ArrayList<>();
 
 }

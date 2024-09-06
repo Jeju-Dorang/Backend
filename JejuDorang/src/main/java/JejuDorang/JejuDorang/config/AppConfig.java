@@ -11,7 +11,10 @@ public class AppConfig {
 
     @Bean
     public KakaoConfig kakaoConfig() {
-        Dotenv dotenv = Dotenv.load();
+        Dotenv dotenv = Dotenv.configure()
+                .filename(".env")
+                .load();
+//        Dotenv dotenv = Dotenv.load();
 
         KakaoConfig kakaoConfig = new KakaoConfig();
         kakaoConfig.setClientId(dotenv.get("KAKAO_REST_API_KEY"));

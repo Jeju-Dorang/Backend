@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,16 +29,19 @@ public class AuthController {
     @Autowired
     private KakaoConfig kakaoConfig;
 
-    @GetMapping("/kakao/login")
-    public ResponseEntity<String> kakoLogin() {
+    @GetMapping ("/kakao/login")
+    public ResponseEntity<String> kakaoLogin() {
         String kakaoLoginUrl
                 = "https://kauth.kakao.com/oauth/authorize?response_type=code"
                 + "&client_id=" + kakaoConfig.getClientId()
                 + "&redirect_uri=" + kakaoConfig.getRedirectUri();
 
         // 302 : redirect
-        return ResponseEntity.status(302)
-                .header("Location", kakaoLoginUrl)
+//        return ResponseEntity.status(302)
+//                .header("Location", kakaoLoginUrl)
+//                .build();
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .header(HttpHeaders.LOCATION, kakaoLoginUrl)
                 .build();
     }
 
