@@ -26,27 +26,8 @@ public class AuthController {
     private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    private KakaoConfig kakaoConfig;
-
-    @GetMapping ("/kakao/login")
-    public ResponseEntity<String> kakaoLogin() {
-        String kakaoLoginUrl
-                = "https://kauth.kakao.com/oauth/authorize?response_type=code"
-                + "&client_id=" + kakaoConfig.getClientId()
-                + "&redirect_uri=" + kakaoConfig.getRedirectUri();
-
-        // 302 : redirect
-//        return ResponseEntity.status(302)
-//                .header("Location", kakaoLoginUrl)
-//                .build();
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .header(HttpHeaders.LOCATION, kakaoLoginUrl)
-                .build();
-    }
-
-    @GetMapping("/kakao/callback")
-    public ResponseEntity kakaoCallback(@RequestParam String code, HttpServletResponse response) {
+    @GetMapping("/kakao/login")
+    public ResponseEntity kakaoLogin(@RequestParam String code, HttpServletResponse response) {
         // AccessToken 받아오기
         KakaoAccessTokenDto accessToken = kakaoService.getAccessToken(code);
         // User 정보 받아오기
@@ -57,11 +38,8 @@ public class AuthController {
         // JWT 토큰 생성
         String jwtToken = jwtTokenProvider.createToken(keyCode);
 
-        System.out.println("jwt: " + jwtToken);
-
         // JWT 토큰 헤더에 담아 전달
         response.setHeader("Authorization", "Bearer " + jwtToken);
-        response.setHeader("keyCode", keyCode);
 
         return new ResponseEntity(HttpStatus.OK);
     }
