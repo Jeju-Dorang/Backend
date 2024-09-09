@@ -9,5 +9,5 @@ import java.util.List;
 public interface StreakRepository extends JpaRepository<Streak, Long> {
 
     Streak findByMemberIdAndDate(Long memberId, LocalDate date);
-    List<Streak> findAllByMemberId(Long memberId);
+    List<Streak> findAllByMemberIdAndDateBetween(Long memberId, LocalDate startDate, LocalDate endDate);
 }
