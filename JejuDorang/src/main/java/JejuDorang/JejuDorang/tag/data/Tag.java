@@ -21,12 +21,10 @@ public class Tag {
 
     @Builder.Default
     @OneToMany(mappedBy = "tag")
-    @Builder.Default
     private List<AchievementTag> achievementTagList = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "tag")
-    @Builder.Default
     private List<DiaryTag> diaryTagList = new ArrayList<>();
 
     public Tag(String name) {
