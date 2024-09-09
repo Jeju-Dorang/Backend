@@ -31,6 +31,5 @@ public class Question {
 
 	@Builder.Default
 	@OneToMany(mappedBy = "question")
-	@Builder.Default
 	private List<Comment> commentList = new ArrayList<>();
 }
