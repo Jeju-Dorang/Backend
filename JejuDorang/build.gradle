@@ -37,8 +37,10 @@ dependencies {
 
 	// Querydsl 추가
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	implementation 'com.querydsl:querydsl-apt:5.0.0:jakarta'
 	testImplementation 'org.projectlombok:lombok:1.18.28'
 	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
@@ -55,6 +57,7 @@ dependencies {
 /**
  * QueryDSL Build Options
  */
+
 def querydslDir = "src/main/generated"
 
 sourceSets {
@@ -62,6 +65,7 @@ sourceSets {
 }
 
 tasks.withType(JavaCompile) {
+	options.annotationProcessorPath = configurations.annotationProcessor  // 추가
 	options.getGeneratedSourceOutputDirectory().set(file(querydslDir))
 }
 
