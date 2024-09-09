@@ -35,7 +35,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                         .requestMatchers("/auth/kakao/**").permitAll() // /auth/kakao/ 경로만 접근 허용
-                        .anyRequest().authenticated()) // 나머지 요청은 인증 필요
+//                        .anyRequest().authenticated()) // 나머지 요청은 인증 필요
+                        .anyRequest().permitAll())
                 .addFilterBefore(new JwtAuthFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build(); // SecurityFilterChain 반환
