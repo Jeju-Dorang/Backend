@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.function.AsyncServerResponse;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -40,16 +43,19 @@ public class StreakService {
     }
 
     // 멤버의 스트릭 반환
-    public List<StreakResponseDto> getStreaks(Member member) {
+    public List<StreakResponseDto> getStreaks(Member member, String year, String month) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        LocalDate startDate = LocalDate.parse(year + "-" + month + "-01", formatter);
+        LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()).plusDays(1);
 
-        List<Streak> streaks = streakRepository.findAllByMemberId(member.getId());
+        List<Streak> streaks = streakRepository.findAllByMemberIdAndDateBetween(member.getId(), startDate, endDate);
+
+
         List<StreakResponseDto> response = new ArrayList<>();
-        for (Streak streak : streaks) {
-            response.add(new StreakResponseDto(
-                    LocalDate.now(),
-                    streak.getCount()
-            ));
+        for(Streak streak : streaks) {
+            response.add(new StreakResponseDto(streak.getDate(), streak.getCount()));
         }
+
         return response;
     }
 }
