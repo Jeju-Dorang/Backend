@@ -37,3 +37,6 @@ out/
 ### VS Code ###
 .vscode/
 generated/
+
+### key ###
+jejudorang.pem
