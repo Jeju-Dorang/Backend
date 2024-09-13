@@ -24,6 +24,7 @@ jobs:
         run: |
           chmod +x ./JejuDorang/gradlew
           ./JejuDorang/gradlew clean build -x test
+          working-directory: JejuDorang
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
