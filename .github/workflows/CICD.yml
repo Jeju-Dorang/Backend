@@ -20,7 +20,7 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Build with Maven
+      - name: Build with Gradle
         run: |
           chmod +x 777 ./mvnw
           ./mvnw clean package -Dtestskip
