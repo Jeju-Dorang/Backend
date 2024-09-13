@@ -26,6 +26,7 @@ services:
   application:
     container_name: main-server
     build:
+      context: .
       dockerfile: dockerfile
     ports:
       - "8080:8080"
