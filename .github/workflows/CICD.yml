@@ -22,6 +22,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Create .env file
+        run: |
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> JejuDorang/.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> JejuDorang/.env
+          echo "DB_URL=${{ secrets.DB_URL }}" >> JejuDorang/.env
+          echo "KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }}" >> JejuDorang/.env
+          echo "KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }}" >> JejuDorang/.env
+          echo "TOUR_API_KEY=${{ secrets.TOUR_API_KEY }}" >> JejuDorang/.env
+
       - name: Grant execute permissions to Gradle Wrapper
         run: chmod +x gradlew
         working-directory: JejuDorang
