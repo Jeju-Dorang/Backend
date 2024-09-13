@@ -22,7 +22,7 @@ jobs:
 
       - name: Build with Maven
         run: |
-          chmod 777 ./mvnw
+          chmod +x 777 ./mvnw
           ./mvnw clean package -Dtestskip
 
       - name: Login to DockerHub
