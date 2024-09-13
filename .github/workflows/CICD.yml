@@ -22,7 +22,7 @@ jobs:
 
       - name: Build with Gradle
         run: |
-          chmod +x 777 ./mvnw
+          chmod +x ./mvnw
           ./mvnw clean package -Dtestskip
 
       - name: Login to DockerHub
