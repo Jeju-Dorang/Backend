@@ -97,4 +97,24 @@ public class JwtTokenProvider {
         return false;
     }
 
+    // 리프레시 토큰을 사용하여 새로운 액세스 토큰 발급
+    public String refreshAccessToken(String refreshToken) {
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(refreshToken);
+
+            // 리프레시 토큰의 유효성 검사
+            if (claims.getBody().getExpiration().before(new Date())) {
+                throw new IllegalArgumentException("리프레시 토큰이 만료되었습니다.");
+            }
+
+            // 사용자 PK 추출
+            String userPk = claims.getBody().getSubject();
+
+            // 새로운 액세스 토큰 생성
+            return createAccessToken(userPk);
+
+        } catch (Exception e) {
+            throw new RuntimeException("리프레시 토큰을 사용하여 액세스 토큰을 갱신하는 도중 오류가 발생했습니다.", e);
+        }
+    }
 }

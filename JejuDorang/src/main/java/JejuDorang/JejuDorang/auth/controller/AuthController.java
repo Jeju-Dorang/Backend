@@ -40,7 +40,7 @@ public class AuthController {
         String refreshToken = jwtTokenProvider.createRefreshToken(keyCode);
 
         // JWT 토큰 헤더에 담아 전달
-        response.setHeader("Authorization", "Bearer " + jwtToken);
+        response.setHeader("Access-Token", jwtToken);
         response.setHeader("Refresh-Token", refreshToken);
 
         return new ResponseEntity(HttpStatus.OK);
