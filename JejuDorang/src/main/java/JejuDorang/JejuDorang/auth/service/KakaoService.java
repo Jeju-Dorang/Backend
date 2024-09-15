@@ -22,11 +22,8 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class KakaoService {
 
-    @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
-    private String client_id;
-
-    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
-    private String redirect_uri;
+    @Autowired
+    private final KakaoConfig kakaoConfig;
 
     public KakaoAccessTokenDto getAccessToken(String code) {
         // httpHeader 오브젝트 생성
@@ -36,8 +33,8 @@ public class KakaoService {
         // httpBody 오브젝트 생성
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
-        params.add("client_id", client_id);
-        params.add("redirect_uri", redirect_uri);
+        params.add("client_id", kakaoConfig.getClientId());
+        params.add("redirect_uri", kakaoConfig.getRedirectUri());
         params.add("code", code);
 
         // httpHeader + httpBody
