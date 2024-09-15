@@ -33,11 +33,11 @@ public class JwtTokenProvider {
         return Base64.getEncoder().encodeToString(keyBytes);
     }
 
-    // 토큰 생성 (암호화)
-    public String createToken(String userPk) {
+    // AccessToken 생성 (암호화)
+    public String createAccessToken(String userPk) {
         Claims claims = Jwts.claims().setSubject(userPk);
         Date now = new Date();
-        long validityInMilliseconds = 3 * 24 * 60 * 60 * 1000L; // 3일
+        long validityInMilliseconds = 30 * 60 * 1000L; // 30분
 
         return Jwts.builder()
             .setClaims(claims)
@@ -45,6 +45,20 @@ public class JwtTokenProvider {
             .setExpiration(new Date(now.getTime() + validityInMilliseconds))
             .signWith(SignatureAlgorithm.HS256, secretKey) // 비밀 키와 서명 알고리즘 사용
             .compact();
+    }
+
+    // RefreshToken 생성
+    public String createRefreshToken(String userPk) {
+        Claims claims = Jwts.claims().setSubject(userPk);
+        Date now = new Date();
+        long validityInMilliseconds = 7 * 24 * 60 * 60 * 1000L; // 일주일
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + validityInMilliseconds))
+                .signWith(SignatureAlgorithm.HS256, secretKey) // 비밀 키와 서명 알고리즘 사용
+                .compact();
     }
 
     // Request의 Header에서 token 값 가져오기

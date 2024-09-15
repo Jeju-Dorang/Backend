@@ -36,10 +36,12 @@ public class AuthController {
         String keyCode = memberService.saveMemberByKeyCode(kakaoUserInfo);
 
         // JWT 토큰 생성
-        String jwtToken = jwtTokenProvider.createToken(keyCode);
+        String jwtToken = jwtTokenProvider.createAccessToken(keyCode);
+        String refreshToken = jwtTokenProvider.createRefreshToken(keyCode);
 
         // JWT 토큰 헤더에 담아 전달
         response.setHeader("Authorization", "Bearer " + jwtToken);
+        response.setHeader("Refresh-Token", refreshToken);
 
         return new ResponseEntity(HttpStatus.OK);
     }
