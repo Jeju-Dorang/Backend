@@ -46,7 +46,7 @@ public class MemberControllerTest extends BaseIntegrationTest {
 			String keyCode = "mockKeyCode";
 			// given
 			mockMember = testDataUtils.saveKeyCodeMember(keyCode);
-			jwtToken = jwtTokenProvider.createToken(keyCode);
+			jwtToken = jwtTokenProvider.createAccessToken(keyCode);
 		}
 
 		@Test
