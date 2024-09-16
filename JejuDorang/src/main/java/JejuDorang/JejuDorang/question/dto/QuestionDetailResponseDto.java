@@ -20,6 +20,8 @@ public class QuestionDetailResponseDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Comment {
+
+        private Long commentId;
         private String commenter;
         private String commenterImage;
         private String commentContent;
