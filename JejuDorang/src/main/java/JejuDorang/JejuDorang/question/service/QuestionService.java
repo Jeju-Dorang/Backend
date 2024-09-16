@@ -58,6 +58,7 @@ public class QuestionService {
 
         for(Comment comment : question.getCommentList()) {
             comments.add(new QuestionDetailResponseDto.Comment(
+                    comment.getId(),
                     comment.getMember().getName(),
                     comment.getMember().getImage(),
                     comment.getContent(),
