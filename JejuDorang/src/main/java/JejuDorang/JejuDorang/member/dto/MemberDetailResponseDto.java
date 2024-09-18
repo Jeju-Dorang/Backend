@@ -29,7 +29,7 @@ public class MemberDetailResponseDto {
 		this.email = member.getEmail();
 		this.memberComment = member.getContent();
 		this.profileImage = member.getImage();
-		this.lodgingAddress = member.getHomeAddress();
+		this.lodgingAddress = member.getHome().getAddress();
 	}
 
 }
