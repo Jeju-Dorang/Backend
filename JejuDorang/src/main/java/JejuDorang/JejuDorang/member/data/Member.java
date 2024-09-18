@@ -5,13 +5,28 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import JejuDorang.JejuDorang.diary.data.Diary;
-import JejuDorang.JejuDorang.streak.data.Streak;
-import jakarta.persistence.*;
-import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import JejuDorang.JejuDorang.diary.data.Diary;
+import JejuDorang.JejuDorang.lodging.data.Lodging;
+import JejuDorang.JejuDorang.streak.data.Streak;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,9 +42,11 @@ public class Member implements UserDetails {
 
 	private String content;
 
-	private String homeAddress;
-
 	private String image;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "lodging_id")
+	private Lodging home;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
 	private List<Streak> streaks = new ArrayList<>();
@@ -98,7 +115,6 @@ public class Member implements UserDetails {
 			", name='" + name + '\'' +
 			", email='" + email + '\'' +
 			", content='" + content + '\'' +
-			", homeAddress='" + homeAddress + '\'' +
 			'}';
 	}
 
