@@ -45,9 +45,6 @@ public class JwtAuthFilter extends GenericFilterBean {
                     httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "리프레시 토큰이 유효하지 않습니다.");
                     return;
                 }
-            } else {
-                httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "리프레시 토큰이 필요합니다.");
-                return;
             }
         }
 
