@@ -23,7 +23,6 @@ public class JwtAuthFilter extends GenericFilterBean {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-        // 클라이언트의 API 요청 헤더에서 토큰 추출
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
 
         // 유효성 검사 후 SecurityContext에 저장
