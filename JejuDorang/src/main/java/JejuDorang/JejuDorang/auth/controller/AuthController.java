@@ -8,6 +8,7 @@ import JejuDorang.JejuDorang.component.JwtTokenProvider;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.data.MemberAchievement;
 import JejuDorang.JejuDorang.member.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -40,9 +41,19 @@ public class AuthController {
         String refreshToken = jwtTokenProvider.createRefreshToken(keyCode);
 
         // JWT 토큰 헤더에 담아 전달
-        response.setHeader("Access-Token", jwtToken);
-        response.setHeader("Refresh-Token", refreshToken);
+        response.setHeader("access-Token", jwtToken);
+        response.setHeader("refresh-Token", refreshToken);
 
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    // accessToken 재발급
+    @GetMapping("/token/refresh")
+    public ResponseEntity refreshToken(HttpServletRequest request, HttpServletResponse response) {
+
+        String token = request.getHeader("refreshToken");
+        String newToken = jwtTokenProvider.refreshAccessToken(token);
+        response.setHeader("access-Token", newToken);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
