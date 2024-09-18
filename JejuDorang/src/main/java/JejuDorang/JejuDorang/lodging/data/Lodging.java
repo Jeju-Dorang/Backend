@@ -31,5 +31,9 @@ public class Lodging {
 
 	private double rating;
 
+	private String latitude; // 위도
+
+	private String longitude; // 경도
+
 	private LodgingCategory category;
 }

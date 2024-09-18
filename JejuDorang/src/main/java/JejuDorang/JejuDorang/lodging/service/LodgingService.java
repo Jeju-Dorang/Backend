@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import JejuDorang.JejuDorang.crawling.service.CrawlingService;
 import JejuDorang.JejuDorang.lodging.data.Lodging;
+import JejuDorang.JejuDorang.lodging.dto.KaKaoCrawlingDto;
 import JejuDorang.JejuDorang.lodging.repository.LodgingRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -63,17 +64,24 @@ public class LodgingService {
 	private void saveToDatabase(List<Map<String, Object>> items) {
 		// 실제 DB 저장 로직 구현
 		for (Map<String, Object> item : items) {
-			String title = (String) item.get("title");
-			crawlingService.searchKaKaoMap(title);
+			String title = removeBrackets((String) item.get("title"));
+			KaKaoCrawlingDto kaKaoCrawlingDto = crawlingService.searchKaKaoMap(title);
+			System.out.println("숙박 정보 : " + kaKaoCrawlingDto);
 			Lodging entity = Lodging.builder()
 				.address((String) item.get("addr1"))
 				.name(title)
 				.comment("")
 				.image((String) item.get("firstimage"))
-				.rating(0)
-				.category(null)
+				.latitude((String) item.get("mapy"))
+				.longitude((String) item.get("mapx"))
+				.rating(kaKaoCrawlingDto.getRating())
+				.category(kaKaoCrawlingDto.getCategory())
 				.build();
 			lodgingRepository.save(entity);
 		}
+	}
+
+	private String removeBrackets(String input) {
+		return input.replaceAll("\\(.*?\\)|\\[.*?]", "").trim();
 	}
 }
