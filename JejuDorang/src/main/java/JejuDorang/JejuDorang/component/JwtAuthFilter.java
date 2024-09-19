@@ -20,31 +20,14 @@ public class JwtAuthFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
+        // accessToken 추출
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
 
         // 유효성 검사 후 SecurityContext에 저장
         if (token != null && jwtTokenProvider.validateToken(token)) {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } else {
-            // accessToken 만료된 경우
-            String refreshToken = httpServletRequest.getHeader("Refresh-Token");
-            if (refreshToken != null) {
-                try {
-                    String newAccessToken = jwtTokenProvider.refreshAccessToken(refreshToken);
-                    httpServletResponse.setHeader("New-Access-Token", newAccessToken);
-
-                    Authentication authentication = jwtTokenProvider.getAuthentication(newAccessToken);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-                } catch (Exception e) {
-                    httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "리프레시 토큰이 유효하지 않습니다.");
-                    return;
-                }
-            }
         }
 
         // 다음 필터링
