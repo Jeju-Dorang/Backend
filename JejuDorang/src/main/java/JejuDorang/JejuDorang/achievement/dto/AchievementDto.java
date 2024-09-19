@@ -1,5 +1,6 @@
 package JejuDorang.JejuDorang.achievement.dto;
 
+
 import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
