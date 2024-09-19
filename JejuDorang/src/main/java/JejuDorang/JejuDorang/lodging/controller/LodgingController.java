@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import JejuDorang.JejuDorang.auth.argumentresolver.Login;
@@ -32,11 +33,17 @@ public class LodgingController {
 
 	@GetMapping("/recommendations")
 	public ResponseEntity<List<LodgingRecommendResponseDto>> getRecommendations(@Login Member member,
-		@PathVariable("direction") LodgingDirection direction,
-		@PathVariable("type") LodgingCategory category,
-		@PathVariable("price") long price) {
+		@RequestParam("direction") LodgingDirection direction,
+		@RequestParam("type") LodgingCategory category,
+		@RequestParam("price") long price) {
 
 		List<LodgingRecommendResponseDto> lodgingRecommendResponseDtoList = lodgingService.getRecommendations(member, direction, category, price);
 		return ResponseEntity.ok(lodgingRecommendResponseDtoList);
+	}
+
+	@PostMapping("/{lodgingId}")
+	public ResponseEntity<Void> selectLodging(@Login Member member, @PathVariable("lodgingId") long lodgingId) {
+		lodgingService.selectLodging(member, lodgingId);
+		return ResponseEntity.ok().build();
 	}
 }

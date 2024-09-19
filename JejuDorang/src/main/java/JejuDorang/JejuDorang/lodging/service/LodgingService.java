@@ -3,6 +3,7 @@ package JejuDorang.JejuDorang.lodging.service;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -79,6 +80,7 @@ public class LodgingService {
 				.latitude(Double.parseDouble((String) item.get("mapy")))
 				.longitude(Double.parseDouble((String) item.get("mapx")))
 				.rating(kaKaoCrawlingDto.getRating())
+				.direction(LodgingDirection.NORTH)
 				.category(kaKaoCrawlingDto.getCategory())
 				.price(0L)
 				.build();
@@ -90,8 +92,19 @@ public class LodgingService {
 		return input.replaceAll("\\(.*?\\)|\\[.*?]", "").trim();
 	}
 
+	@Transactional(readOnly = true)
 	public List<LodgingRecommendResponseDto> getRecommendations(Member member, LodgingDirection direction, LodgingCategory category, long price) {
 
 		return lodgingRepository.findByDirectionAndCategoryAndPrice(member, direction, category, price);
+	}
+
+	@Transactional
+	public void selectLodging(Member member, long lodgingId) {
+		Optional<Lodging> lodging = lodgingRepository.findById(lodgingId);
+		if (lodging.isPresent()) {
+			member.selectLodging(lodging.get());
+		} else {
+			throw new IllegalArgumentException("해당 숙소가 존재하지 않습니다.");
+		}
 	}
 }
