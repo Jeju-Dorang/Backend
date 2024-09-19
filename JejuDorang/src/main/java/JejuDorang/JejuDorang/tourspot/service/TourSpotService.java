@@ -1,5 +1,13 @@
 package JejuDorang.JejuDorang.tourspot.service;
 
+import JejuDorang.JejuDorang.achievement.data.Achievement;
+import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
+import JejuDorang.JejuDorang.achievement.dto.AchievementResponseDto;
+import JejuDorang.JejuDorang.achievement.repository.AchievementRepository;
+import JejuDorang.JejuDorang.member.data.Member;
+import JejuDorang.JejuDorang.member.data.MemberAchievement;
+import JejuDorang.JejuDorang.member.enums.AchievementStatus;
+import JejuDorang.JejuDorang.member.repository.MemberAchievementRepository;
 import JejuDorang.JejuDorang.tourspot.dto.TourSpotResponseDto;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,11 +18,15 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class TourSpotService {
+
+    private final MemberAchievementRepository memberAchievementRepository;
 
     public List<TourSpotResponseDto> getTourSpot(String requestUrl) {
 
@@ -49,5 +61,43 @@ public class TourSpotService {
         }
 
         return tourSpotResponseDtos;
+    }
+
+    // 도랑이 추천
+    public List<AchievementResponseDto> getAchievementRecommend(Member member) {
+
+        List<AchievementResponseDto> achievementResponseDtos = new ArrayList<>();
+
+        // 아직 달성 안한 업적 가져오기
+        List<MemberAchievement> memberAchievements
+                = memberAchievementRepository.findByMemberAndAchievementStatus(member, AchievementStatus.NOT_ACHIEVED);
+
+        // 리스트 섞기
+        Collections.shuffle(memberAchievements);
+
+        // 리스트에서 최대 5개의 요소를 반환
+        List<MemberAchievement> randomAchievement = memberAchievements
+                .stream()
+                .limit(5)
+                .collect(Collectors.toList());
+
+        // DTO에 담아서 반환
+        randomAchievement.forEach(memberAchievement -> {
+            Achievement achievement = memberAchievement.getAchievement();
+
+            // AchievementDto 생성
+            AchievementDto achievementDto = new AchievementDto(
+                    achievement.getImage(),
+                    achievement.getName(),
+                    achievement.getContent(),
+                    achievement.getMaxAchieve(),
+                    memberAchievement.getAchievementCnt(),
+                    memberAchievement.getAchievementStatus()
+            );
+
+            achievementResponseDtos.add(new AchievementResponseDto(achievementDto));
+        });
+
+        return achievementResponseDtos;
     }
 }
