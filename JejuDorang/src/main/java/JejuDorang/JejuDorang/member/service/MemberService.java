@@ -58,6 +58,7 @@ public class MemberService {
             MemberAchievement memberAchievement = MemberAchievement.builder()
                     .member(member)
                     .achievement(achievement)
+                    .achievementStatus(AchievementStatus.YET)
                     .achievementCnt(0)
                     .build();
             memberAchievementRepository.save(memberAchievement);
