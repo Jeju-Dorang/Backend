@@ -3,10 +3,9 @@ package JejuDorang.JejuDorang.tourspot.service;
 import JejuDorang.JejuDorang.achievement.data.Achievement;
 import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
 import JejuDorang.JejuDorang.achievement.dto.AchievementResponseDto;
-import JejuDorang.JejuDorang.achievement.repository.AchievementRepository;
+import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.data.MemberAchievement;
-import JejuDorang.JejuDorang.member.enums.AchievementStatus;
 import JejuDorang.JejuDorang.member.repository.MemberAchievementRepository;
 import JejuDorang.JejuDorang.tourspot.dto.TourSpotResponseDto;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -70,7 +69,7 @@ public class TourSpotService {
 
         // 아직 달성 안한 업적 가져오기
         List<MemberAchievement> memberAchievements
-                = memberAchievementRepository.findByMemberAndAchievementStatus(member, AchievementStatus.NOT_ACHIEVED);
+                = memberAchievementRepository.findByMemberAndAchievementStatus(member, AchievementStatus.YET);
 
         // 리스트 섞기
         Collections.shuffle(memberAchievements);
