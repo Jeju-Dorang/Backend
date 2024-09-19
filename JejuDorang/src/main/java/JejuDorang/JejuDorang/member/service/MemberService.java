@@ -17,8 +17,10 @@ import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import JejuDorang.JejuDorang.error.exception.NotFoundException;
 import JejuDorang.JejuDorang.member.data.Member;
+import JejuDorang.JejuDorang.member.data.MemberAchievement;
 import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
 import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
+import JejuDorang.JejuDorang.member.repository.MemberAchievementRepository;
 import JejuDorang.JejuDorang.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final DiaryRepository diaryRepository;
     private final AchievementRepository achievementRepository;
+    private final MemberAchievementRepository memberAchievementRepository;
 
     public String saveMemberByKeyCode(KakaoUserInfoDto kakaoUserInfoDto) {
         String keyCode = kakaoUserInfoDto.getId().toString();
@@ -45,7 +48,20 @@ public class MemberService {
             .keyCode(keyCode)
             .name(name)
             .build();
+
         memberRepository.save(member);
+
+        // 회원가입 하면 업적 memberAchievement에 다 넣어줌
+        List<Achievement> achievements = achievementRepository.findAll();
+
+        for(Achievement achievement : achievements) {
+            MemberAchievement memberAchievement = MemberAchievement.builder()
+                    .member(member)
+                    .achievement(achievement)
+                    .achievementCnt(0)
+                    .build();
+            memberAchievementRepository.save(memberAchievement);
+        }
 
         return keyCode;
     }
