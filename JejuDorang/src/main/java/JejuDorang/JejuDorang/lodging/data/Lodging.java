@@ -1,6 +1,7 @@
 package JejuDorang.JejuDorang.lodging.data;
 
 import JejuDorang.JejuDorang.lodging.enums.LodgingCategory;
+import JejuDorang.JejuDorang.lodging.enums.LodgingDirection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,9 +32,13 @@ public class Lodging {
 
 	private double rating;
 
-	private String latitude; // 위도
+	private double latitude; // 위도
 
-	private String longitude; // 경도
+	private double longitude; // 경도
+
+	private Long price;
+
+	private LodgingDirection direction;
 
 	private LodgingCategory category;
 }

@@ -12,7 +12,11 @@ import org.springframework.web.client.RestTemplate;
 import JejuDorang.JejuDorang.crawling.service.CrawlingService;
 import JejuDorang.JejuDorang.lodging.data.Lodging;
 import JejuDorang.JejuDorang.lodging.dto.KaKaoCrawlingDto;
+import JejuDorang.JejuDorang.lodging.dto.LodgingRecommendResponseDto;
+import JejuDorang.JejuDorang.lodging.enums.LodgingCategory;
+import JejuDorang.JejuDorang.lodging.enums.LodgingDirection;
 import JejuDorang.JejuDorang.lodging.repository.LodgingRepository;
+import JejuDorang.JejuDorang.member.data.Member;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -72,10 +76,11 @@ public class LodgingService {
 				.name(title)
 				.comment("")
 				.image((String) item.get("firstimage"))
-				.latitude((String) item.get("mapy"))
-				.longitude((String) item.get("mapx"))
+				.latitude(Double.parseDouble((String) item.get("mapy")))
+				.longitude(Double.parseDouble((String) item.get("mapx")))
 				.rating(kaKaoCrawlingDto.getRating())
 				.category(kaKaoCrawlingDto.getCategory())
+				.price(0L)
 				.build();
 			lodgingRepository.save(entity);
 		}
@@ -83,5 +88,10 @@ public class LodgingService {
 
 	private String removeBrackets(String input) {
 		return input.replaceAll("\\(.*?\\)|\\[.*?]", "").trim();
+	}
+
+	public List<LodgingRecommendResponseDto> getRecommendations(Member member, LodgingDirection direction, LodgingCategory category, long price) {
+
+		return lodgingRepository.findByDirectionAndCategoryAndPrice(member, direction, category, price);
 	}
 }
