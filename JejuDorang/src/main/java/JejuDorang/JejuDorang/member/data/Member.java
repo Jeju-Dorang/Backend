@@ -125,4 +125,8 @@ public class Member implements UserDetails {
 	public void updateEmail(String memberEmail) {
 		this.email = memberEmail;
 	}
+
+	public void selectLodging(Lodging lodging) {
+		this.home = lodging;
+	}
 }
