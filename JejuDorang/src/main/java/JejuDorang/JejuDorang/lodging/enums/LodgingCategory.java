@@ -1,19 +1,18 @@
 package JejuDorang.JejuDorang.lodging.enums;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public enum LodgingCategory {
-	HOTEL("호텔"),
-	GUEST_HOUSE("게스트하우스"),
-	PENSION("펜션"),
-	BB("민박");
+	HOTEL("hotel","호텔"),
+	GUEST_HOUSE("guestHouse", "게스트하우스"),
+	PENSION("pension", "펜션"),
+	BB("lodge", "민박");
 
+	private final String englishName;
 	private final String koreanName;
-
-	LodgingCategory(String koreanName) {
-		this.koreanName = koreanName;
-	}
 
 	public static LodgingCategory valueOfCategory(String category) {
 		if (category.contains("호텔") || category.contains("리조트") || category.contains("호스텔") || category.contains("모텔") || category.contains("콘도")) {
