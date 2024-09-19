@@ -30,7 +30,7 @@ public class TourSpotController {
     @Autowired
     private TourSpotConfig tourSpotConfig;
 
-    @GetMapping("/recommendation")
+    @PostMapping("/recommendation")
     public ResponseEntity<List<TourSpotResponseDto>> tourSpotRecommend
             (@RequestBody TourSpotRequestDto tourSpotRequestDto) {
 
