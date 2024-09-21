@@ -1,5 +1,6 @@
 package JejuDorang.JejuDorang.auth.controller;
 
+import JejuDorang.JejuDorang.auth.argumentresolver.Login;
 import JejuDorang.JejuDorang.auth.dto.KakaoAccessTokenDto;
 import JejuDorang.JejuDorang.auth.dto.KakaoConfig;
 import JejuDorang.JejuDorang.auth.dto.KakaoUserInfoDto;
@@ -55,6 +56,15 @@ public class AuthController {
         String token = request.getHeader("refreshToken");
         String newToken = jwtTokenProvider.refreshAccessToken(token);
         response.setHeader("access-Token", newToken);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    // 회원탈퇴
+    @GetMapping("/kakao/leave")
+    public ResponseEntity kakaoLeave(HttpServletRequest request) {
+
+        String token = request.getHeader("accessToken");
+        kakaoService.leave(token);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
