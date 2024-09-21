@@ -7,6 +7,7 @@ import JejuDorang.JejuDorang.question.data.Question;
 import JejuDorang.JejuDorang.question.dto.QuestionDetailResponseDto;
 import JejuDorang.JejuDorang.question.dto.QuestionInputRequestDto;
 import JejuDorang.JejuDorang.question.dto.QuestionResponseDto;
+import JejuDorang.JejuDorang.question.dto.QuestionSearchResponseDto;
 import JejuDorang.JejuDorang.question.repository.QuestionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -72,6 +73,23 @@ public class QuestionService {
                 question.getMember().getName(),
                 comments
         );
+        return response;
+    }
+
+    // keyword 기반으로 질문글 검색
+    public List<QuestionSearchResponseDto> searchQuestion(String keyword) {
+
+        List<Question> questions = questionRepository.searchByKeyword(keyword);
+
+        List<QuestionSearchResponseDto> response = new ArrayList<>();
+        for(Question question : questions) {
+            response.add(new QuestionSearchResponseDto(
+                    question.getId(),
+                    question.getTitle(),
+                    question.getContent()
+            ));
+        }
+
         return response;
     }
 }
