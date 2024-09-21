@@ -1,6 +1,7 @@
 package JejuDorang.JejuDorang.tourspot.controller;
 
 import JejuDorang.JejuDorang.achievement.data.Achievement;
+import JejuDorang.JejuDorang.achievement.dto.AchievementNotachieveResponseDto;
 import JejuDorang.JejuDorang.achievement.dto.AchievementResponseDto;
 import JejuDorang.JejuDorang.auth.argumentresolver.Login;
 import JejuDorang.JejuDorang.member.data.Member;
@@ -48,11 +49,11 @@ public class TourSpotController {
     }
 
     @GetMapping("/dorangRecommend")
-    public ResponseEntity<List<AchievementResponseDto>> getAchievementRecommend(@Login Member member) {
+    public ResponseEntity<List<AchievementNotachieveResponseDto>> getAchievementRecommend(@Login Member member) {
 
         // memberAchievement에서 memberid에 해당하는 Achievement 다 가지고 옴
         // 아직 달성하지 않은 Achievement 중 랜덤으로 5개 뽑아서 반환
-        List<AchievementResponseDto> achievementResponseDtos = tourSpotService.getAchievementRecommend(member);
-        return ResponseEntity.ok(achievementResponseDtos);
+        List<AchievementNotachieveResponseDto> response = tourSpotService.getAchievementRecommend(member);
+        return ResponseEntity.ok(response);
     }
 }
