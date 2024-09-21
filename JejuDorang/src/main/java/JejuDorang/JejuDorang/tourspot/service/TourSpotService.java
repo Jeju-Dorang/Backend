@@ -2,7 +2,6 @@ package JejuDorang.JejuDorang.tourspot.service;
 
 import JejuDorang.JejuDorang.achievement.data.Achievement;
 import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
-import JejuDorang.JejuDorang.achievement.dto.AchievementResponseDto;
 import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.data.MemberAchievement;
@@ -63,9 +62,9 @@ public class TourSpotService {
     }
 
     // 도랑이 추천
-    public List<AchievementResponseDto> getAchievementRecommend(Member member) {
+    public List<AchievementDto> getAchievementRecommend(Member member) {
 
-        List<AchievementResponseDto> achievementResponseDtos = new ArrayList<>();
+        List<AchievementDto> response = new ArrayList<>();
 
         // 아직 달성 안한 업적 가져오기
         List<MemberAchievement> memberAchievements
@@ -91,12 +90,10 @@ public class TourSpotService {
                     achievement.getContent(),
                     achievement.getMaxAchieve(),
                     memberAchievement.getAchievementCnt(),
-                    memberAchievement.getAchievementStatus()
+                    AchievementStatus.YET
             );
-
-            achievementResponseDtos.add(new AchievementResponseDto(achievementDto));
+            response.add(achievementDto);
         });
-
-        return achievementResponseDtos;
+        return response;
     }
 }
