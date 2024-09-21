@@ -84,7 +84,7 @@ public class TourSpotService {
             Achievement achievement = memberAchievement.getAchievement();
 
             // AchievementDto 생성
-            AchievementDto achievementNotachieveResponseDto = new AchievementDto(
+            AchievementDto achievementDto = new AchievementDto(
                     achievement.getImage(),
                     achievement.getName(),
                     achievement.getContent(),
@@ -92,6 +92,7 @@ public class TourSpotService {
                     memberAchievement.getAchievementCnt(),
                     AchievementStatus.YET
             );
+            response.add(achievementDto);
         });
         return response;
     }
