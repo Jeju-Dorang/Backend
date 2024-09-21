@@ -95,4 +95,25 @@ public class KakaoService {
 
         return (kakaoProfile);
     }
+
+    // 회원탈퇴
+    public void leave(String token) {
+        // httpHeader 오브젝트 생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + token);
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        // httpEntity에 header 담아주기
+        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest
+                = new HttpEntity<>(headers);
+
+        // POST 방식으로 HTTP 요청을 하고 response에 응답 받음
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(
+                "https://kapi.kakao.com/v1/user/unlink",
+                HttpMethod.POST,
+                kakaoProfileRequest,
+                String.class
+        );
+    }
 }
