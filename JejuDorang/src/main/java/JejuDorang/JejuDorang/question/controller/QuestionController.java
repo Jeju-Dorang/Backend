@@ -6,6 +6,7 @@ import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.question.dto.QuestionDetailResponseDto;
 import JejuDorang.JejuDorang.question.dto.QuestionInputRequestDto;
 import JejuDorang.JejuDorang.question.dto.QuestionResponseDto;
+import JejuDorang.JejuDorang.question.dto.QuestionSearchResponseDto;
 import JejuDorang.JejuDorang.question.service.QuestionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,5 +43,12 @@ public class QuestionController {
         QuestionDetailResponseDto questionDetailResponseDto
             = questionService.getQuestionDetail(questionPostId, member);
         return ResponseEntity.ok(questionDetailResponseDto);
+    }
+
+    @GetMapping("/search/questions")
+    public ResponseEntity<List<QuestionSearchResponseDto>> searchQuestion(@RequestParam String keyword) {
+
+        List<QuestionSearchResponseDto> questionSearchResponseDtos = questionService.searchQuestion(keyword);
+        return ResponseEntity.ok(questionSearchResponseDtos);
     }
 }
