@@ -1,5 +1,8 @@
 package JejuDorang.JejuDorang.diary.service;
 
+import JejuDorang.JejuDorang.achievement.data.Achievement;
+import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
+import JejuDorang.JejuDorang.achievement.repository.AchievementRepository;
 import JejuDorang.JejuDorang.diary.data.Diary;
 import JejuDorang.JejuDorang.diary.dto.DiaryDetailResponseDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryPublicResponseDto;
@@ -8,6 +11,8 @@ import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import JejuDorang.JejuDorang.like.service.LikeService;
 import JejuDorang.JejuDorang.member.data.Member;
+import JejuDorang.JejuDorang.member.data.MemberAchievement;
+import JejuDorang.JejuDorang.member.repository.MemberAchievementRepository;
 import JejuDorang.JejuDorang.streak.service.StreakService;
 import JejuDorang.JejuDorang.tag.data.DiaryTag;
 import JejuDorang.JejuDorang.tag.data.Tag;
@@ -35,9 +40,31 @@ public class DiaryService {
     private final DiaryRepository diaryRepository;
     private final DiaryTagRepository diaryTagRepository;
     private final ViewRepository viewRepository;
+    private final MemberAchievementRepository memberAchievementRepository;
+    private final AchievementRepository achievementRepository;
 
     // 일기 작성
     public void createDiary(DiaryRequestDto diaryRequestDto, Member member) {
+
+        // isAchievement 확인
+        Boolean isAchievement = diaryRequestDto.getIsAchievement();
+        if (isAchievement == true) {
+            Long achievementId = diaryRequestDto.getAchievementId();
+            Achievement achievement = achievementRepository.findById(achievementId)
+                    .orElseThrow(()->new IllegalArgumentException("존재하지 않는 업적" ));
+            MemberAchievement memberAchievement = memberAchievementRepository.findByMemberAndAchievement(member, achievement);
+
+            // 달성률 확인
+            long achievementCnt = memberAchievement.getAchievementCnt();
+            Long max = achievement.getMaxAchieve();
+            if (achievementCnt < max) {
+                memberAchievement.incAchievementCnt();
+            }
+            if (achievementCnt == max) {
+                memberAchievement.updateAchievementStatus();
+            }
+            memberAchievementRepository.save(memberAchievement);
+        }
 
         // 일기 DB에 저장
         Diary diary = Diary.builder()
