@@ -32,4 +32,12 @@ public class MemberAchievement {
 	private AchievementStatus achievementStatus;
 
 	private long achievementCnt;
+
+	public void incAchievementCnt() {
+		this.achievementCnt++;
+	}
+
+	public void updateAchievementStatus() {
+		this.achievementStatus = AchievementStatus.DONE;
+	}
 }
