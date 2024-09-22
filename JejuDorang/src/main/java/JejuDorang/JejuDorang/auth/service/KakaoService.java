@@ -3,6 +3,8 @@ package JejuDorang.JejuDorang.auth.service;
 import JejuDorang.JejuDorang.auth.dto.KakaoAccessTokenDto;
 import JejuDorang.JejuDorang.auth.dto.KakaoConfig;
 import JejuDorang.JejuDorang.auth.dto.KakaoUserInfoDto;
+import JejuDorang.JejuDorang.member.data.Member;
+import JejuDorang.JejuDorang.member.repository.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,6 +26,8 @@ public class KakaoService {
 
     @Autowired
     private final KakaoConfig kakaoConfig;
+
+    private final MemberRepository memberRepository;
 
     public KakaoAccessTokenDto getAccessToken(String code) {
         // httpHeader 오브젝트 생성
@@ -97,23 +101,12 @@ public class KakaoService {
     }
 
     // 회원탈퇴
-    public void leave(String token) {
-        // httpHeader 오브젝트 생성
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + token);
-        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+    public void leave(Member member) {
 
-        // httpEntity에 header 담아주기
-        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest
-                = new HttpEntity<>(headers);
+        Member findMember = memberRepository.findById(member.getId())
+                .orElseThrow(()->new IllegalArgumentException("존재하지 유저입니다"));
 
-        // POST 방식으로 HTTP 요청을 하고 response에 응답 받음
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(
-                "https://kapi.kakao.com/v1/user/unlink",
-                HttpMethod.POST,
-                kakaoProfileRequest,
-                String.class
-        );
+        // db에서 member 삭제
+        memberRepository.delete(findMember);
     }
 }
