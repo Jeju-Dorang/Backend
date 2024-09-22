@@ -60,11 +60,10 @@ public class AuthController {
     }
 
     // 회원탈퇴
-    @GetMapping("/kakao/leave")
-    public ResponseEntity kakaoLeave(HttpServletRequest request) {
+    @GetMapping("/kakao/unlink")
+    public ResponseEntity kakaoLeave(@Login Member member) {
 
-        String token = request.getHeader("accessToken");
-        kakaoService.leave(token);
+        kakaoService.leave(member);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
