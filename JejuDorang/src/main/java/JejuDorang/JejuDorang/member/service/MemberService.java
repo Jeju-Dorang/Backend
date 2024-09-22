@@ -10,12 +10,20 @@ import JejuDorang.JejuDorang.achievement.dto.AchievementListDto;
 import JejuDorang.JejuDorang.achievement.dto.AchievementResponseDto;
 import JejuDorang.JejuDorang.achievement.repository.AchievementRepository;
 import JejuDorang.JejuDorang.auth.dto.KakaoUserInfoDto;
+import JejuDorang.JejuDorang.character.data.Character;
+import JejuDorang.JejuDorang.character.repository.CharacterRepository;
 import JejuDorang.JejuDorang.diary.dto.DiaryIdDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryListResponseDTO;
 import JejuDorang.JejuDorang.diary.dto.MyDiaryDetailResponseDto;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import JejuDorang.JejuDorang.error.exception.NotFoundException;
+import JejuDorang.JejuDorang.item.data.BackgroundItem;
+import JejuDorang.JejuDorang.item.data.PetItem;
+import JejuDorang.JejuDorang.item.data.StuffItem;
+import JejuDorang.JejuDorang.item.itemRepository.BackgroundItemRepository;
+import JejuDorang.JejuDorang.item.itemRepository.PetItemRepository;
+import JejuDorang.JejuDorang.item.itemRepository.StuffItemRepository;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.data.MemberAchievement;
 import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
@@ -34,6 +42,10 @@ public class MemberService {
     private final DiaryRepository diaryRepository;
     private final AchievementRepository achievementRepository;
     private final MemberAchievementRepository memberAchievementRepository;
+    private final CharacterRepository characterRepository;
+    private final BackgroundItemRepository backgroundItemRepository;
+    private final PetItemRepository petItemRepository;
+    private final StuffItemRepository stuffItemRepository;
 
     public String saveMemberByKeyCode(KakaoUserInfoDto kakaoUserInfoDto) {
         String keyCode = kakaoUserInfoDto.getId().toString();
@@ -62,6 +74,35 @@ public class MemberService {
                     .achievementCnt(0)
                     .build();
             memberAchievementRepository.save(memberAchievement);
+        }
+
+        // 회원가입 하면 캐릭터 생성
+        Character character = Character.builder()
+                .member(member)
+                .build();
+        characterRepository.save(character);
+
+        // 아이템 넣어주기 (배경:3, 펫:3, 소품: 7)
+        for(long i = 0; i < 3; i++) {
+            PetItem petItem = PetItem.builder()
+                    .character(character)
+                    .getItem(false)
+                    .build();
+            petItemRepository.save(petItem);
+        }
+        for(long i = 0; i < 3; i++) {
+            BackgroundItem backgroundItem = BackgroundItem.builder()
+                    .character(character)
+                    .getItem(false)
+                    .build();
+            backgroundItemRepository.save(backgroundItem);
+        }
+        for(long i = 0; i < 7; i++) {
+            StuffItem stuffItem = StuffItem.builder()
+                    .character(character)
+                    .getItem(false)
+                    .build();
+            stuffItemRepository.save(stuffItem);
         }
 
         return keyCode;
