@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import JejuDorang.JejuDorang.character.data.Character;
 import JejuDorang.JejuDorang.diary.data.Diary;
 import JejuDorang.JejuDorang.lodging.data.Lodging;
 import JejuDorang.JejuDorang.streak.data.Streak;
@@ -57,6 +58,9 @@ public class Member implements UserDetails {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE)
 	private List<MemberAchievement> memberAchievementList = new ArrayList<>();
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE)
+	private Character character;
 
 	@Builder
 	public Member(String keyCode, String name) {
@@ -129,5 +133,9 @@ public class Member implements UserDetails {
 
 	public void selectLodging(Lodging lodging) {
 		this.home = lodging;
+	}
+
+	public void setCharacter() {
+		this.character = new Character(0,0,0);
 	}
 }
