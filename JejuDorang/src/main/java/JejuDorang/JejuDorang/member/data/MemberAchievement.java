@@ -2,13 +2,7 @@ package JejuDorang.JejuDorang.member.data;
 
 import JejuDorang.JejuDorang.achievement.data.Achievement;
 import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -29,7 +23,16 @@ public class MemberAchievement {
 	@JoinColumn(name = "achievement_id")
 	private Achievement achievement;
 
+	@Enumerated(EnumType.STRING)
 	private AchievementStatus achievementStatus;
 
 	private long achievementCnt;
+
+	public void incAchievementCnt() {
+		this.achievementCnt++;
+	}
+
+	public void updateAchievementStatus() {
+		this.achievementStatus = AchievementStatus.DONE;
+	}
 }
