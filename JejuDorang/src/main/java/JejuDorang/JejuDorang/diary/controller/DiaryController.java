@@ -19,6 +19,9 @@ public class DiaryController {
 
     private final DiaryService diaryService;
 
+    // 일기 작성
+    // 1. isAchievement = true -> achievementId 확인해서 달성률 증가 + 일기 저장
+    // 2. isAchievement = false -> 일기 저장
     @PostMapping("/diary")
     public ResponseEntity<Void> createDiary(@RequestBody DiaryRequestDto diaryRequestDto, @Login Member member) {
 
