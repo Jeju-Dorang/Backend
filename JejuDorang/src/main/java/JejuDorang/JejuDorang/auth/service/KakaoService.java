@@ -3,6 +3,8 @@ package JejuDorang.JejuDorang.auth.service;
 import JejuDorang.JejuDorang.auth.dto.KakaoAccessTokenDto;
 import JejuDorang.JejuDorang.auth.dto.KakaoConfig;
 import JejuDorang.JejuDorang.auth.dto.KakaoUserInfoDto;
+import JejuDorang.JejuDorang.member.data.Member;
+import JejuDorang.JejuDorang.member.repository.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,6 +26,8 @@ public class KakaoService {
 
     @Autowired
     private final KakaoConfig kakaoConfig;
+
+    private final MemberRepository memberRepository;
 
     public KakaoAccessTokenDto getAccessToken(String code) {
         // httpHeader 오브젝트 생성
@@ -94,5 +98,15 @@ public class KakaoService {
         }
 
         return (kakaoProfile);
+    }
+
+    // 회원탈퇴
+    public void leave(Member member) {
+
+        Member findMember = memberRepository.findById(member.getId())
+                .orElseThrow(()->new IllegalArgumentException("존재하지 유저입니다"));
+
+        // db에서 member 삭제
+        memberRepository.delete(findMember);
     }
 }
