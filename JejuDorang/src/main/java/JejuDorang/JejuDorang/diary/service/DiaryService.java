@@ -60,7 +60,7 @@ public class DiaryService {
             if (achievementCnt < max) {
                 memberAchievement.incAchievementCnt();
             }
-            if (achievementCnt == max) {
+            if (memberAchievement.getAchievementCnt() == max) {
                 memberAchievement.updateAchievementStatus();
             }
             memberAchievementRepository.save(memberAchievement);
