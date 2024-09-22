@@ -34,6 +34,7 @@ public class LodgingService {
 		int totalCount = 0;
 
 		RestTemplate restTemplate = new RestTemplate();
+		crawlingService.initialize();
 		do {
 			URI uri = URI.create(
 				"https://apis.data.go.kr/B551011/KorService1/searchStay1?"
@@ -59,15 +60,12 @@ public class LodgingService {
 				}
 			}
 
-			// 다음 페이지로 이동
 			pageNo++;
-		} while ((pageNo - 1) * numOfRows < totalCount);  // 전체 데이터를 다 가져올 때까지 반복
-		// crawlingService.close();
+		} while ((pageNo - 1) * numOfRows < totalCount);
+		crawlingService.close();
 	}
 
-	// 데이터를 DB에 저장하는 가상의 메서드
 	private void saveToDatabase(List<Map<String, Object>> items) {
-		// 실제 DB 저장 로직 구현
 		for (Map<String, Object> item : items) {
 			String title = removeBrackets((String) item.get("title"));
 			KaKaoCrawlingDto kaKaoCrawlingDto = crawlingService.searchKaKaoMap(title);
