@@ -10,14 +10,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-    naming:
-      physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         globally_quoted_identifiers: true
-        show_sql: true
-        format_sql: true
+        show_sql: false
+        format_sql: false
         generate_statistics: true
     defer-datasource-initialization: true
   mvc:
@@ -33,3 +31,12 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
+
+logging.level:
+  org.hibernate.SQL: warn
+  org.springframework.web: debug
+  org.hibernate.stat: off
+
+driver:
+  chrome:
+    driver_path: /resources/chromeDriver/chromedriver
