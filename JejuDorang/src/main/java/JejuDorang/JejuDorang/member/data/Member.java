@@ -31,13 +31,13 @@ public class Member implements UserDetails {
 
 	private String image;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE)
 	private List<Streak> streaks = new ArrayList<>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE)
 	private List<Diary> diaryList = new ArrayList<>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE)
 	private List<MemberAchievement> memberAchievementList = new ArrayList<>();
 
 	@Builder
