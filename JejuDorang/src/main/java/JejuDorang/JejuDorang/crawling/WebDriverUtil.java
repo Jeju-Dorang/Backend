@@ -15,18 +15,15 @@ public class WebDriverUtil {
 
 	public static WebDriver getChromeDriver() {
 		if (ObjectUtils.isEmpty(System.getProperty("webdriver.chrome.driver"))) {
-			// 상대 경로로 chromedriver 설정
 			File chromeDriverFile = new File("/Users/sgo/Desktop/workspace/test/JejuDorang/src/main/resources/chromeDriver/chromedriver");
 			System.setProperty("webdriver.chrome.driver", chromeDriverFile.getAbsolutePath());
 		}
 
-		// WebDriver 옵션 설정
 		ChromeOptions chromeOptions = new ChromeOptions();
 		chromeOptions.addArguments("--lang=ko");
 		chromeOptions.addArguments("--no-sandbox");
 		chromeOptions.addArguments("--disable-dev-shm-usage");
 		chromeOptions.addArguments("--disable-gpu");
-		// chromeOptions.setCapability("ignoreProtectedModeSettings", true);
 
 		WebDriver driver = new ChromeDriver(chromeOptions);
 		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));

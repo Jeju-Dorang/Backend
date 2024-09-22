@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import JejuDorang.JejuDorang.crawling.WebDriverUtil;
 import JejuDorang.JejuDorang.lodging.dto.KaKaoCrawlingDto;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -21,7 +20,6 @@ public class CrawlingService {
 	private WebDriver driver;
 	private WebDriverWait wait;
 
-	@PostConstruct
 	public void initialize() {
 		driver = WebDriverUtil.getChromeDriver();
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -33,15 +31,12 @@ public class CrawlingService {
 		try {
 			driver.get("https://map.kakao.com/");
 
-			// 검색창 찾기 및 검색어 입력
 			WebElement searchArea = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"search.keyword.query\"]")));
 			searchArea.sendKeys(searchTerm);
 
-			// 검색 버튼 클릭
 			WebElement searchButton = driver.findElement(By.xpath("//*[@id=\"search.keyword.submit\"]"));
 			searchButton.click();
 
-			// 검색 결과가 로드될 때까지 대기
 			Thread.sleep(3000);
 
 			// // 장소 탭 클릭
@@ -49,7 +44,6 @@ public class CrawlingService {
 			// placeTab.click();
 			// Thread.sleep(2000);
 
-			// 검색 결과 리스트에서 첫 번째 아이템의 별점 가져오기
 			rating = getFirstPlaceRating();
 			category = getFirstPlaceCategory();
 		} catch (InterruptedException e) {
