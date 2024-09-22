@@ -29,7 +29,11 @@ public class MemberDetailResponseDto {
 		this.email = member.getEmail();
 		this.memberComment = member.getContent();
 		this.profileImage = member.getImage();
-		this.lodgingAddress = member.getHome().getAddress();
+		if (member.getHome() != null) {
+			this.lodgingAddress = member.getHome().getAddress();
+		} else {
+			this.lodgingAddress = ""; // 또는 기본값 설정 가능
+		}
 	}
 
 }
