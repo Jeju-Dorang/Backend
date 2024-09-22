@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import JejuDorang.JejuDorang.diary.data.Diary;
 import JejuDorang.JejuDorang.lodging.data.Lodging;
 import JejuDorang.JejuDorang.streak.data.Streak;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -48,13 +49,13 @@ public class Member implements UserDetails {
 	@JoinColumn(name = "lodging_id")
 	private Lodging home;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE)
 	private List<Streak> streaks = new ArrayList<>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE)
 	private List<Diary> diaryList = new ArrayList<>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE)
 	private List<MemberAchievement> memberAchievementList = new ArrayList<>();
 
 	@Builder
