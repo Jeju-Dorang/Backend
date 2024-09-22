@@ -35,9 +35,16 @@ public class LodgingCustomRepositoryImpl implements LodgingCustomRepository {
 				lodging.price.loe(price)
 			)
 			.fetch();
+		double memberLatitude;
+		double memberLongitude;
+		if (member.getHome() != null) {
+			memberLatitude = member.getHome().getLatitude();
+			memberLongitude = member.getHome().getLongitude();
+		} else {
+			memberLatitude = 0.0;
+			memberLongitude = 0.0;
+		}
 
-		double memberLatitude = member.getHome().getLatitude();
-		double memberLongitude = member.getHome().getLongitude();
 
 		return lodgings.stream()
 			.map(l -> new LodgingRecommendResponseDto(
