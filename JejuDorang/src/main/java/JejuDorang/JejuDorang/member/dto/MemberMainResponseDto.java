@@ -36,4 +36,14 @@ public class MemberMainResponseDto {
 		private String achievementIcon;
 		private String achievementName;
 	}
+
+	public MemberMainResponseDto(String memberName, String email, String memberComment, String memberImage,
+		CharacterImageDto characterImage, LodgingCoordinateDto lodging) {
+		this.memberName = memberName;
+		this.email = email;
+		this.memberComment = memberComment;
+		this.memberImage = memberImage;
+		this.characterImage = characterImage;
+		this.lodging = lodging;
+	}
 }

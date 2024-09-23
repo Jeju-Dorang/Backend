@@ -32,33 +32,9 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
 		QAchievement qAchievement = QAchievement.achievement;
 		QCharacter qCharacter = QCharacter.character;
 
-		// 회원 기본 정보, 숙소 좌표 및 캐릭터 이미지 정보
-		MemberMainResponseDto result = jpaQueryFactory
-			.select(Projections.bean(
-				MemberMainResponseDto.class,
-				qMember.name.as("memberName"),
-				qMember.email,
-				qMember.content.as("memberComment"),
-				qMember.image.as("memberImage"),
-				Projections.constructor(LodgingCoordinateDto.class,
-					qLodging.latitude.as("lat"),
-					qLodging.longitude.as("lng")
-				).as("lodging"),
-				Projections.constructor(CharacterImageDto.class,
-					qCharacter.backgroundImage,
-					qCharacter.itemImage,
-					qCharacter.petImage
-				).as("characterImage")
-			))
-			.from(qMember)
-			.leftJoin(qMember.home, qLodging)
-			.leftJoin(qMember.character, qCharacter)
-			.where(qMember.id.eq(member.getId()))
-			.fetchOne();
-
-		// 업적 정보
+		// 업적 정보 가져오기
 		List<MemberMainResponseDto.AchievementDto> achievements = jpaQueryFactory
-			.select(Projections.bean(
+			.select(Projections.constructor(
 				MemberMainResponseDto.AchievementDto.class,
 				qAchievement.image.as("achievementIcon"),
 				qAchievement.name.as("achievementName")
@@ -68,6 +44,30 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
 			.where(qMemberAchievement.member.id.eq(member.getId())
 				.and(qMemberAchievement.achievementCnt.eq(qAchievement.maxAchieve)))
 			.fetch();
+
+		// 회원 기본 정보, 숙소 좌표 및 캐릭터 이미지 정보
+		MemberMainResponseDto result = jpaQueryFactory
+			.select(Projections.constructor(
+				MemberMainResponseDto.class,
+				qMember.name,
+				qMember.email,
+				qMember.content,
+				qMember.image,
+				Projections.constructor(CharacterImageDto.class,
+					qCharacter.backgroundImage,
+					qCharacter.itemImage,
+					qCharacter.petImage
+				),
+				Projections.constructor(LodgingCoordinateDto.class,
+					qLodging.latitude,
+					qLodging.longitude
+				)
+			))
+			.from(qMember)
+			.leftJoin(qMember.home, qLodging)
+			.leftJoin(qMember.character, qCharacter)
+			.where(qMember.id.eq(member.getId()))
+			.fetchOne();
 
 		assert result != null;
 		result.setAchievement(achievements);
