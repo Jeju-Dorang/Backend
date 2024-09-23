@@ -20,7 +20,7 @@ public class MainController {
 
 	@GetMapping
 	public ResponseEntity<MemberMainResponseDto> mainPage(@Login Member member) {
-
+		System.out.println("Member: " + member);
 		MemberMainResponseDto memberMainResponseDto = memberService.getMainPage(member);
 		return ResponseEntity.ok(memberMainResponseDto);
 	}

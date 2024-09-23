@@ -29,6 +29,9 @@ public class MemberMainResponseDto {
 		this.characterImage = characterImage;
 	}
 
+	@Getter
+	@NoArgsConstructor
+	@AllArgsConstructor
 	public static class AchievementDto {
 		private String achievementIcon;
 		private String achievementName;
