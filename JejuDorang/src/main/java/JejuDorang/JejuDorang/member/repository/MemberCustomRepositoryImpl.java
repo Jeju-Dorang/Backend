@@ -51,8 +51,8 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
 				).as("characterImage")
 			))
 			.from(qMember)
-			.leftJoin(qMember.home, qLodging).fetchJoin()
-			.leftJoin(qMember.character, qCharacter).fetchJoin()
+			.leftJoin(qMember.home, qLodging)
+			.leftJoin(qMember.character, qCharacter)
 			.where(qMember.id.eq(member.getId()))
 			.fetchOne();
 
@@ -65,7 +65,8 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
 			))
 			.from(qMemberAchievement)
 			.join(qMemberAchievement.achievement, qAchievement)
-			.where(qMemberAchievement.member.eq(member))
+			.where(qMemberAchievement.member.id.eq(member.getId())
+				.and(qMemberAchievement.achievementCnt.eq(qAchievement.maxAchieve)))
 			.fetch();
 
 		assert result != null;
