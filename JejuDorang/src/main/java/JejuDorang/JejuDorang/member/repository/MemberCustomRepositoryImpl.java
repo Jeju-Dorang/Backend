@@ -51,9 +51,9 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
 				).as("characterImage")
 			))
 			.from(qMember)
-			.leftJoin(qMember.home, qLodging)
-			.leftJoin(qMember.character, qCharacter)
-			.where(qMember.eq(member))
+			.leftJoin(qMember.home, qLodging).fetchJoin()
+			.leftJoin(qMember.character, qCharacter).fetchJoin()
+			.where(qMember.id.eq(member.getId()))
 			.fetchOne();
 
 		// 업적 정보
