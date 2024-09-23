@@ -135,7 +135,7 @@ public class Member implements UserDetails {
 		this.home = lodging;
 	}
 
-	public void setCharacter() {
-		this.character = new Character(0,0,0);
+	public void setCharacter(Character character) {
+		this.character = character;
 	}
 }

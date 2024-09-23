@@ -14,6 +14,8 @@ import JejuDorang.JejuDorang.achievement.dto.AchievementResponseDto;
 import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
 import JejuDorang.JejuDorang.achievement.repository.AchievementRepository;
 import JejuDorang.JejuDorang.auth.dto.KakaoUserInfoDto;
+import JejuDorang.JejuDorang.character.Repository.CharacterRepository;
+import JejuDorang.JejuDorang.character.data.Character;
 import JejuDorang.JejuDorang.diary.dto.DiaryIdDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryListResponseDTO;
 import JejuDorang.JejuDorang.diary.dto.MyDiaryDetailResponseDto;
@@ -36,6 +38,7 @@ public class MemberService {
     private final DiaryRepository diaryRepository;
     private final AchievementRepository achievementRepository;
     private final MemberAchievementRepository memberAchievementRepository;
+    private final CharacterRepository characterRepository;
 
     public String saveMemberByKeyCode(KakaoUserInfoDto kakaoUserInfoDto) {
         String keyCode = kakaoUserInfoDto.getId().toString();
@@ -50,7 +53,9 @@ public class MemberService {
             .keyCode(keyCode)
             .name(name)
             .build();
-        member.setCharacter();
+        Character character = new Character(0,0,0);
+        characterRepository.save(character);
+        member.setCharacter(character);
         memberRepository.save(member);
 
         // 회원가입 하면 업적 memberAchievement에 다 넣어줌
