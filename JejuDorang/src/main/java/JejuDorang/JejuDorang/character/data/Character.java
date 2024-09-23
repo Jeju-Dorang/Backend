@@ -27,15 +27,15 @@ public class Character {
    @JoinColumn(name = "member_id")
    private Member member;
 
-   @Builder.Default
    @OneToMany(mappedBy = "character")
+   @Builder.Default
    private List<BackgroundItem> backgroundItems = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "character")
+    @Builder.Default
     private List<PetItem> petItems = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "character")
+    @Builder.Default
     private List<StuffItem> stuffItems = new ArrayList<>();
 }
