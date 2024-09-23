@@ -4,13 +4,12 @@ import java.util.List;
 
 import JejuDorang.JejuDorang.character.dto.CharacterImageDto;
 import JejuDorang.JejuDorang.lodging.dto.LodgingCoordinateDto;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class MemberMainResponseDto {
 
