@@ -77,40 +77,8 @@ public class DiaryService {
                 // YET -> DONE
                 memberAchievement.updateAchievementStatus();
 
-                // 아이템 제공
-                Character character = characterRepository.findByMember(member);
-                List<BackgroundItem> backgroundItems = backgroundItemRepository.findByCharacterAndGetItemFalse(character);
-                List<StuffItem> stuffItems = stuffItemRepository.findByCharacterAndGetItemFalse(character);
-                List<PetItem> petItems = petItemRepository.findByCharacterAndGetItemFalse(character);
-
-                // background, stuff, pet 중에 하나 랜덤으로 뽑기
-                Random random = new Random();
-                long select = random.nextLong(3);  // 0, 1, 2
-                int size;
-                int idx;
-
-                if (select == 0 && !backgroundItems.isEmpty()) {
-                    size = backgroundItems.size();
-                    idx = random.nextInt(size);
-
-                    BackgroundItem backgroundItem = backgroundItems.get(idx);
-                    backgroundItem.updateStatus();
-                    backgroundItemRepository.save(backgroundItem);
-                } else if (select == 1 && !stuffItems.isEmpty()) {
-                    size = stuffItems.size();
-                    idx = random.nextInt(size);
-
-                    StuffItem stuffItem = stuffItems.get(idx);
-                    stuffItem.updateStatus();
-                    stuffItemRepository.save(stuffItem);
-                } else if (select == 2 && !petItems.isEmpty()) {
-                    size = petItems.size();
-                    idx = random.nextInt(size);
-
-                    PetItem petItem = petItems.get(idx);
-                    petItem.updateStatus();
-                    petItemRepository.save(petItem);
-                }
+                // 랜덤 아이템 지급
+                randomItem(member);
             }
             memberAchievementRepository.save(memberAchievement);
         }
@@ -135,6 +103,55 @@ public class DiaryService {
 
         // 스트릭 생성
         streakService.createStreak(member);
+    }
+
+    // 랜덤 아이템
+    public void randomItem(Member member) {
+        // 아이템 제공
+        Character character = characterRepository.findByMember(member);
+        List<BackgroundItem> backgroundItems = backgroundItemRepository.findByCharacterAndGetItemFalse(character);
+        List<StuffItem> stuffItems = stuffItemRepository.findByCharacterAndGetItemFalse(character);
+        List<PetItem> petItems = petItemRepository.findByCharacterAndGetItemFalse(character);
+
+        // background, stuff, pet 중에 하나 랜덤으로 뽑기
+        boolean isDone = false;
+        Random random = new Random();
+        while (!isDone) {
+            long select = random.nextLong(3);
+            int size;
+            int idx;
+
+            if (select == 0 && !backgroundItems.isEmpty()) {
+                size = backgroundItems.size();
+                idx = random.nextInt(size);
+
+                BackgroundItem backgroundItem = backgroundItems.get(idx);
+                backgroundItem.updateStatus();
+                backgroundItemRepository.save(backgroundItem);
+                isDone = true;
+            } else if (select == 1 && !stuffItems.isEmpty()) {
+                size = stuffItems.size();
+                idx = random.nextInt(size);
+
+                StuffItem stuffItem = stuffItems.get(idx);
+                stuffItem.updateStatus();
+                stuffItemRepository.save(stuffItem);
+                isDone = true;
+            } else if (select == 2 && !petItems.isEmpty()) {
+                size = petItems.size();
+                idx = random.nextInt(size);
+
+                PetItem petItem = petItems.get(idx);
+                petItem.updateStatus();
+                petItemRepository.save(petItem);
+                isDone = true;
+            }
+
+            // 세 아이템 모두 지급 되었으면 while 문 탈출
+            if (backgroundItems.isEmpty() && stuffItems.isEmpty() && petItems.isEmpty()) {
+                break;
+            }
+        }
     }
 
     // 스토리의 일기 상세 정보를 보여줌
