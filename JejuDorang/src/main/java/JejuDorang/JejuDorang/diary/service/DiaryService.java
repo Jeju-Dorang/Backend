@@ -3,12 +3,20 @@ package JejuDorang.JejuDorang.diary.service;
 import JejuDorang.JejuDorang.achievement.data.Achievement;
 import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
 import JejuDorang.JejuDorang.achievement.repository.AchievementRepository;
+import JejuDorang.JejuDorang.character.data.Character;
+import JejuDorang.JejuDorang.character.repository.CharacterRepository;
 import JejuDorang.JejuDorang.diary.data.Diary;
 import JejuDorang.JejuDorang.diary.dto.DiaryDetailResponseDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryPublicResponseDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryRequestDto;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
+import JejuDorang.JejuDorang.item.data.BackgroundItem;
+import JejuDorang.JejuDorang.item.data.PetItem;
+import JejuDorang.JejuDorang.item.data.StuffItem;
+import JejuDorang.JejuDorang.item.itemRepository.BackgroundItemRepository;
+import JejuDorang.JejuDorang.item.itemRepository.PetItemRepository;
+import JejuDorang.JejuDorang.item.itemRepository.StuffItemRepository;
 import JejuDorang.JejuDorang.like.service.LikeService;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.data.MemberAchievement;
@@ -26,8 +34,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -42,6 +49,10 @@ public class DiaryService {
     private final ViewRepository viewRepository;
     private final MemberAchievementRepository memberAchievementRepository;
     private final AchievementRepository achievementRepository;
+    private final BackgroundItemRepository backgroundItemRepository;
+    private final StuffItemRepository stuffItemRepository;
+    private final PetItemRepository petItemRepository;
+    private final CharacterRepository characterRepository;
 
     // 일기 작성
     public void createDiary(DiaryRequestDto diaryRequestDto, Member member) {
@@ -60,8 +71,44 @@ public class DiaryService {
             if (achievementCnt < max) {
                 memberAchievement.incAchievementCnt();
             }
+            // 업적 달성
             if (memberAchievement.getAchievementCnt() == max) {
                 memberAchievement.updateAchievementStatus();
+
+                // 아이템 제공
+                Character character = characterRepository.findByMember(member);
+                List<BackgroundItem> backgroundItems = backgroundItemRepository.findByCharacterAndGetItemFalse(character);
+                List<StuffItem> stuffItems = stuffItemRepository.findByCharacterAndGetItemFalse(character);
+                List<PetItem> petItems = petItemRepository.findByCharacterAndGetItemFalse(character);
+
+                // background, stuff, pet 중에 하나 랜덤으로 뽑기
+                Random random = new Random();
+                long select = random.nextLong(2);  // 0, 1, 2
+                int size;
+                int idx;
+
+                if (select == 0) {
+                    size = backgroundItems.size();
+                    idx = random.nextInt(size) + 1;
+
+                    BackgroundItem backgroundItem = backgroundItems.get(idx);
+                    backgroundItem.updateStatus();
+                    backgroundItemRepository.save(backgroundItem);
+                } else if (select == 1) {
+                    size = stuffItems.size();
+                    idx = random.nextInt(size) + 1;
+
+                    StuffItem stuffItem = stuffItems.get(idx);
+                    stuffItem.updateStatus();
+                    stuffItemRepository.save(stuffItem);
+                } else {
+                    size = petItems.size();
+                    idx = random.nextInt(size) + 1;
+
+                    PetItem petItem = petItems.get(idx);
+                    petItem.updateStatus();
+                    petItemRepository.save(petItem);
+                }
             }
             memberAchievementRepository.save(memberAchievement);
         }

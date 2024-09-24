@@ -9,4 +9,5 @@ import java.util.List;
 public interface PetItemRepository extends JpaRepository<PetItem, Long> {
 
     List<PetItem> findByCharacterAndGetItemTrue(Character character);
+    List<PetItem> findByCharacterAndGetItemFalse(Character character);
 }
