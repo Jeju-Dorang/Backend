@@ -72,7 +72,9 @@ public class DiaryService {
                 memberAchievement.incAchievementCnt();
             }
             // 업적 달성
-            if (memberAchievement.getAchievementCnt() == max) {
+            if (memberAchievement.getAchievementStatus() == AchievementStatus.YET
+                    && memberAchievement.getAchievementCnt() == max) {
+                // YET -> DONE
                 memberAchievement.updateAchievementStatus();
 
                 // 아이템 제공
@@ -87,21 +89,21 @@ public class DiaryService {
                 int size;
                 int idx;
 
-                if (select == 0) {
+                if (select == 0 && !backgroundItems.isEmpty()) {
                     size = backgroundItems.size();
                     idx = random.nextInt(size) + 1;
 
                     BackgroundItem backgroundItem = backgroundItems.get(idx);
                     backgroundItem.updateStatus();
                     backgroundItemRepository.save(backgroundItem);
-                } else if (select == 1) {
+                } else if (select == 1 && !stuffItems.isEmpty()) {
                     size = stuffItems.size();
                     idx = random.nextInt(size) + 1;
 
                     StuffItem stuffItem = stuffItems.get(idx);
                     stuffItem.updateStatus();
                     stuffItemRepository.save(stuffItem);
-                } else {
+                } else if (select == 2 && !petItems.isEmpty()) {
                     size = petItems.size();
                     idx = random.nextInt(size) + 1;
 
