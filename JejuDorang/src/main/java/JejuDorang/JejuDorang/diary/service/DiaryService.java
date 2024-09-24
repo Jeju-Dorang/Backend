@@ -91,21 +91,21 @@ public class DiaryService {
 
                 if (select == 0 && !backgroundItems.isEmpty()) {
                     size = backgroundItems.size();
-                    idx = random.nextInt(size) + 1;
+                    idx = random.nextInt(size);
 
                     BackgroundItem backgroundItem = backgroundItems.get(idx);
                     backgroundItem.updateStatus();
                     backgroundItemRepository.save(backgroundItem);
                 } else if (select == 1 && !stuffItems.isEmpty()) {
                     size = stuffItems.size();
-                    idx = random.nextInt(size) + 1;
+                    idx = random.nextInt(size);
 
                     StuffItem stuffItem = stuffItems.get(idx);
                     stuffItem.updateStatus();
                     stuffItemRepository.save(stuffItem);
                 } else if (select == 2 && !petItems.isEmpty()) {
                     size = petItems.size();
-                    idx = random.nextInt(size) + 1;
+                    idx = random.nextInt(size);
 
                     PetItem petItem = petItems.get(idx);
                     petItem.updateStatus();
