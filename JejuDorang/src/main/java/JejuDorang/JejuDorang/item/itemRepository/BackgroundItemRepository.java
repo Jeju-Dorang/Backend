@@ -10,4 +10,5 @@ import java.util.List;
 public interface BackgroundItemRepository extends JpaRepository<BackgroundItem, Long> {
 
     List<BackgroundItem> findByCharacterAndGetItemTrue(Character character);
+    List<BackgroundItem> findByCharacterAndGetItemFalse(Character character);
 }
