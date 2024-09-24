@@ -85,7 +85,7 @@ public class DiaryService {
 
                 // background, stuff, pet 중에 하나 랜덤으로 뽑기
                 Random random = new Random();
-                long select = random.nextLong(2);  // 0, 1, 2
+                long select = random.nextLong(3);  // 0, 1, 2
                 int size;
                 int idx;
 
