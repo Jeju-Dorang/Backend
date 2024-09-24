@@ -23,4 +23,8 @@ public class StuffItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "character_id")
     private Character character;
+
+    public void updateStatus() {
+        this.getItem = true;
+    }
 }
