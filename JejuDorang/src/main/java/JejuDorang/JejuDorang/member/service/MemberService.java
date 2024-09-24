@@ -3,15 +3,19 @@ package JejuDorang.JejuDorang.member.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import JejuDorang.JejuDorang.achievement.data.Achievement;
 import JejuDorang.JejuDorang.achievement.dto.AchievementAchieveResponseDto;
 import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
 import JejuDorang.JejuDorang.achievement.dto.AchievementListDto;
 import JejuDorang.JejuDorang.achievement.dto.AchievementResponseDto;
+import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
 import JejuDorang.JejuDorang.achievement.repository.AchievementRepository;
 import JejuDorang.JejuDorang.auth.dto.KakaoUserInfoDto;
+import JejuDorang.JejuDorang.character.Repository.CharacterRepository;
 import JejuDorang.JejuDorang.character.data.Character;
-import JejuDorang.JejuDorang.character.repository.CharacterRepository;
 import JejuDorang.JejuDorang.diary.dto.DiaryIdDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryListResponseDTO;
 import JejuDorang.JejuDorang.diary.dto.MyDiaryDetailResponseDto;
@@ -27,12 +31,10 @@ import JejuDorang.JejuDorang.item.itemRepository.StuffItemRepository;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.data.MemberAchievement;
 import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
-import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
+import JejuDorang.JejuDorang.member.dto.MemberMainResponseDto;
 import JejuDorang.JejuDorang.member.repository.MemberAchievementRepository;
 import JejuDorang.JejuDorang.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -60,7 +62,9 @@ public class MemberService {
             .keyCode(keyCode)
             .name(name)
             .build();
-
+        Character character = new Character(0,0,0);
+        characterRepository.save(character);
+        member.setCharacter(character);
         memberRepository.save(member);
 
         // 회원가입 하면 업적 memberAchievement에 다 넣어줌
@@ -167,5 +171,9 @@ public class MemberService {
     public void updateEmail(String memberEmail, Member member) {
         member.updateEmail(memberEmail);
         memberRepository.save(member);
+    }
+
+    public MemberMainResponseDto getMainPage(Member member) {
+        return memberRepository.getMainPage(member);
     }
 }
