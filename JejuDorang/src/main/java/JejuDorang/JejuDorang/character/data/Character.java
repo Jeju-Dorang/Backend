@@ -1,5 +1,8 @@
 package JejuDorang.JejuDorang.character.data;
 
+import JejuDorang.JejuDorang.item.data.BackgroundItem;
+import JejuDorang.JejuDorang.item.data.PetItem;
+import JejuDorang.JejuDorang.item.data.StuffItem;
 import JejuDorang.JejuDorang.member.data.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,4 +40,15 @@ public class Character {
    @JoinColumn(name = "member_id")
    private Member member;
 
+   @OneToMany(mappedBy = "character")
+   @Builder.Default
+   private List<BackgroundItem> backgroundItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "character")
+    @Builder.Default
+    private List<PetItem> petItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "character")
+    @Builder.Default
+    private List<StuffItem> stuffItems = new ArrayList<>();
 }
