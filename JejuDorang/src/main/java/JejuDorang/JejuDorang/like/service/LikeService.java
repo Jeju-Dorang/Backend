@@ -40,6 +40,13 @@ public class LikeService {
         likeCommentRepository.save(likeComment);
     }
 
+    // 댓글 좋아요 취소
+    public void deleteLikeComment(Long commentId, Member member) {
+
+        LikeComment likeComment = likeCommentRepository.findByCommentIdAndMember(commentId, member);
+        likeCommentRepository.delete(likeComment);
+    }
+
     // 댓글 좋아요 수 계산
     public int countLikeComment(Long commentId) {
 
@@ -67,6 +74,13 @@ public class LikeService {
                 .date(LocalDateTime.now())
                 .build();
         likeDiaryRepository.save(likeDiary);
+    }
+
+    // 일기 좋아요 취소
+    public void deleteLikeDiary(Long diaryId, Member member) {
+
+        LikeDiary likeDiary = likeDiaryRepository.findByDiaryIdAndMember(diaryId, member);
+        likeDiaryRepository.delete(likeDiary);
     }
 
     // 현재 유저가 특정 일기에 좋아요를 눌렀는지 여부
