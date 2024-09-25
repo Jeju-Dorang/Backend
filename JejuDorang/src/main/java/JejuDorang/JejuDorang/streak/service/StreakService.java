@@ -44,7 +44,7 @@ public class StreakService {
 
     // 멤버의 스트릭 반환
     public List<StreakResponseDto> getStreaks(Member member, String year, String month) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startDate = LocalDate.parse(year + "-" + month + "-01", formatter);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()).plusDays(1);
 
