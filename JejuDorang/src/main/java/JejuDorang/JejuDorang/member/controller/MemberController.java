@@ -2,6 +2,7 @@ package JejuDorang.JejuDorang.member.controller;
 
 import java.util.List;
 
+import JejuDorang.JejuDorang.member.dto.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +19,6 @@ import JejuDorang.JejuDorang.diary.dto.DiaryListResponseDTO;
 import JejuDorang.JejuDorang.diary.dto.MyDiaryDetailResponseDto;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.member.data.Member;
-import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
-import JejuDorang.JejuDorang.member.dto.MemberEmailDto;
-import JejuDorang.JejuDorang.member.dto.MemberNameDto;
 import JejuDorang.JejuDorang.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -104,6 +102,18 @@ public class MemberController {
 	@PatchMapping("/email")
 	public ResponseEntity<Void> updateEmail(@RequestBody @Valid MemberEmailDto memberEmailDto, @Login Member member) {
 		memberService.updateEmail(memberEmailDto.getMemberEmail(), member);
+		return ResponseEntity.ok().build();
+	}
+
+	@PatchMapping("/image")
+	public ResponseEntity<Void> updateImage(@RequestBody MemberImageDto memberImageDto, @Login Member member) {
+		memberService.updateImage(memberImageDto.getMemberImage(), member);
+		return ResponseEntity.ok().build();
+	}
+
+	@PatchMapping("/content")
+	public ResponseEntity<Void> updateImage(@RequestBody MemberContentDto memberContentDto, @Login Member member) {
+		memberService.updateContent(memberContentDto.getMemberContent(), member);
 		return ResponseEntity.ok().build();
 	}
 }
