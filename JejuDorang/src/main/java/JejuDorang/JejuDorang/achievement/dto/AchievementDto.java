@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 public class AchievementDto {
+	private final Long achievementId;
 	private final String achievementIcon;
 	private final String achievementName;
 	private final String achievementComment;
