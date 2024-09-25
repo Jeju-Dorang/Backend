@@ -25,12 +25,6 @@ public class Character {
     private int itemImage;
     private int petImage;
 
-    public Character(int backgroundImage, int itemImage, int petImage) {
-        this.backgroundImage = backgroundImage;
-        this.itemImage = itemImage;
-        this.petImage = petImage;
-    }
-
     @OneToOne
    @JoinColumn(name = "member_id")
    private Member member;
@@ -46,4 +40,16 @@ public class Character {
     @OneToMany(mappedBy = "character")
     @Builder.Default
     private List<StuffItem> stuffItems = new ArrayList<>();
+
+    public Character(int backgroundImage, int itemImage, int petImage) {
+        this.backgroundImage = backgroundImage;
+        this.itemImage = itemImage;
+        this.petImage = petImage;
+    }
+
+    public void updateItem(int backgroundImage, int itemImage, int petImage) {
+        this.backgroundImage = backgroundImage;
+        this.itemImage = itemImage;
+        this.petImage = petImage;
+    }
 }
