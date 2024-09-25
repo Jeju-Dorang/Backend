@@ -85,6 +85,7 @@ public class TourSpotService {
 
             // AchievementDto 생성
             AchievementDto achievementDto = new AchievementDto(
+                    achievement.getId(),
                     achievement.getImage(),
                     achievement.getName(),
                     achievement.getContent(),
