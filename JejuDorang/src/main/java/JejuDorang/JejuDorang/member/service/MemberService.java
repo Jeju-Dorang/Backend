@@ -89,8 +89,8 @@ public class MemberService {
                 .build();
         characterRepository.save(character);
 
-        // 아이템 넣어주기 (배경:3, 펫:3, 소품: 7)
-        for(long i = 1; i <= 3; i++) {
+        // 아이템 넣어주기 (배경:3, 펫:2, 소품: 5)
+        for(long i = 1; i <= 2; i++) {
             PetItem petItem = PetItem.builder()
                     .character(character)
                     .getItem(false)
@@ -106,7 +106,7 @@ public class MemberService {
                     .build();
             backgroundItemRepository.save(backgroundItem);
         }
-        for(long i = 1; i <= 7; i++) {
+        for(long i = 1; i <= 5; i++) {
             StuffItem stuffItem = StuffItem.builder()
                     .character(character)
                     .getItem(false)
