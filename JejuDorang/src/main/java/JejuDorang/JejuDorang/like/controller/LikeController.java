@@ -17,17 +17,27 @@ public class LikeController {
 
     private final LikeService likeService;
 
+    // 댓글 좋아요
     @PostMapping("/comment/{commentId}")
     public ResponseEntity<Void> createLikeComment(@PathVariable Long commentId, @Login Member member) {
 
-        likeService.createLikeComment(commentId, member);
+        boolean alreayLike = likeService.alreadyLikeComment(commentId, member.getId());
+        if (!alreayLike)
+            likeService.createLikeComment(commentId, member);
+        else
+            likeService.deleteLikeComment(commentId, member);
         return ResponseEntity.ok().build();
     }
 
+    // 일기 좋아요
     @PostMapping("/diary/{diaryId}")
     public ResponseEntity<Void> createLikeDiary(@PathVariable Long diaryId, @Login Member member) {
 
-        likeService.createLikeDiary(diaryId, member);
+        boolean alreadyLike = likeService.alreadyLikeDiary(diaryId, member.getId());
+        if (!alreadyLike)
+            likeService.createLikeDiary(diaryId, member);
+        else
+            likeService.deleteLikeComment(diaryId, member);
         return ResponseEntity.ok().build();
     }
 }
