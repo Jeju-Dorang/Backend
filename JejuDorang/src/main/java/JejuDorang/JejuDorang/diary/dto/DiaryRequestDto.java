@@ -23,8 +23,6 @@ public class DiaryRequestDto {
     @JsonProperty("secret")
     private SecretType secret;
 
-    private Boolean isAchievement;
-
     private Long achievementId;
 
     private List<TagDto> tagList;

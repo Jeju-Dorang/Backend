@@ -57,10 +57,9 @@ public class DiaryService {
     // 일기 작성
     public void createDiary(DiaryRequestDto diaryRequestDto, Member member) {
 
-        // isAchievement 확인
-        Boolean isAchievement = diaryRequestDto.getIsAchievement();
-        if (isAchievement == true) {
-            Long achievementId = diaryRequestDto.getAchievementId();
+        // 업적 일기, 일반 일기 구분
+        Long achievementId = diaryRequestDto.getAchievementId();
+        if (achievementId != 0) {
             Achievement achievement = achievementRepository.findById(achievementId)
                     .orElseThrow(()->new IllegalArgumentException("존재하지 않는 업적" ));
             MemberAchievement memberAchievement = memberAchievementRepository.findByMemberAndAchievement(member, achievement);
