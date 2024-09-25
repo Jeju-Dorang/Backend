@@ -138,4 +138,12 @@ public class Member implements UserDetails {
 	public void setCharacter(Character character) {
 		this.character = character;
 	}
+
+	public void updateImage(String image) {
+		this.image = image;
+	}
+
+	public void updateContent(String content) {
+		this.content = content;
+	}
 }
