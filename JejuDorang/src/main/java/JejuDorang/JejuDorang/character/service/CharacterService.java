@@ -1,6 +1,7 @@
 package JejuDorang.JejuDorang.character.service;
 
 import JejuDorang.JejuDorang.character.data.Character;
+import JejuDorang.JejuDorang.character.dto.ItemRequestDto;
 import JejuDorang.JejuDorang.character.dto.ItemResponseDto;
 import JejuDorang.JejuDorang.character.repository.CharacterRepository;
 import JejuDorang.JejuDorang.item.data.BackgroundItem;
@@ -55,5 +56,16 @@ public class CharacterService {
 
         // DTO 반환
         return itemResponseDto;
+    }
+
+    // 아이템 장착하기
+    public void putItem(Member member, ItemRequestDto itemRequestDto) {
+
+        Character character = characterRepository.findByMember(member);
+        character.updateItem(
+                itemRequestDto.getBackgroundItem(),
+                itemRequestDto.getStuffItem(),
+                itemRequestDto.getPetItem());
+        characterRepository.save(character);
     }
 }
