@@ -24,27 +24,10 @@ services:
     entrypoint: /bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot --webroot-path=/var/www/certbot; sleep 12h; done'
     restart: unless-stopped
 
-
-  db:
-    build: ./mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: jejudorang
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-    volumes:
-      - db_data:/var/lib/mysql
-    restart: always
-
   app:
     build: .
     environment:
-      - DB_URL=jdbc:mysql://db:3306/jejudorang?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+      - DB_URL=${DB_URL}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - KAKAO_REST_API_KEY=${KAKAO_REST_API_KEY}
@@ -52,9 +35,4 @@ services:
       - TOUR_API_KEY=${TOUR_API_KEY}
     volumes:
       - ./logs:/logs
-    depends_on:
-      - db
     restart: always
-
-volumes:
-  db_data:
