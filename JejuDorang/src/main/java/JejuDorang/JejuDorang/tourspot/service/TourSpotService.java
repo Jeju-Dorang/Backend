@@ -1,5 +1,18 @@
 package JejuDorang.JejuDorang.tourspot.service;
 
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import JejuDorang.JejuDorang.achievement.data.Achievement;
 import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
 import JejuDorang.JejuDorang.achievement.enums.AchievementStatus;
@@ -7,18 +20,7 @@ import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.data.MemberAchievement;
 import JejuDorang.JejuDorang.member.repository.MemberAchievementRepository;
 import JejuDorang.JejuDorang.tourspot.dto.TourSpotResponseDto;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -93,7 +95,8 @@ public class TourSpotService {
                     achievement.getContent(),
                     achievement.getMaxAchieve(),
                     memberAchievement.getAchievementCnt(),
-                    AchievementStatus.YET
+                    AchievementStatus.YET,
+                    achievement.getCategory().getDescription()
             );
             response.add(achievementDto);
         });
