@@ -13,6 +13,6 @@ public class TourSpotResponseDto {
     private String address;
     private String image;
     private String image2;
-    private Long mapX;
-    private Long mapY;
+    private Double mapX;
+    private Double mapY;
 }
