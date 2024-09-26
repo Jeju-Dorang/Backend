@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public class LodgingRecommendResponseDto {
 
+	private final Long lodgingId;
 	private final String name;
 	private final String image;
 	private final String address;
@@ -13,8 +14,9 @@ public class LodgingRecommendResponseDto {
 	private final double latitude;
 	private final double longitude;
 
-	public LodgingRecommendResponseDto(String name, String image, String address, String distance, double rating,
-		double latitude, double longitude) {
+	public LodgingRecommendResponseDto(Long lodgingId, String name, String image, String address, String distance,
+		double rating, double latitude, double longitude) {
+		this.lodgingId = lodgingId;
 		this.name = name;
 		this.image = image;
 		this.address = address;
