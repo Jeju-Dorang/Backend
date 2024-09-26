@@ -49,9 +49,11 @@ public class TourSpotService {
                 String title = itemNode.path("title").asText();
                 String address = itemNode.path("addr1").asText();
                 String image = itemNode.path("firstimage").asText();
+                Double mapX = itemNode.path("mapx").asDouble();
+                Double mapY = itemNode.path("mapy").asDouble();
 
                 tourSpotResponseDtos.add(new TourSpotResponseDto(
-                        title, address, image ));
+                        title, address, image, mapX, mapY));
             }
 
         } catch (Exception e) {

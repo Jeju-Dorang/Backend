@@ -56,6 +56,7 @@ public class AuthController {
         String token = request.getHeader("refreshToken");
         String newToken = jwtTokenProvider.refreshAccessToken(token);
         response.setHeader("access-Token", newToken);
+        response.setHeader("Access-Control-Expose-Headers", "access-token");
         return new ResponseEntity(HttpStatus.OK);
     }
 
