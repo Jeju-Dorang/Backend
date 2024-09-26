@@ -41,4 +41,4 @@ logging.level:
 
 driver:
   chrome:
-    driver_path: /resources/chromeDriver/chromedriver
+    driver_path: ${CHROMEDRIVER_PATH}
