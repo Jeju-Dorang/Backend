@@ -2,7 +2,6 @@ package JejuDorang.JejuDorang.member.controller;
 
 import java.util.List;
 
-import JejuDorang.JejuDorang.member.dto.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +11,11 @@ import JejuDorang.JejuDorang.diary.dto.DiaryListResponseDTO;
 import JejuDorang.JejuDorang.diary.dto.MyDiaryDetailResponseDto;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.member.data.Member;
+import JejuDorang.JejuDorang.member.dto.MemberContentDto;
+import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
+import JejuDorang.JejuDorang.member.dto.MemberEmailDto;
+import JejuDorang.JejuDorang.member.dto.MemberImageDto;
+import JejuDorang.JejuDorang.member.dto.MemberNameDto;
 import JejuDorang.JejuDorang.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -74,12 +78,23 @@ public class MemberController {
 		return ResponseEntity.ok().build();
 	}
 
+	/**
+	 * 다이어리 삭제
+	 * @param diaryId
+	 * @param member
+	 * @return ResponseEntity<Void>
+	 */
 	@DeleteMapping("/diary/{diaryId}")
 	public ResponseEntity<Void> deleteDiary(@PathVariable("diaryId") Long diaryId, @Login Member member) {
 		memberService.deleteDiary(diaryId, member);
 		return ResponseEntity.ok().build();
 	}
 
+	/**
+	 * 회원의 업적 목록 조회
+	 * @param
+	 * @return AchievementListDto
+	 */
 	@GetMapping("/achievements")
 	public ResponseEntity<AchievementListDto> getAchievements(@Login Member member) {
 		AchievementListDto achievements = memberService.getAchievementList(member);
@@ -91,6 +106,7 @@ public class MemberController {
 		memberService.updateName(memberNameDto.getMemberName(), member);
 		return ResponseEntity.ok().build();
 	}
+
 
 	@PatchMapping("/email")
 	public ResponseEntity<Void> updateEmail(@RequestBody @Valid MemberEmailDto memberEmailDto, @Login Member member) {
