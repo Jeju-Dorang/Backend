@@ -110,10 +110,10 @@ public class MemberController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PutMapping("/lodging")
-	public ResponseEntity<Void> saveLodging(@RequestBody MemberLodgingDto memberLodgingDto, @Login Member member) {
-
-		memberService.saveLodging(memberLodgingDto, member);
-		return ResponseEntity.ok().build();
-	}
+//	@PutMapping("/lodging")
+//	public ResponseEntity<Void> saveLodging(@RequestBody MemberLodgingDto memberLodgingDto, @Login Member member) {
+//
+//		memberService.saveLodging(memberLodgingDto, member);
+//		return ResponseEntity.ok().build();
+//	}
 }
