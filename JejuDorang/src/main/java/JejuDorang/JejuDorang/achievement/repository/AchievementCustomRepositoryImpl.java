@@ -1,14 +1,16 @@
 package JejuDorang.JejuDorang.achievement.repository;
 
-import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
-import JejuDorang.JejuDorang.achievement.data.QAchievement;
-import JejuDorang.JejuDorang.member.data.QMemberAchievement;
-import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.AllArgsConstructor;
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import JejuDorang.JejuDorang.achievement.data.QAchievement;
+import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
+import JejuDorang.JejuDorang.member.data.QMemberAchievement;
+import lombok.AllArgsConstructor;
 
 @Repository
 @AllArgsConstructor
@@ -23,6 +25,7 @@ public class AchievementCustomRepositoryImpl implements AchievementCustomReposit
 
 		return jpaQueryFactory
 			.select(Projections.constructor(AchievementDto.class,
+				achievement.id.as("achievementId"),
 				achievement.image.as("achievementIcon"),
 				achievement.name.as("achievementName"),
 				achievement.content.as("achievementComment"),
