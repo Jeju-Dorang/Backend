@@ -1,6 +1,11 @@
 package JejuDorang.JejuDorang.achievement.repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +14,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import JejuDorang.JejuDorang.achievement.data.QAchievement;
 import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
+import JejuDorang.JejuDorang.member.data.QMemberAchievement;
+
+import JejuDorang.JejuDorang.achievement.data.QAchievement;
+import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
+import JejuDorang.JejuDorang.achievement.enums.AchievementType;
 import JejuDorang.JejuDorang.member.data.QMemberAchievement;
 import lombok.AllArgsConstructor;
 
@@ -31,10 +41,24 @@ public class AchievementCustomRepositoryImpl implements AchievementCustomReposit
 				achievement.content.as("achievementComment"),
 				achievement.maxAchieve.as("maxAchieve"),
 				memberAchievement.achievementCnt,
-				memberAchievement.achievementStatus))
+				memberAchievement.achievementStatus,
+				achievement.category.stringValue()
+			))
 			.from(memberAchievement)
 			.join(memberAchievement.achievement, achievement)
 			.where(memberAchievement.member.id.eq(memberId))
-			.fetch();
+			.fetch()
+			.stream()
+			.map(dto -> new AchievementDto(
+				dto.getAchievementId(),
+				dto.getAchievementIcon(),
+				dto.getAchievementName(),
+				dto.getAchievementComment(),
+				dto.getMaxAchieve(),
+				dto.getAchievementCnt(),
+				dto.getAchievementStatus(),
+				AchievementType.valueOf(dto.getAchievementType()).getDescription()
+			))
+			.collect(Collectors.toList());
 	}
 }
