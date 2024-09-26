@@ -195,7 +195,7 @@ public class MemberService {
     }
 
     public void saveLodging(MemberLodgingDto memberLodgingDto, Member member) {
-        Lodging lodging = lodgingRepository.findByMember(member);
+        Lodging lodging = member.getHome();
 
         if (lodging == null) {
             Lodging newLodging = Lodging.builder()
