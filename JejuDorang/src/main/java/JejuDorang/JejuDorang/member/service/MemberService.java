@@ -194,24 +194,24 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public void saveLodging(MemberLodgingDto memberLodgingDto, Member member) {
-        Lodging lodging = member.getHome();
-
-        if (lodging == null) {
-            Lodging newLodging = Lodging.builder()
-                    .name(memberLodgingDto.getLodgingName())
-                    .latitude(memberLodgingDto.getLatitude())
-                    .longitude(memberLodgingDto.getLongitude())
-                    .build();
-            lodgingRepository.save(newLodging);
-            member.updateLodging(newLodging);
-        } else {
-            lodging.updateLodgingInfo(
-                    memberLodgingDto.getLodgingName(),
-                    memberLodgingDto.getLatitude(),
-                    memberLodgingDto.getLongitude()
-            );
-            lodgingRepository.save(lodging);
-        }
-    }
+//    public void saveLodging(MemberLodgingDto memberLodgingDto, Member member) {
+//        Lodging lodging = member.getHome();
+//
+//        if (lodging == null) {
+//            Lodging newLodging = Lodging.builder()
+//                    .name(memberLodgingDto.getLodgingName())
+//                    .latitude(memberLodgingDto.getLatitude())
+//                    .longitude(memberLodgingDto.getLongitude())
+//                    .build();
+//            lodgingRepository.save(newLodging);
+//            member.updateLodging(newLodging);
+//        } else {
+//            lodging.updateLodgingInfo(
+//                    memberLodgingDto.getLodgingName(),
+//                    memberLodgingDto.getLatitude(),
+//                    memberLodgingDto.getLongitude()
+//            );
+//            lodgingRepository.save(lodging);
+//        }
+//    }
 }

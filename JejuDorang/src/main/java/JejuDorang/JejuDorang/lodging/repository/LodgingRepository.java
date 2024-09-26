@@ -9,5 +9,4 @@ import JejuDorang.JejuDorang.lodging.data.Lodging;
 @Repository
 public interface LodgingRepository extends JpaRepository<Lodging, Long>, LodgingCustomRepository {
 
-    Lodging findByMember(Member member);
 }
