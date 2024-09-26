@@ -12,4 +12,7 @@ public class TourSpotResponseDto {
     private String title;
     private String address;
     private String image;
+    private String image2;
+    private Long mapX;
+    private Long mapY;
 }
