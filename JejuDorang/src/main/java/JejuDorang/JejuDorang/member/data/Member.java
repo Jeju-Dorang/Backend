@@ -147,7 +147,7 @@ public class Member implements UserDetails {
 		this.content = content;
 	}
 
-//	public void updateLodging(Lodging newLodging) {
-//		this.home = newLodging;
-//	}
+	public void updateLodging(Lodging newLodging) {
+		this.home = newLodging;
+	}
 }
