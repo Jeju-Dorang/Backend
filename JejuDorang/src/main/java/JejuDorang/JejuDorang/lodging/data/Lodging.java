@@ -42,9 +42,9 @@ public class Lodging {
 
 	private LodgingCategory category;
 
-	public void updateLodgingInfo(String name, double latitude, double longitude) {
-		this.name = name;
-		this.latitude = latitude;
-		this.longitude = longitude;
-	}
+//	public void updateLodgingInfo(String name, double latitude, double longitude) {
+//		this.name = name;
+//		this.latitude = latitude;
+//		this.longitude = longitude;
+//	}
 }
