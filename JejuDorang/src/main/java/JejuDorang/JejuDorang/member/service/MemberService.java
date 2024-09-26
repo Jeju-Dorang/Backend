@@ -203,6 +203,7 @@ public class MemberService {
                     .latitude(memberLodgingDto.getLatitude())
                     .longitude(memberLodgingDto.getLongitude())
                     .build();
+            lodgingRepository.save(newLodging);
             member.updateLodging(newLodging);
         } else {
             lodging.updateLodgingInfo(
@@ -210,6 +211,7 @@ public class MemberService {
                     memberLodgingDto.getLatitude(),
                     memberLodgingDto.getLongitude()
             );
+            lodgingRepository.save(lodging);
         }
     }
 }
