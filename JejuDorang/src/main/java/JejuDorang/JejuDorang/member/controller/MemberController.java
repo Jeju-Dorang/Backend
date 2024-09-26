@@ -4,14 +4,7 @@ import java.util.List;
 
 import JejuDorang.JejuDorang.member.dto.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import JejuDorang.JejuDorang.achievement.dto.AchievementListDto;
 import JejuDorang.JejuDorang.auth.argumentresolver.Login;
@@ -114,6 +107,13 @@ public class MemberController {
 	@PatchMapping("/content")
 	public ResponseEntity<Void> updateImage(@RequestBody MemberContentDto memberContentDto, @Login Member member) {
 		memberService.updateContent(memberContentDto.getMemberContent(), member);
+		return ResponseEntity.ok().build();
+	}
+
+	@PutMapping("/lodging")
+	public ResponseEntity<Void> saveLodging(@RequestBody MemberLodgingDto memberLodgingDto, @Login Member member) {
+
+		memberService.saveLodging(memberLodgingDto, member);
 		return ResponseEntity.ok().build();
 	}
 }

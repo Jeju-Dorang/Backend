@@ -146,4 +146,8 @@ public class Member implements UserDetails {
 	public void updateContent(String content) {
 		this.content = content;
 	}
+
+	public void updateLodging(Lodging newLodging) {
+		this.home = newLodging;
+	}
 }

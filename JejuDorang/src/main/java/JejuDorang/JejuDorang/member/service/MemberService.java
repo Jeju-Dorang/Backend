@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import JejuDorang.JejuDorang.character.repository.CharacterRepository;
+import JejuDorang.JejuDorang.lodging.data.Lodging;
+import JejuDorang.JejuDorang.lodging.repository.LodgingRepository;
+import JejuDorang.JejuDorang.member.dto.MemberLodgingDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +51,7 @@ public class MemberService {
     private final BackgroundItemRepository backgroundItemRepository;
     private final PetItemRepository petItemRepository;
     private final StuffItemRepository stuffItemRepository;
+    private final LodgingRepository lodgingRepository;
 
     public String saveMemberByKeyCode(KakaoUserInfoDto kakaoUserInfoDto) {
         String keyCode = kakaoUserInfoDto.getId().toString();
@@ -188,5 +192,24 @@ public class MemberService {
     public void updateContent(String content, Member member) {
         member.updateContent(content);
         memberRepository.save(member);
+    }
+
+    public void saveLodging(MemberLodgingDto memberLodgingDto, Member member) {
+        Lodging lodging = lodgingRepository.findByMember(member);
+
+        if (lodging == null) {
+            Lodging newLodging = Lodging.builder()
+                    .name(memberLodgingDto.getLodgingName())
+                    .latitude(memberLodgingDto.getLatitude())
+                    .longitude(memberLodgingDto.getLongitude())
+                    .build();
+            member.updateLodging(newLodging);
+        } else {
+            lodging.updateLodgingInfo(
+                    memberLodgingDto.getLodgingName(),
+                    memberLodgingDto.getLatitude(),
+                    memberLodgingDto.getLongitude()
+            );
+        }
     }
 }
