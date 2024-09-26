@@ -2,6 +2,7 @@ package JejuDorang.JejuDorang.lodging.repository;
 
 import java.util.List;
 
+import JejuDorang.JejuDorang.lodging.data.Lodging;
 import org.springframework.stereotype.Repository;
 
 import JejuDorang.JejuDorang.lodging.dto.LodgingRecommendResponseDto;
