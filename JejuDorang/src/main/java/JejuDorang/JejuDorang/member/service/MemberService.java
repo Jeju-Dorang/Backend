@@ -213,5 +213,6 @@ public class MemberService {
             );
             lodgingRepository.save(lodging);
         }
+        memberRepository.save(member);
     }
 }
