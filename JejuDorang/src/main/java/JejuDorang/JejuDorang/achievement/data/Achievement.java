@@ -1,17 +1,27 @@
 package JejuDorang.JejuDorang.achievement.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import JejuDorang.JejuDorang.achievement.enums.AchievementType;
 import JejuDorang.JejuDorang.item.data.Item;
 import JejuDorang.JejuDorang.member.data.MemberAchievement;
 import JejuDorang.JejuDorang.tag.data.AchievementTag;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -23,15 +33,18 @@ public class Achievement {
     @Column(name = "achievement_id")
     private Long id;
 
+    @NotNull(message = "업적 이름을 입력해주세요.")
     private String name;
 
     private String content;
 
+    @NotNull(message = "업적 달성 최대 횟수를 입력해주세요.")
     private Long maxAchieve;
 
     private String image;
 
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "업적 카테고리를 입력해주세요.")
     private AchievementType category;
 
     @OneToOne

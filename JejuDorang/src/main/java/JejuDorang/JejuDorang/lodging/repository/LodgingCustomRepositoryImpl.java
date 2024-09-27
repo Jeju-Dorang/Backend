@@ -48,6 +48,7 @@ public class LodgingCustomRepositoryImpl implements LodgingCustomRepository {
 
 		return lodgings.stream()
 			.map(l -> new LodgingRecommendResponseDto(
+				l.getId(),
 				l.getName(),
 				l.getImage(),
 				l.getAddress(),
