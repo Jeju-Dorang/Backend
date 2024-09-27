@@ -1,10 +1,12 @@
 package JejuDorang.JejuDorang.config;
 
+import JejuDorang.JejuDorang.component.S3Key;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,18 +14,25 @@ import org.springframework.context.annotation.Configuration;
 public class S3Config {
 
     @Bean
-    public AmazonS3 amazonS3Client() {
+    public S3Key s3Key() {
+        Dotenv dotenv = Dotenv.configure().load();
 
-        String accessKey = System.getenv("S3_ACCESS_KEY");
-        String secretKey = System.getenv("S3_SECRET_KEY");
-        String region = System.getenv("S3_REGION");
+        return new S3Key(
+                dotenv.get("S3_ACCESS_KEY"),
+                dotenv.get("S3_SECRET_KEY"),
+                dotenv.get("S3_BUCKET_NAME"),
+                dotenv.get("S3_REGION")
+        );
+    }
 
-        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+    @Bean
+    public AmazonS3 amazonS3Client(S3Key s3Key) {
 
-        return AmazonS3ClientBuilder
-                .standard()
-                .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withRegion(region)
+        BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(s3Key.getAccessKey(), s3Key.getSecretKey());
+
+        return AmazonS3ClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
+                .withRegion(s3Key.getRegion())
                 .build();
     }
 }
