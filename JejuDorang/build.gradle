@@ -55,6 +55,10 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
 	implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.24.0'
 	implementation 'org.jsoup:jsoup:1.15.3'
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation 'io.github.cdimascio:java-dotenv:5.2.2'
+	implementation 'commons-fileupload:commons-fileupload:1.4'
 }
 
 
