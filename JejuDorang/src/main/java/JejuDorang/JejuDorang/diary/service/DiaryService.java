@@ -9,6 +9,7 @@ import JejuDorang.JejuDorang.diary.data.Diary;
 import JejuDorang.JejuDorang.diary.dto.DiaryDetailResponseDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryPublicResponseDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryRequestDto;
+import JejuDorang.JejuDorang.diary.dto.DiaryResponseDto;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import JejuDorang.JejuDorang.image.service.ImageService;
@@ -60,7 +61,7 @@ public class DiaryService {
     private final ImageService imageService;
 
     // 일기 작성
-    public void createDiary(DiaryRequestDto diaryRequestDto, Member member) {
+    public DiaryResponseDto createDiary(DiaryRequestDto diaryRequestDto, Member member) {
 
         // 업적 일기, 일반 일기 구분
         Long achievementId = diaryRequestDto.getAchievementId();
@@ -106,6 +107,8 @@ public class DiaryService {
 
         // 스트릭 생성
         streakService.createStreak(member);
+
+        return new DiaryResponseDto(diary.getId());
     }
 
     // 랜덤 아이템
