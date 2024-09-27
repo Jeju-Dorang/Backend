@@ -4,8 +4,6 @@ import JejuDorang.JejuDorang.lodging.enums.LodgingDirection;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
-
-
 @Converter(autoApply = true)
 public class LodgingDirectionConverter implements AttributeConverter<LodgingDirection, String> {
 
@@ -22,8 +20,10 @@ public class LodgingDirectionConverter implements AttributeConverter<LodgingDire
 		if (englishName == null) {
 			return null;
 		}
+		String normalizedEnglishName = englishName.toLowerCase();
+
 		for (LodgingDirection direction : LodgingDirection.values()) {
-			if (direction.getEnglishName().equals(englishName)) {
+			if (direction.getEnglishName().equalsIgnoreCase(normalizedEnglishName)) {
 				return direction;
 			}
 		}
