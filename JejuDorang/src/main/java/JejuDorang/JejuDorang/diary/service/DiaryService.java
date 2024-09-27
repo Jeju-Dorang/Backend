@@ -87,33 +87,25 @@ public class DiaryService {
             memberAchievementRepository.save(memberAchievement);
         }
 
-        try{
-            // 사진 s3에 저장
-            String storedUrl = imageService.uploadImage(diaryRequestDto.getImage());
+        // 일기 DB에 저장
+        Diary diary = Diary.builder()
+                .title(diaryRequestDto.getTitle())
+                .date(LocalDate.now())
+                .content(diaryRequestDto.getContent())
+                .secret(diaryRequestDto.getSecret())
+                .member(member)
+                .build();
+        diaryRepository.save(diary);
 
-            // 일기 DB에 저장
-            Diary diary = Diary.builder()
-                    .title(diaryRequestDto.getTitle())
-                    .date(LocalDate.now())
-                    .content(diaryRequestDto.getContent())
-                    .image(storedUrl)
-                    .secret(diaryRequestDto.getSecret())
-                    .member(member)
-                    .build();
-            diaryRepository.save(diary);
-
-            // 태그 저장
-            for (TagDto tag : diaryRequestDto.getTagList()) {
-                Tag newTag = tagService.saveTag(tag.getTagName());
-                DiaryTag diaryTag = new DiaryTag(newTag, diary);
-                diaryTagRepository.save(diaryTag);
-            }
-
-            // 스트릭 생성
-            streakService.createStreak(member);
-        } catch (IOException e) {
-            System.out.println("Failed to upload image: " + e.getMessage());
+        // 태그 저장
+        for (TagDto tag : diaryRequestDto.getTagList()) {
+            Tag newTag = tagService.saveTag(tag.getTagName());
+            DiaryTag diaryTag = new DiaryTag(newTag, diary);
+            diaryTagRepository.save(diaryTag);
         }
+
+        // 스트릭 생성
+        streakService.createStreak(member);
     }
 
     // 랜덤 아이템

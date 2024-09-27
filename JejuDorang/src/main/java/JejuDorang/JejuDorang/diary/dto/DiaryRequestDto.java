@@ -23,8 +23,6 @@ public class DiaryRequestDto {
     @NotNull(message = "내용을 입력해주세요.")
     private String content;
 
-    private MultipartFile image;
-
     @JsonProperty("secret")
     private SecretType secret;
 
