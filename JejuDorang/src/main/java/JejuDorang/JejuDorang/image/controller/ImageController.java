@@ -21,7 +21,6 @@ public class ImageController {
     public ResponseEntity saveDiaryImage(@RequestBody MultipartFile image, Long diaryId) {
         try {
             String storedImageUrl = imageService.uploadImage(image, diaryId);
-//            imageService.saveImageInDiary(storedImageUrl, diaryId);
 
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

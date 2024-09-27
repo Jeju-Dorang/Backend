@@ -44,7 +44,7 @@ public class ImageService {
 
         //
         Diary diary = diaryRepository.findById(diaryId)
-                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 일기" ));
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 일기"));
         diary.updateImage(storedUrl);
         diary.updateImageName(changedName);
         diaryRepository.save(diary);
