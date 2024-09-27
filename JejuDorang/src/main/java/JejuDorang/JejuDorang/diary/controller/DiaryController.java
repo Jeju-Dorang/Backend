@@ -22,8 +22,8 @@ public class DiaryController {
     // 일기 작성
     // 1. isAchievement = true -> achievementId 확인해서 달성률 증가 + 일기 저장
     // 2. isAchievement = false -> 일기 저장
-    @PostMapping(value = "/diary", consumes = "multipart/form-data")
-    public ResponseEntity<Void> createDiary(@ModelAttribute DiaryRequestDto diaryRequestDto, @Login Member member) {
+    @PostMapping(value = "/diary")
+    public ResponseEntity<Void> createDiary(@RequestBody DiaryRequestDto diaryRequestDto, @Login Member member) {
 
         diaryService.createDiary(diaryRequestDto, member);
         return ResponseEntity.ok().build();
