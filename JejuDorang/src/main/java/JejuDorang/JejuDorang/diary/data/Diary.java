@@ -30,6 +30,8 @@ public class Diary {
 
     private String image;
 
+    private String imageName;
+
     @Enumerated(EnumType.STRING)
     private SecretType secret;
 
@@ -44,5 +46,14 @@ public class Diary {
     @Builder.Default
     @OneToMany(mappedBy = "diary")
     private List<LikeDiary> likeDiaryList = new ArrayList<>();
+
+
+    public void updateImage(String url) {
+        this.image = url;
+    }
+
+    public void updateImageName(String name) {
+        this.imageName = name;
+    }
 
 }
