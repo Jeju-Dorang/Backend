@@ -26,7 +26,7 @@ public class ImageService {
     }
 
     // 이미지 업로드 메서드
-    public String uploadImage(MultipartFile imageFile, Long diaryId) throws IOException {
+    public String uploadImage(MultipartFile imageFile) throws IOException {
         // 1. 고유한 파일 이름 생성
         String originalFilename = imageFile.getOriginalFilename();
         String changedName = changedImageName(originalFilename);
@@ -42,22 +42,6 @@ public class ImageService {
         // 4. 저장된 파일의 URL 반환
         String storedUrl = amazonS3.getUrl(bucketName, changedName).toString();
 
-        //
-        Diary diary = diaryRepository.findById(diaryId)
-                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 일기"));
-        diary.updateImage(storedUrl);
-        diary.updateImageName(changedName);
-        diaryRepository.save(diary);
-
         return storedUrl;
-    }
-
-    // Diary에 imageUrl 저장
-    public void saveImageInDiary(String url, Long diaryId) {
-
-        Diary diary = diaryRepository.findById(diaryId)
-                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 일기" ));
-        diary.updateImage(url);
-        diaryRepository.save(diary);
     }
 }

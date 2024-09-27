@@ -11,6 +11,7 @@ import JejuDorang.JejuDorang.diary.dto.DiaryPublicResponseDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryRequestDto;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
+import JejuDorang.JejuDorang.image.service.ImageService;
 import JejuDorang.JejuDorang.item.data.BackgroundItem;
 import JejuDorang.JejuDorang.item.data.PetItem;
 import JejuDorang.JejuDorang.item.data.StuffItem;
@@ -31,8 +32,11 @@ import JejuDorang.JejuDorang.view.data.View;
 import JejuDorang.JejuDorang.view.repository.ViewRepository;
 import JejuDorang.JejuDorang.view.service.ViewService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -53,6 +57,7 @@ public class DiaryService {
     private final StuffItemRepository stuffItemRepository;
     private final PetItemRepository petItemRepository;
     private final CharacterRepository characterRepository;
+    private final ImageService imageService;
 
     // 일기 작성
     public void createDiary(DiaryRequestDto diaryRequestDto, Member member) {
@@ -82,26 +87,33 @@ public class DiaryService {
             memberAchievementRepository.save(memberAchievement);
         }
 
-        // 일기 DB에 저장
-        Diary diary = Diary.builder()
-                .title(diaryRequestDto.getTitle())
-                .date(LocalDate.now())
-                .content(diaryRequestDto.getContent())
-                .image(diaryRequestDto.getImageUrl())
-                .secret(diaryRequestDto.getSecret())
-                .member(member)
-                .build();
-        diaryRepository.save(diary);
+        try{
+            // 사진 s3에 저장
+            String storedUrl = imageService.uploadImage(diaryRequestDto.getImage());
 
-        // 태그 저장
-        for (TagDto tag : diaryRequestDto.getTagList()) {
-            Tag newTag = tagService.saveTag(tag.getTagName());
-            DiaryTag diaryTag = new DiaryTag(newTag, diary);
-            diaryTagRepository.save(diaryTag);
+            // 일기 DB에 저장
+            Diary diary = Diary.builder()
+                    .title(diaryRequestDto.getTitle())
+                    .date(LocalDate.now())
+                    .content(diaryRequestDto.getContent())
+                    .image(storedUrl)
+                    .secret(diaryRequestDto.getSecret())
+                    .member(member)
+                    .build();
+            diaryRepository.save(diary);
+
+            // 태그 저장
+            for (TagDto tag : diaryRequestDto.getTagList()) {
+                Tag newTag = tagService.saveTag(tag.getTagName());
+                DiaryTag diaryTag = new DiaryTag(newTag, diary);
+                diaryTagRepository.save(diaryTag);
+            }
+
+            // 스트릭 생성
+            streakService.createStreak(member);
+        } catch (IOException e) {
+            System.out.println("Failed to upload image: " + e.getMessage());
         }
-
-        // 스트릭 생성
-        streakService.createStreak(member);
     }
 
     // 랜덤 아이템
