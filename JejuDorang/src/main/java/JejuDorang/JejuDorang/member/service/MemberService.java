@@ -184,11 +184,6 @@ public class MemberService {
         return memberRepository.getMainPage(member);
     }
 
-    public void updateImage(String image, Member member) {
-        member.updateImage(image);
-        memberRepository.save(member);
-    }
-
     public void updateContent(String content, Member member) {
         member.updateContent(content);
         memberRepository.save(member);
