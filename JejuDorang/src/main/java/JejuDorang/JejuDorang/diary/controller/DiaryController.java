@@ -4,6 +4,7 @@ import JejuDorang.JejuDorang.auth.argumentresolver.Login;
 import JejuDorang.JejuDorang.diary.dto.DiaryDetailResponseDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryPublicResponseDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryRequestDto;
+import JejuDorang.JejuDorang.diary.dto.DiaryResponseDto;
 import JejuDorang.JejuDorang.diary.service.DiaryService;
 import JejuDorang.JejuDorang.member.data.Member;
 import lombok.AllArgsConstructor;
@@ -23,10 +24,10 @@ public class DiaryController {
     // 1. isAchievement = true -> achievementId 확인해서 달성률 증가 + 일기 저장
     // 2. isAchievement = false -> 일기 저장
     @PostMapping(value = "/diary")
-    public ResponseEntity<Void> createDiary(@RequestBody DiaryRequestDto diaryRequestDto, @Login Member member) {
+    public ResponseEntity<DiaryResponseDto> createDiary(@RequestBody DiaryRequestDto diaryRequestDto, @Login Member member) {
 
-        diaryService.createDiary(diaryRequestDto, member);
-        return ResponseEntity.ok().build();
+        DiaryResponseDto diaryResponseDto = diaryService.createDiary(diaryRequestDto, member);
+        return ResponseEntity.ok(diaryResponseDto);
     }
 
     @GetMapping("/diaries/{diaryId}")
