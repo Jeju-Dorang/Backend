@@ -20,8 +20,10 @@ public class LodgingCategoryConverter implements AttributeConverter<LodgingCateg
 		if (englishName == null) {
 			return null;
 		}
+		String normalizedEnglishName = englishName.toLowerCase();
+
 		for (LodgingCategory category : LodgingCategory.values()) {
-			if (category.getEnglishName().equals(englishName)) {
+			if (category.getEnglishName().equalsIgnoreCase(normalizedEnglishName)) {
 				return category;
 			}
 		}
