@@ -1,10 +1,12 @@
 package JejuDorang.JejuDorang.image.service;
 
+import JejuDorang.JejuDorang.component.S3Key;
 import JejuDorang.JejuDorang.diary.data.Diary;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,9 +18,11 @@ import java.util.UUID;
 public class ImageService {
 
     private final AmazonS3 amazonS3;
-    private final String bucketName = System.getenv("S3_BUCKET_NAME");
 
-    private final DiaryRepository diaryRepository;
+    @Autowired
+    private final S3Key s3Key;
+
+    private final String bucketName = s3Key.getBucketName();
 
     private String changedImageName(String originName) {
         String random = UUID.randomUUID().toString();
@@ -40,8 +44,6 @@ public class ImageService {
         amazonS3.putObject(bucketName, changedName, imageFile.getInputStream(), metadata);
 
         // 4. 저장된 파일의 URL 반환
-        String storedUrl = amazonS3.getUrl(bucketName, changedName).toString();
-
-        return storedUrl;
+        return amazonS3.getUrl(bucketName, changedName).toString();
     }
 }
