@@ -1,8 +1,6 @@
 package JejuDorang.JejuDorang.image.service;
 
 import JejuDorang.JejuDorang.component.S3Key;
-import JejuDorang.JejuDorang.diary.data.Diary;
-import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +16,13 @@ import java.util.UUID;
 public class ImageService {
 
     private final AmazonS3 amazonS3;
+    private final String bucketName;
 
     @Autowired
-    private final S3Key s3Key;
-
-    private final String bucketName = s3Key.getBucketName();
+    public ImageService(S3Key s3Key, AmazonS3 amazonS3) {
+        this.bucketName = s3Key.getBucketName();
+        this.amazonS3 = amazonS3;
+    }
 
     private String changedImageName(String originName) {
         String random = UUID.randomUUID().toString();
