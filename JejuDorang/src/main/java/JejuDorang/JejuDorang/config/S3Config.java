@@ -13,6 +13,7 @@ public class S3Config {
 
     @Bean
     public AmazonS3 amazonS3Client() {
+
         String accessKey = System.getenv("S3_ACCESS_KEY");
         String secretKey = System.getenv("S3_SECRET_KEY");
         String region = System.getenv("S3_REGION");
