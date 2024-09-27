@@ -1,6 +1,8 @@
 package JejuDorang.JejuDorang.image.service;
 
 import JejuDorang.JejuDorang.component.S3Key;
+import JejuDorang.JejuDorang.diary.data.Diary;
+import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +19,13 @@ public class ImageService {
 
     private final AmazonS3 amazonS3;
     private final String bucketName;
+    private final DiaryRepository diaryRepository;
 
     @Autowired
-    public ImageService(S3Key s3Key, AmazonS3 amazonS3) {
+    public ImageService(S3Key s3Key, AmazonS3 amazonS3, DiaryRepository diaryRepository) {
         this.bucketName = s3Key.getBucketName();
         this.amazonS3 = amazonS3;
+        this.diaryRepository = diaryRepository;
     }
 
     private String changedImageName(String originName) {
@@ -45,5 +49,15 @@ public class ImageService {
 
         // 4. 저장된 파일의 URL 반환
         return amazonS3.getUrl(bucketName, changedName).toString();
+    }
+
+    // 저장된 경로 일기에 저장
+    public void saveUrl(String url, Long diaryId) {
+
+        Diary diary = diaryRepository.findById(diaryId)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 일기 입니다"));
+
+        diary.updateImage(url);
+        diaryRepository.save(diary);
     }
 }
