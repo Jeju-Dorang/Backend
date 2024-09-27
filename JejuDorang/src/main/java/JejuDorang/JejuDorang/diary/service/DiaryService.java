@@ -9,8 +9,10 @@ import JejuDorang.JejuDorang.diary.data.Diary;
 import JejuDorang.JejuDorang.diary.dto.DiaryDetailResponseDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryPublicResponseDto;
 import JejuDorang.JejuDorang.diary.dto.DiaryRequestDto;
+import JejuDorang.JejuDorang.diary.dto.DiaryResponseDto;
 import JejuDorang.JejuDorang.diary.enums.SecretType;
 import JejuDorang.JejuDorang.diary.repository.DiaryRepository;
+import JejuDorang.JejuDorang.image.service.ImageService;
 import JejuDorang.JejuDorang.item.data.BackgroundItem;
 import JejuDorang.JejuDorang.item.data.PetItem;
 import JejuDorang.JejuDorang.item.data.StuffItem;
@@ -31,8 +33,11 @@ import JejuDorang.JejuDorang.view.data.View;
 import JejuDorang.JejuDorang.view.repository.ViewRepository;
 import JejuDorang.JejuDorang.view.service.ViewService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -53,9 +58,10 @@ public class DiaryService {
     private final StuffItemRepository stuffItemRepository;
     private final PetItemRepository petItemRepository;
     private final CharacterRepository characterRepository;
+    private final ImageService imageService;
 
     // 일기 작성
-    public void createDiary(DiaryRequestDto diaryRequestDto, Member member) {
+    public DiaryResponseDto createDiary(DiaryRequestDto diaryRequestDto, Member member) {
 
         // 업적 일기, 일반 일기 구분
         Long achievementId = diaryRequestDto.getAchievementId();
@@ -87,7 +93,6 @@ public class DiaryService {
                 .title(diaryRequestDto.getTitle())
                 .date(LocalDate.now())
                 .content(diaryRequestDto.getContent())
-                .image(diaryRequestDto.getImageUrl())
                 .secret(diaryRequestDto.getSecret())
                 .member(member)
                 .build();
@@ -102,6 +107,8 @@ public class DiaryService {
 
         // 스트릭 생성
         streakService.createStreak(member);
+
+        return new DiaryResponseDto(diary.getId());
     }
 
     // 랜덤 아이템

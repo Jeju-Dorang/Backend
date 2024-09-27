@@ -42,3 +42,16 @@ logging.level:
 driver:
   chrome:
     driver_path: ${CHROMEDRIVER_PATH}
+
+cloud:
+  aws:
+    s3:
+      bucket: jejudorangs3
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false

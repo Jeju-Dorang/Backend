@@ -123,12 +123,6 @@ public class MemberController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PatchMapping("/image")
-	public ResponseEntity<Void> updateImage(@RequestBody MemberImageDto memberImageDto, @Login Member member) {
-		memberService.updateImage(memberImageDto.getMemberImage(), member);
-		return ResponseEntity.ok().build();
-	}
-
 	@PatchMapping("/content")
 	public ResponseEntity<Void> updateImage(@RequestBody MemberContentDto memberContentDto, @Login Member member) {
 		memberService.updateContent(memberContentDto.getMemberContent(), member);
