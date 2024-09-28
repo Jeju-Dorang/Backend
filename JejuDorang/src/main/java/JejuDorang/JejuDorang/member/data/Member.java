@@ -44,7 +44,7 @@ public class Member implements UserDetails {
 
 	private String content;
 
-	private String image;
+	private String image = "https://jejudorangs3.s3.ap-northeast-2.amazonaws.com/icon/%ED%94%84%EB%A1%9C%ED%95%84_%EA%B8%B0%EB%B3%B8_%EC%9D%B4%EB%AF%B8%EC%A7%80.png";
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "lodging_id")

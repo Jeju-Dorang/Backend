@@ -28,7 +28,7 @@ public class Diary {
 
     private String content;
 
-    private String image;
+    private String image = "https://jejudorangs3.s3.ap-northeast-2.amazonaws.com/icon/%EC%8A%A4%ED%86%A0%EB%A6%AC_%EA%B8%B0%EB%B3%B8_%EC%9D%B4%EB%AF%B8%EC%A7%80.png";
 
     private String imageName;
 
