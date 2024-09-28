@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import JejuDorang.JejuDorang.crawling.dto.CrawlingDto;
 import JejuDorang.JejuDorang.crawling.service.CrawlingService;
 import JejuDorang.JejuDorang.lodging.data.Lodging;
-import JejuDorang.JejuDorang.lodging.dto.KaKaoCrawlingDto;
 import JejuDorang.JejuDorang.lodging.dto.LodgingRecommendResponseDto;
 import JejuDorang.JejuDorang.lodging.enums.LodgingCategory;
 import JejuDorang.JejuDorang.lodging.enums.LodgingDirection;
@@ -44,8 +44,8 @@ public class LodgingService {
 					+ "&MobileApp=JEJU-DORANG"
 					+ "&_type=json"
 					+ "&areaCode=39"
-					+ "&serviceKey=" + serviceKey);
-
+					+ "&serviceKey=" + "kSFk0%2FwHGpJud8smQ4oXZVHMC3%2ByyxAGrOcdpY0sIQlyPGgy2%2FEfV%2FYe63Sg%2BzYUhOzrP5V61qGDwFE6CsD8Zg%3D%3D");
+						//todo service 키로 돌려놓기
 			ResponseEntity<Map> response = restTemplate.getForEntity(uri, Map.class);
 			Map<String, Object> responseBody = response.getBody();
 
@@ -68,7 +68,8 @@ public class LodgingService {
 	private void saveToDatabase(List<Map<String, Object>> items) {
 		for (Map<String, Object> item : items) {
 			String title = removeBrackets((String) item.get("title"));
-			KaKaoCrawlingDto kaKaoCrawlingDto = crawlingService.searchKaKaoMap(title);
+			System.out.println("숙박 이름 : " + title);
+			CrawlingDto kaKaoCrawlingDto = crawlingService.searchKaKaoMap(title);
 			System.out.println("숙박 정보 : " + kaKaoCrawlingDto);
 			Lodging entity = Lodging.builder()
 				.address((String) item.get("addr1"))
