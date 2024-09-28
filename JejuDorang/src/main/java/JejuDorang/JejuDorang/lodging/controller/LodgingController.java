@@ -27,8 +27,9 @@ public class LodgingController {
 	private final LodgingService lodgingService;
 
 	@PostMapping("/saveLodgings")
-	public void saveLodgings() {
+	public ResponseEntity<Void> saveLodgings() {
 		lodgingService.saveLodgings(tourSpotConfig.getServiceKey());
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/recommendations")

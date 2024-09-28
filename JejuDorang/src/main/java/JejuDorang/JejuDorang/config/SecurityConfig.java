@@ -1,8 +1,7 @@
 package JejuDorang.JejuDorang.config;
 
-import JejuDorang.JejuDorang.component.JwtAuthFilter;
-import JejuDorang.JejuDorang.component.JwtTokenProvider;
-import lombok.RequiredArgsConstructor;
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,8 +14,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-import java.util.Arrays;
+import JejuDorang.JejuDorang.component.JwtAuthFilter;
+import JejuDorang.JejuDorang.component.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                         .requestMatchers("/auth/kakao/**").permitAll() // /auth/kakao/ 경로만 접근 허용
                         .requestMatchers("/auth/token/refresh").permitAll()
+                        .requestMatchers("/lodging/saveLodgings").permitAll()
                         .anyRequest().authenticated()) // 나머지 요청은 인증 필요
 //                        .anyRequest().permitAll())
                 .addFilterBefore(new JwtAuthFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
