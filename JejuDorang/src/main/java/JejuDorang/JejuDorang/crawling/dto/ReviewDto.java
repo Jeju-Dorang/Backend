@@ -8,9 +8,10 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ReviewDto {
+	private Long lodgingId;
 	private String name;
 	private String profileUrl;
-	private String text;
+	private String content;
 	private String relativeTimeDescription;
 	private double rating;
 	private Instant time;

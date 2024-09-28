@@ -112,7 +112,7 @@ public class GoogleAPIService {
 					ReviewDto reviewDto = ReviewDto.builder()
 						.name(review.authorName)
 						.profileUrl(review.profilePhotoUrl)
-						.text(review.text)
+						.content(review.text)
 						.relativeTimeDescription(review.relativeTimeDescription)
 						.rating(review.rating)
 						.time(review.time)

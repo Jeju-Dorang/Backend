@@ -68,7 +68,7 @@ public class Lodging {
 	public void setReviews(List<ReviewDto> reviews) {
 		for (ReviewDto reviewDto : reviews) {
 			Review review = new Review(reviewDto.getRating(), reviewDto.getName(), "",
-				reviewDto.getProfileUrl(), reviewDto.getText(),
+				reviewDto.getProfileUrl(), reviewDto.getContent(),
 				Timestamp.from(reviewDto.getTime()), reviewDto.getRelativeTimeDescription());
 			review.setLodging(this);
 			this.reviews.add(review);
