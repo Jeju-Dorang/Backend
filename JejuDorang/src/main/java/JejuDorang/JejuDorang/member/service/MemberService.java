@@ -207,6 +207,7 @@ public class MemberService {
                     memberLodgingDto.getLongitude()
             );
             lodgingRepository.save(lodging);
+            member.updateLodging(lodging);
         }
         memberRepository.save(member);
     }
