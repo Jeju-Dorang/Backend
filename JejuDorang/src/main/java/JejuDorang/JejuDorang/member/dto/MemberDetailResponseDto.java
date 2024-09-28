@@ -30,7 +30,7 @@ public class MemberDetailResponseDto {
 		this.memberComment = member.getContent();
 		this.profileImage = member.getImage();
 		if (member.getHome() != null) {
-			this.lodgingAddress = member.getHome().getAddress();
+			this.lodgingAddress = member.getHome().getName();
 		} else {
 			this.lodgingAddress = ""; // 또는 기본값 설정 가능
 		}
