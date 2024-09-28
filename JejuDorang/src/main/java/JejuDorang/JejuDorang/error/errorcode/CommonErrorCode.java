@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum CommonErrorCode implements ErrorCode {
 	INVALID_PARAMETER(BAD_REQUEST, "Invalid parameter included"),
+	// Not Found
 	RESOURCE_NOT_FOUND(NOT_FOUND, "Resource not exists"),
+	LODGING_NOT_FOUND(NOT_FOUND, "Lodging not exists"),
 	INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
 
 	private final HttpStatus httpStatus;
