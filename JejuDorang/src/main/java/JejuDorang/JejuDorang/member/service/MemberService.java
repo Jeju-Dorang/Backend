@@ -192,6 +192,9 @@ public class MemberService {
     public void saveLodging(MemberLodgingDto memberLodgingDto, Member member) {
         Lodging lodging = member.getHome();
 
+        System.out.println("경도 : " + memberLodgingDto.getLongitude());
+        System.out.println("위도 : " + memberLodgingDto.getLatitude());
+
         if (lodging == null) {
             Lodging newLodging = Lodging.builder()
                     .name(memberLodgingDto.getLodgingName())
@@ -207,7 +210,6 @@ public class MemberService {
                     memberLodgingDto.getLongitude()
             );
             lodgingRepository.save(lodging);
-            member.updateLodging(lodging);
         }
         memberRepository.save(member);
     }
