@@ -2,6 +2,7 @@ package JejuDorang.JejuDorang.lodging.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +27,12 @@ public class LodgingController {
 	private final TourSpotConfig tourSpotConfig;
 	private final LodgingService lodgingService;
 
+	@Value("${tour.api.key}")
+	private String serviceKey;
+
 	@PostMapping("/saveLodgings")
-	public ResponseEntity<Void> saveLodgings() {
-		lodgingService.saveLodgings(tourSpotConfig.getServiceKey());
+	public ResponseEntity<Void> saveLodgings2() {
+		lodgingService.saveLodgings2(serviceKey);
 		return ResponseEntity.ok().build();
 	}
 

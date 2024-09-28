@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
 import JejuDorang.JejuDorang.crawling.WebDriverUtil;
-import JejuDorang.JejuDorang.crawling.dto.CrawlingDto;
+import JejuDorang.JejuDorang.crawling.dto.GoogleApiDto;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -26,7 +26,7 @@ public class CrawlingService {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
 
-	public CrawlingDto searchKaKaoMap(String searchTerm) {
+	public GoogleApiDto searchKaKaoMap(String searchTerm) {
 		double rating = 0.0;
 		String url = "https://www.yeogi.com/domestic-accommodations?keyword=" + searchTerm +
 			"&checkIn=2024-10-23&checkOut=2024-10-24&personal=2&freeForm=false";;
@@ -104,7 +104,7 @@ public class CrawlingService {
 		} catch (Exception e) {
 			System.err.println("검색 중 오류 발생: " + e.getMessage());
 		}
-		return new CrawlingDto(name, price, rating, category, description);
+		return new GoogleApiDto();
 	}
 
 	public void close() {
