@@ -1,10 +1,11 @@
 package JejuDorang.JejuDorang.config;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import JejuDorang.JejuDorang.auth.dto.KakaoConfig;
 import JejuDorang.JejuDorang.tourspot.dto.TourSpotConfig;
 import io.github.cdimascio.dotenv.Dotenv;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
@@ -25,7 +26,9 @@ public class AppConfig {
 
     @Bean
     public TourSpotConfig tourSpotConfig() {
-        Dotenv dotenv = Dotenv.load();
+        Dotenv dotenv = Dotenv.configure()
+            .filename(".env")
+            .load();
 
         TourSpotConfig tourSpotConfig = new TourSpotConfig();
         tourSpotConfig.setServiceKey(dotenv.get("TOUR_API_KEY"));
