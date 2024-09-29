@@ -21,13 +21,11 @@ public enum LodgingCategory {
 		else if (category.contains("게스트하우스")) {
 			return LodgingCategory.GUEST_HOUSE;
 		}
-		else if (category.contains("펜션")) {
+		else if (category.contains("펜션") || category.contains("빌라")) {
 			return LodgingCategory.PENSION;
 		}
-		else if (category.contains("민박")) {
+		else {
 			return LodgingCategory.BB;
 		}
-		else
-			return null;
 	}
 }

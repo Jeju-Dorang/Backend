@@ -1,8 +1,10 @@
 package JejuDorang.JejuDorang.lodging.service;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -10,14 +12,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import JejuDorang.JejuDorang.crawling.dto.GoogleApiDto;
+import JejuDorang.JejuDorang.crawling.dto.ReviewDto;
 import JejuDorang.JejuDorang.crawling.service.CrawlingService;
+import JejuDorang.JejuDorang.crawling.service.GoogleAPIService;
+import JejuDorang.JejuDorang.error.exception.LodgingNotFoundException;
 import JejuDorang.JejuDorang.lodging.data.Lodging;
-import JejuDorang.JejuDorang.lodging.dto.KaKaoCrawlingDto;
+import JejuDorang.JejuDorang.lodging.dto.LodgingDetailResponseDto;
 import JejuDorang.JejuDorang.lodging.dto.LodgingRecommendResponseDto;
 import JejuDorang.JejuDorang.lodging.enums.LodgingCategory;
 import JejuDorang.JejuDorang.lodging.enums.LodgingDirection;
 import JejuDorang.JejuDorang.lodging.repository.LodgingRepository;
+import JejuDorang.JejuDorang.lodging.util.LodgingUtil;
 import JejuDorang.JejuDorang.member.data.Member;
+import JejuDorang.JejuDorang.review.data.Review;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -26,15 +34,16 @@ public class LodgingService {
 
 	private final LodgingRepository lodgingRepository;
 	private final CrawlingService crawlingService;
+	private final GoogleAPIService googleAPIService;
 
 	@Transactional
 	public void saveLodgings(String serviceKey) {
+		System.out.println("serviceKey = " + serviceKey);
 		int pageNo = 1;
-		int numOfRows = 100;
+		int numOfRows = 3;
 		int totalCount = 0;
 
 		RestTemplate restTemplate = new RestTemplate();
-		crawlingService.initialize();
 		do {
 			URI uri = URI.create(
 				"https://apis.data.go.kr/B551011/KorService1/searchStay1?"
@@ -45,7 +54,6 @@ public class LodgingService {
 					+ "&_type=json"
 					+ "&areaCode=39"
 					+ "&serviceKey=" + serviceKey);
-
 			ResponseEntity<Map> response = restTemplate.getForEntity(uri, Map.class);
 			Map<String, Object> responseBody = response.getBody();
 
@@ -68,21 +76,33 @@ public class LodgingService {
 	private void saveToDatabase(List<Map<String, Object>> items) {
 		for (Map<String, Object> item : items) {
 			String title = removeBrackets((String) item.get("title"));
-			KaKaoCrawlingDto kaKaoCrawlingDto = crawlingService.searchKaKaoMap(title);
-			System.out.println("숙박 정보 : " + kaKaoCrawlingDto);
+			System.out.println("숙박 이름 : " + title);
+			GoogleApiDto googleApiDto = googleAPIService.getGoogleApiData(title);
+			if (googleApiDto == null) {
+				System.out.println("Google API에서 데이터를 가져오지 못했습니다.");
+				continue;
+			}
+			String image = (String) item.get("firstimage");
+			if (Objects.equals(image, "")) {
+				image = googleApiDto.getImage();
+			}
+			LodgingDirection direction = LodgingUtil.getDirectionByAddress(googleApiDto.getAddress());
 			Lodging entity = Lodging.builder()
 				.address((String) item.get("addr1"))
-				.name(title)
+				.name(googleApiDto.getName())
 				.comment("")
-				.image((String) item.get("firstimage"))
+				.image(image)
 				.latitude(Double.parseDouble((String) item.get("mapy")))
 				.longitude(Double.parseDouble((String) item.get("mapx")))
-				.rating(kaKaoCrawlingDto.getRating())
-				.direction(LodgingDirection.NORTH)
-				.category(kaKaoCrawlingDto.getCategory())
-				.price(0L)
+				.rating(googleApiDto.getRating())
+				.direction(direction)
+				.category(googleApiDto.getCategory())
+				.price(Long.parseLong(googleApiDto.getPrice()))
+				.phoneNumber(googleApiDto.getPhoneNumber())
 				.build();
+			entity.setReviews(googleApiDto.getReviews());
 			lodgingRepository.save(entity);
+			System.out.println("숙박 정보 저장 완료");
 		}
 	}
 
@@ -102,7 +122,31 @@ public class LodgingService {
 		if (lodging.isPresent()) {
 			member.selectLodging(lodging.get());
 		} else {
-			throw new IllegalArgumentException("해당 숙소가 존재하지 않습니다.");
+			throw new LodgingNotFoundException();
 		}
+	}
+
+	public LodgingDetailResponseDto getDetail(long lodgingId) {
+		Optional<Lodging> lodging = lodgingRepository.findById(lodgingId);
+		if (lodging.isEmpty()) {
+			throw new LodgingNotFoundException();
+		}
+		int[] stars = new int[6];
+		List<ReviewDto> reviewDtos = new ArrayList<>();
+		List<Review> reviews = lodging.get().getReviews();
+		for (Review review : reviews) {
+			ReviewDto reviewDto = ReviewDto.builder()
+				.lodgingId(review.getLodging().getId())
+				.name(review.getReviewerName())
+				.profileUrl(review.getReviewerProfile())
+				.content(review.getReviewContent())
+				.relativeTimeDescription(review.getReviewDateStr())
+				.rating(review.getRating())
+				.time(review.getReviewDate().toInstant())
+				.build();
+			stars[review.getRating().intValue()]++;
+			reviewDtos.add(reviewDto);
+		}
+		return new LodgingDetailResponseDto(lodging.get(), stars, reviewDtos);
 	}
 }
