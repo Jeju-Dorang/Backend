@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import JejuDorang.JejuDorang.crawling.dto.GoogleApiDto;
-import JejuDorang.JejuDorang.crawling.dto.ReviewDto;
-import JejuDorang.JejuDorang.crawling.service.CrawlingService;
-import JejuDorang.JejuDorang.crawling.service.GoogleAPIService;
 import JejuDorang.JejuDorang.error.exception.LodgingNotFoundException;
+import JejuDorang.JejuDorang.googleApi.dto.GoogleApiDto;
+import JejuDorang.JejuDorang.googleApi.dto.ReviewDto;
+import JejuDorang.JejuDorang.googleApi.service.GoogleAPIService;
 import JejuDorang.JejuDorang.lodging.data.Lodging;
 import JejuDorang.JejuDorang.lodging.dto.LodgingDetailResponseDto;
 import JejuDorang.JejuDorang.lodging.dto.LodgingRecommendResponseDto;
@@ -33,7 +32,6 @@ import lombok.RequiredArgsConstructor;
 public class LodgingService {
 
 	private final LodgingRepository lodgingRepository;
-	private final CrawlingService crawlingService;
 	private final GoogleAPIService googleAPIService;
 
 	@Transactional
@@ -70,7 +68,6 @@ public class LodgingService {
 
 			pageNo++;
 		} while ((pageNo - 1) * numOfRows < totalCount);
-		crawlingService.close();
 	}
 
 	private void saveToDatabase(List<Map<String, Object>> items) {

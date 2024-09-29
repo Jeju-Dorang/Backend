@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import JejuDorang.JejuDorang.crawling.dto.ReviewDto;
+import JejuDorang.JejuDorang.googleApi.dto.ReviewDto;
 import JejuDorang.JejuDorang.lodging.enums.LodgingCategory;
 import JejuDorang.JejuDorang.lodging.enums.LodgingDirection;
 import JejuDorang.JejuDorang.review.data.Review;

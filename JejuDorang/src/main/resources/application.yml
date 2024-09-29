@@ -40,10 +40,6 @@ logging.level:
   org.springframework.web: debug
   org.hibernate.stat: off
 
-driver:
-  chrome:
-    driver_path: ${CHROMEDRIVER_PATH}
-
 cloud:
   aws:
     s3:

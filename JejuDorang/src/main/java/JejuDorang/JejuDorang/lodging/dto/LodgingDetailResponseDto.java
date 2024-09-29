@@ -2,7 +2,7 @@ package JejuDorang.JejuDorang.lodging.dto;
 
 import java.util.List;
 
-import JejuDorang.JejuDorang.crawling.dto.ReviewDto;
+import JejuDorang.JejuDorang.googleApi.dto.ReviewDto;
 import JejuDorang.JejuDorang.lodging.data.Lodging;
 import lombok.Getter;
 
