@@ -19,7 +19,7 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping("/image/diary")
-    public void updateImageInDiary(@RequestBody MultipartFile image, Long diaryId) {
+    public void updateImageInDiary(@RequestBody MultipartFile image, @RequestParam Long diaryId) {
 
         try {
             String storedUrl = imageService.uploadImage(image);
