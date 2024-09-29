@@ -86,7 +86,6 @@ public class LodgingService {
 			if (Objects.equals(image, "")) {
 				image = googleApiDto.getImage();
 			}
-			System.out.println("숙박 정보 : " + googleApiDto);
 			LodgingDirection direction = LodgingUtil.getDirectionByAddress(googleApiDto.getAddress());
 			Lodging entity = Lodging.builder()
 				.address((String) item.get("addr1"))
@@ -103,6 +102,7 @@ public class LodgingService {
 				.build();
 			entity.setReviews(googleApiDto.getReviews());
 			lodgingRepository.save(entity);
+			System.out.println("숙박 정보 저장 완료");
 		}
 	}
 

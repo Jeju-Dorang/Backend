@@ -96,8 +96,7 @@ public class GoogleAPIService {
 					+ "?maxwidth=400"
 					+ "&photoreference=" + photoReference
 					+ "&key=" + apiKey;
-				System.out.println("사진 URL: " + image);
-			}
+ 			}
 
 			LodgingCategory category = LodgingCategory.valueOfCategory(name);
 
