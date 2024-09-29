@@ -29,7 +29,7 @@ spring:
       max-request-size: 10MB
   sql:
     init:
-      mode: always
+      mode: never
       data-locations: classpath:META-INF/data.sql
   main:
     allow-bean-definition-overriding: true
