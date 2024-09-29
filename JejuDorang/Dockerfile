@@ -3,8 +3,8 @@
 FROM openjdk:17-jdk-slim
 
 # Chromedriver 설치
-RUN apt-get update && \
-    apt-get install -y wget unzip chromium-driver
+# RUN apt-get update && \
+#    apt-get install -y wget unzip chromium-driver
 
 # Chromedriver 경로 설정
 ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver

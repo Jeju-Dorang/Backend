@@ -8,7 +8,8 @@ public enum LodgingDirection {
 	EAST("east", "동"),
 	WEST("west", "서"),
 	SOUTH("south", "남"),
-	NORTH("north", "북");
+	NORTH("north", "북"),
+	UNKNOWN("unknown", "미지정");
 
 	private final String englishName;
 	private final String koreanName;
