@@ -30,7 +30,7 @@ public class Review {
 
 	private String reviewerProfile;
 
-	@Column(length = 2000)
+	@Column(length = 15000)
 	private String reviewContent;
 
 	private Timestamp reviewDate;
