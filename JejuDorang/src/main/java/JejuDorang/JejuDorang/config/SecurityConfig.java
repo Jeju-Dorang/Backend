@@ -50,6 +50,7 @@ public class SecurityConfig {
         configuration.setAllowCredentials(true);
         configuration.addAllowedOrigin("http://localhost:5173"); // 허용할 출처 설정
         configuration.addAllowedOrigin("http://localhost:8080");
+        configuration.addAllowedOrigin("https://jejudorang.netlify.app");
         configuration.addAllowedHeader("*"); // 허용할 헤더 설정
 //        configuration.addAllowedMethod("GET", "POST", "PUT", "DELETE", "PATCH"); // 허용할 메소드 설정
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH"));
