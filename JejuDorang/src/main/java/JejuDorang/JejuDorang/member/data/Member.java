@@ -159,4 +159,16 @@ public class Member implements UserDetails {
 	public void updateLodging(Lodging newLodging) {
 		this.home = newLodging;
 	}
+
+	public void increateFirstQuestion() {
+		this.firstQuestion ++;
+	}
+
+	public void increaseQuestionCommentCnt() {
+		this.questionCommentCnt ++;
+	}
+
+	public void increaseDiaryContinueCnt() {
+		this.diaryContinueCnt ++;
+	}
 }
