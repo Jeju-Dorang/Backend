@@ -12,6 +12,7 @@ import JejuDorang.JejuDorang.question.data.Question;
 import JejuDorang.JejuDorang.question.repository.QuestionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -29,8 +30,10 @@ public class CommentService {
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 질문 글입니다"));
         MemberAchievement memberAchievement = memberAchievementRepository.findByMemberAndAchievement(member, achievement);
         memberAchievement.updateAchievementStatus();
+        memberAchievementRepository.save(memberAchievement);
     }
 
+    @Transactional
     public void createComment(Long questionPostId, CommentRequestDto commentRequestDto, Member member) {
 
         Question questionPost = questionRepository.findById(questionPostId)
