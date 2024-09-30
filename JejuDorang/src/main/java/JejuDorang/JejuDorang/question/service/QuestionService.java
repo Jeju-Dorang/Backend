@@ -15,6 +15,7 @@ import JejuDorang.JejuDorang.question.dto.QuestionSearchResponseDto;
 import JejuDorang.JejuDorang.question.repository.QuestionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class QuestionService {
     private final AchievementRepository achievementRepository;
     private final MemberAchievementRepository memberAchievementRepository;
 
+    @Transactional
     public void createQuestion(QuestionInputRequestDto questionInputRequestDto, Member member) {
 
         Question question = Question.builder()
@@ -49,6 +51,7 @@ public class QuestionService {
 
             MemberAchievement memberAchievement = memberAchievementRepository.findByMemberAndAchievement(member, achievement);
             memberAchievement.updateAchievementStatus();
+            memberAchievementRepository.save(memberAchievement);
         }
     }
 
