@@ -46,13 +46,10 @@ public class Member implements UserDetails {
 
 	private String image = "https://jejudorangs3.s3.ap-northeast-2.amazonaws.com/icon/%ED%94%84%EB%A1%9C%ED%95%84_%EA%B8%B0%EB%B3%B8_%EC%9D%B4%EB%AF%B8%EC%A7%80.png";
 
-	@Builder.Default
 	private int firstQuestion = 0;   // 첫 질문글 작성
 
-	@Builder.Default
 	private int questionCommentCnt = 0;   // 질문글 답장
 
-	@Builder.Default
 	private int diaryContinueCnt = 0;    // 연속 일기
 
 	@OneToOne(fetch = FetchType.LAZY)
