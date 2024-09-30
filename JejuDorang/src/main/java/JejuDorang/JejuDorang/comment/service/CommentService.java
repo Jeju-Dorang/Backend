@@ -26,7 +26,7 @@ public class CommentService {
     private final AchievementRepository achievementRepository;
 
     public void getCommentAchievement(Long id, Member member) {
-        Achievement achievement = achievementRepository.findById(4L)
+        Achievement achievement = achievementRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("존재하지 않는 질문 글입니다"));
         MemberAchievement memberAchievement = memberAchievementRepository.findByMemberAndAchievement(member, achievement);
         memberAchievement.updateAchievementStatus();
