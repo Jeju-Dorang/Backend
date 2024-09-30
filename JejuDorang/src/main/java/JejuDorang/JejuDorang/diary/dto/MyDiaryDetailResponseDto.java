@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MyDiaryDetailResponseDto {
 
+	private String title;
 	private Long diaryId;
 	private String content;
 	private String image;
@@ -23,6 +24,7 @@ public class MyDiaryDetailResponseDto {
 	private List<TagDto> tagList;
 
 	public MyDiaryDetailResponseDto(Diary diary) {
+		this.title = diary.getTitle();
 		this.diaryId = diary.getId();
 		this.content = diary.getContent();
 		this.image = diary.getImage();
