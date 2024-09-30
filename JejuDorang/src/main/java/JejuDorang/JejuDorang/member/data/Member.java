@@ -171,4 +171,8 @@ public class Member implements UserDetails {
 	public void increaseDiaryContinueCnt() {
 		this.diaryContinueCnt ++;
 	}
+
+	public void initDiaryContinueCnt() {
+		this.diaryContinueCnt = 0;
+	}
 }
