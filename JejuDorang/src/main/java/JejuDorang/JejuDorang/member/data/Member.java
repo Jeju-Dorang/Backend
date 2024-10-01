@@ -5,7 +5,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import JejuDorang.JejuDorang.comment.data.Comment;
+import JejuDorang.JejuDorang.like.data.LikeComment;
 import JejuDorang.JejuDorang.question.data.Question;
+import JejuDorang.JejuDorang.view.data.View;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -71,6 +74,15 @@ public class Member implements UserDetails {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Question> questions = new ArrayList<>();
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private List<Comment> comments = new ArrayList<>();
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private List<LikeComment> likeCommentList = new ArrayList<>();
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private List<View> views = new ArrayList<>();
 
 	@Builder
 	public Member(String keyCode, String name) {
