@@ -1,5 +1,15 @@
 package JejuDorang.JejuDorang.tourspot.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import JejuDorang.JejuDorang.achievement.dto.AchievementDto;
 import JejuDorang.JejuDorang.auth.argumentresolver.Login;
 import JejuDorang.JejuDorang.member.data.Member;
@@ -7,12 +17,8 @@ import JejuDorang.JejuDorang.tourspot.dto.TourSpotConfig;
 import JejuDorang.JejuDorang.tourspot.dto.TourSpotRequestDto;
 import JejuDorang.JejuDorang.tourspot.dto.TourSpotResponseDto;
 import JejuDorang.JejuDorang.tourspot.service.TourSpotService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/tourspot")
@@ -26,7 +32,7 @@ public class TourSpotController {
 
     @PostMapping("/recommendation")
     public ResponseEntity<List<TourSpotResponseDto>> tourSpotRecommend
-            (@RequestBody TourSpotRequestDto tourSpotRequestDto) {
+            (@RequestBody @Valid TourSpotRequestDto tourSpotRequestDto) {
 
         String requestUrl
                 = "http://apis.data.go.kr/B551011/KorService1/locationBasedList1"
