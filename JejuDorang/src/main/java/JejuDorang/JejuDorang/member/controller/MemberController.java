@@ -3,7 +3,15 @@ package JejuDorang.JejuDorang.member.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import JejuDorang.JejuDorang.achievement.dto.AchievementListDto;
 import JejuDorang.JejuDorang.auth.argumentresolver.Login;
@@ -14,7 +22,6 @@ import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.dto.MemberContentDto;
 import JejuDorang.JejuDorang.member.dto.MemberDetailResponseDto;
 import JejuDorang.JejuDorang.member.dto.MemberEmailDto;
-import JejuDorang.JejuDorang.member.dto.MemberImageDto;
 import JejuDorang.JejuDorang.member.dto.MemberLodgingDto;
 import JejuDorang.JejuDorang.member.dto.MemberNameDto;
 import JejuDorang.JejuDorang.member.service.MemberService;
@@ -116,13 +123,13 @@ public class MemberController {
 	}
 
 	@PatchMapping("/content")
-	public ResponseEntity<Void> updateImage(@RequestBody MemberContentDto memberContentDto, @Login Member member) {
+	public ResponseEntity<Void> updateImage(@RequestBody @Valid MemberContentDto memberContentDto, @Login Member member) {
 		memberService.updateContent(memberContentDto.getMemberContent(), member);
 		return ResponseEntity.ok().build();
 	}
 
 	@PostMapping("/lodging")
-	public ResponseEntity<Void> saveLodging(@RequestBody MemberLodgingDto memberLodgingDto, @Login Member member) {
+	public ResponseEntity<Void> saveLodging(@RequestBody @Valid MemberLodgingDto memberLodgingDto, @Login Member member) {
 
 		memberService.saveLodging(memberLodgingDto, member);
 		return ResponseEntity.ok().build();
