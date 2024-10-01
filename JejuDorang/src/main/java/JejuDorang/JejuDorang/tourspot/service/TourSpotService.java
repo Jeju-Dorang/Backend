@@ -83,10 +83,10 @@ public class TourSpotService {
                 .collect(Collectors.toList());
 
         // 리스트 섞기
-        Collections.shuffle(memberAchievements);
+        Collections.shuffle(filteredAchievements);
 
         // 리스트에서 최대 5개의 요소를 반환
-        List<MemberAchievement> randomAchievement = memberAchievements
+        List<MemberAchievement> randomAchievement = filteredAchievements
                 .stream()
                 .limit(5)
                 .collect(Collectors.toList());
