@@ -7,16 +7,7 @@ import JejuDorang.JejuDorang.achievement.enums.AchievementType;
 import JejuDorang.JejuDorang.item.data.Item;
 import JejuDorang.JejuDorang.member.data.MemberAchievement;
 import JejuDorang.JejuDorang.tag.data.AchievementTag;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -51,9 +42,9 @@ public class Achievement {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    @OneToMany(mappedBy = "achievement")
+    @OneToMany(mappedBy = "achievement", cascade = CascadeType.REMOVE)
     private List<AchievementTag> achievementTagList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "achievement")
+    @OneToMany(mappedBy = "achievement", cascade = CascadeType.REMOVE)
     private List<MemberAchievement> memberAchievementList = new ArrayList<>();
 }
