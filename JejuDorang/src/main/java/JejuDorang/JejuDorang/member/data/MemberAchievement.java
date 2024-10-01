@@ -35,4 +35,8 @@ public class MemberAchievement {
 	public void updateAchievementStatus() {
 		this.achievementStatus = AchievementStatus.DONE;
 	}
+
+	public void initAchievementCnt() {
+		this.achievementCnt = 0;
+	}
 }

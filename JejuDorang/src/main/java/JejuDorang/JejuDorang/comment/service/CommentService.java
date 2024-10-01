@@ -25,10 +25,7 @@ public class CommentService {
     private final MemberAchievementRepository memberAchievementRepository;
     private final AchievementRepository achievementRepository;
 
-    public void getCommentAchievement(Long id, Member member) {
-        Achievement achievement = achievementRepository.findById(id)
-                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 질문 글입니다"));
-        MemberAchievement memberAchievement = memberAchievementRepository.findByMemberAndAchievement(member, achievement);
+    public void getCommentAchievement(MemberAchievement memberAchievement) {
         memberAchievement.updateAchievementStatus();
         memberAchievementRepository.save(memberAchievement);
     }
@@ -49,14 +46,32 @@ public class CommentService {
         commentRepository.save(comment);
 
         // 댓글 업적
+        Achievement achievement1 = achievementRepository.findById(4L)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 질문 글입니다"));
+        MemberAchievement memberAchievement1 = memberAchievementRepository.findByMemberAndAchievement(member, achievement1);
+
+        Achievement achievement2 = achievementRepository.findById(8L)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 질문 글입니다"));
+        MemberAchievement memberAchievement2 = memberAchievementRepository.findByMemberAndAchievement(member, achievement2);
+
+        Achievement achievement3 = achievementRepository.findById(9L)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 질문 글입니다"));
+        MemberAchievement memberAchievement3 = memberAchievementRepository.findByMemberAndAchievement(member, achievement3);
+
         member.increaseQuestionCommentCnt();
+        memberAchievement1.incAchievementCnt();
+        memberAchievement2.incAchievementCnt();
+        memberAchievement3.incAchievementCnt();
+        memberAchievementRepository.save(memberAchievement1);
+        memberAchievementRepository.save(memberAchievement2);
+        memberAchievementRepository.save(memberAchievement3);
         int cnt = member.getQuestionCommentCnt();
         if (cnt == 5) {
-            getCommentAchievement(4L, member);
+            getCommentAchievement(memberAchievement1);
         } else if (cnt == 10) {
-            getCommentAchievement(8L, member);
+            getCommentAchievement(memberAchievement2);
         } else if (cnt == 20) {
-            getCommentAchievement(9L, member);
+            getCommentAchievement(memberAchievement3);
         }
     }
 }

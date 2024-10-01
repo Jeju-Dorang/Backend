@@ -116,16 +116,22 @@ public class DiaryService {
         Streak todayStreak = streakRepository.findByMemberIdAndDate(member.getId(), LocalDate.now());
         LocalDate yesterday = LocalDate.now().minusDays(1);
         Streak yesterdayStreak = streakRepository.findByMemberIdAndDate(member.getId(), yesterday);
+
+        Achievement achievement = achievementRepository.findById(3L)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 업적입니다"));
+        MemberAchievement memberAchievement = memberAchievementRepository.findByMemberAndAchievement(member, achievement);
         if (yesterdayStreak != null && todayStreak.getCount() == 1) {
             member.increaseDiaryContinueCnt();
+            memberAchievement.incAchievementCnt();
+            memberAchievementRepository.save(memberAchievement);
         } else if (yesterdayStreak == null) {
             member.initDiaryContinueCnt();
+            memberAchievement.initAchievementCnt();
+            memberAchievementRepository.save(memberAchievement);
         }
         if (member.getDiaryContinueCnt() == 10) {
-            Achievement achievement = achievementRepository.findById(3L)
-                    .orElseThrow(()->new IllegalArgumentException("존재하지 않는 업적입니다"));
-            MemberAchievement memberAchievement = memberAchievementRepository.findByMemberAndAchievement(member, achievement);
             memberAchievement.updateAchievementStatus();
+            memberAchievementRepository.save(memberAchievement);
         }
 
         return new DiaryResponseDto(diary.getId());
