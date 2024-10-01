@@ -74,6 +74,14 @@ public class TourSpotService {
         List<MemberAchievement> memberAchievements
                 = memberAchievementRepository.findByMemberAndAchievementStatus(member, AchievementStatus.YET);
 
+        // 특정 achievementId 제외 (3, 4, 8, 9, 18)
+        List<MemberAchievement> filteredAchievements = memberAchievements.stream()
+                .filter(ma -> {
+                    Long achievementId = ma.getAchievement().getId(); // Achievement 엔티티의 id 가져오기
+                    return !(achievementId == 3 || achievementId == 4 || achievementId == 8 || achievementId == 9 || achievementId == 18);
+                })
+                .collect(Collectors.toList());
+
         // 리스트 섞기
         Collections.shuffle(memberAchievements);
 

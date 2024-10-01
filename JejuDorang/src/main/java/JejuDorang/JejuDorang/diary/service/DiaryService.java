@@ -23,6 +23,9 @@ import JejuDorang.JejuDorang.like.service.LikeService;
 import JejuDorang.JejuDorang.member.data.Member;
 import JejuDorang.JejuDorang.member.data.MemberAchievement;
 import JejuDorang.JejuDorang.member.repository.MemberAchievementRepository;
+import JejuDorang.JejuDorang.streak.data.Streak;
+import JejuDorang.JejuDorang.streak.dto.StreakResponseDto;
+import JejuDorang.JejuDorang.streak.repository.StreakRepository;
 import JejuDorang.JejuDorang.streak.service.StreakService;
 import JejuDorang.JejuDorang.tag.data.DiaryTag;
 import JejuDorang.JejuDorang.tag.data.Tag;
@@ -59,6 +62,7 @@ public class DiaryService {
     private final PetItemRepository petItemRepository;
     private final CharacterRepository characterRepository;
     private final ImageService imageService;
+    private final StreakRepository streakRepository;
 
     // 일기 작성
     public DiaryResponseDto createDiary(DiaryRequestDto diaryRequestDto, Member member) {
@@ -107,6 +111,22 @@ public class DiaryService {
 
         // 스트릭 생성
         streakService.createStreak(member);
+
+        // 스트릭 업적
+        Streak todayStreak = streakRepository.findByMemberIdAndDate(member.getId(), LocalDate.now());
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        Streak yesterdayStreak = streakRepository.findByMemberIdAndDate(member.getId(), yesterday);
+        if (yesterdayStreak != null && todayStreak.getCount() == 1) {
+            member.increaseDiaryContinueCnt();
+        } else if (yesterdayStreak == null) {
+            member.initDiaryContinueCnt();
+        }
+        if (member.getDiaryContinueCnt() == 10) {
+            Achievement achievement = achievementRepository.findById(3L)
+                    .orElseThrow(()->new IllegalArgumentException("존재하지 않는 업적입니다"));
+            MemberAchievement memberAchievement = memberAchievementRepository.findByMemberAndAchievement(member, achievement);
+            memberAchievement.updateAchievementStatus();
+        }
 
         return new DiaryResponseDto(diary.getId());
     }

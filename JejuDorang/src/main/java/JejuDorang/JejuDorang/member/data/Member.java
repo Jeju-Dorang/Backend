@@ -46,6 +46,12 @@ public class Member implements UserDetails {
 
 	private String image = "https://jejudorangs3.s3.ap-northeast-2.amazonaws.com/icon/%ED%94%84%EB%A1%9C%ED%95%84_%EA%B8%B0%EB%B3%B8_%EC%9D%B4%EB%AF%B8%EC%A7%80.png";
 
+	private int firstQuestion = 0;   // 첫 질문글 작성
+
+	private int questionCommentCnt = 0;   // 질문글 답장
+
+	private int diaryContinueCnt = 0;    // 연속 일기
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "lodging_id")
 	private Lodging home;
@@ -149,5 +155,21 @@ public class Member implements UserDetails {
 
 	public void updateLodging(Lodging newLodging) {
 		this.home = newLodging;
+	}
+
+	public void increateFirstQuestion() {
+		this.firstQuestion ++;
+	}
+
+	public void increaseQuestionCommentCnt() {
+		this.questionCommentCnt ++;
+	}
+
+	public void increaseDiaryContinueCnt() {
+		this.diaryContinueCnt ++;
+	}
+
+	public void initDiaryContinueCnt() {
+		this.diaryContinueCnt = 0;
 	}
 }
