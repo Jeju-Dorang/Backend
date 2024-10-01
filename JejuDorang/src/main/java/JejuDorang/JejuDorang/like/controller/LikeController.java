@@ -37,7 +37,7 @@ public class LikeController {
         if (!alreadyLike)
             likeService.createLikeDiary(diaryId, member);
         else
-            likeService.deleteLikeComment(diaryId, member);
+            likeService.deleteLikeDiary(diaryId, member);
         return ResponseEntity.ok().build();
     }
 }
