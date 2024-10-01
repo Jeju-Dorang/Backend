@@ -24,7 +24,7 @@ public class Tag {
     private List<AchievementTag> achievementTagList = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "tag")
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.REMOVE)
     private List<DiaryTag> diaryTagList = new ArrayList<>();
 
     public Tag(String name) {
