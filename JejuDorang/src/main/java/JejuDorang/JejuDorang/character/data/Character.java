@@ -26,18 +26,18 @@ public class Character {
     private int petImage;
 
     @OneToOne
-   @JoinColumn(name = "member_id")
-   private Member member;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-   @OneToMany(mappedBy = "character")
-   @Builder.Default
-   private List<BackgroundItem> backgroundItems = new ArrayList<>();
+    @OneToMany(mappedBy = "character", cascade = CascadeType.REMOVE)
+    @Builder.Default
+    private List<BackgroundItem> backgroundItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "character")
+    @OneToMany(mappedBy = "character", cascade = CascadeType.REMOVE)
     @Builder.Default
     private List<PetItem> petItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "character")
+    @OneToMany(mappedBy = "character", cascade = CascadeType.REMOVE)
     @Builder.Default
     private List<StuffItem> stuffItems = new ArrayList<>();
 
