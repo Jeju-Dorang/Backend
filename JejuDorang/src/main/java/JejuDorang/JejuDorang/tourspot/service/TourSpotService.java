@@ -54,6 +54,10 @@ public class TourSpotService {
                 Double mapX = itemNode.path("mapx").asDouble();
                 Double mapY = itemNode.path("mapy").asDouble();
 
+                if (image == null) {
+                    image = "https://jejudorangs3.s3.ap-northeast-2.amazonaws.com/icon/%EA%B4%80%EA%B4%91%EC%A7%80_%EB%94%94%ED%8F%B4%ED%8A%B8_%EC%9D%B4%EB%AF%B8%EC%A7%80.png";
+                }
+
                 tourSpotResponseDtos.add(new TourSpotResponseDto(
                         title, address, image, mapX, mapY));
             }
