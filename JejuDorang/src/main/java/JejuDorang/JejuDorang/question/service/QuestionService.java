@@ -1,8 +1,12 @@
 package JejuDorang.JejuDorang.question.service;
 
+import JejuDorang.JejuDorang.achievement.data.Achievement;
+import JejuDorang.JejuDorang.achievement.repository.AchievementRepository;
 import JejuDorang.JejuDorang.comment.data.Comment;
 import JejuDorang.JejuDorang.like.service.LikeService;
 import JejuDorang.JejuDorang.member.data.Member;
+import JejuDorang.JejuDorang.member.data.MemberAchievement;
+import JejuDorang.JejuDorang.member.repository.MemberAchievementRepository;
 import JejuDorang.JejuDorang.question.data.Question;
 import JejuDorang.JejuDorang.question.dto.QuestionDetailResponseDto;
 import JejuDorang.JejuDorang.question.dto.QuestionInputRequestDto;
@@ -11,6 +15,7 @@ import JejuDorang.JejuDorang.question.dto.QuestionSearchResponseDto;
 import JejuDorang.JejuDorang.question.repository.QuestionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,7 +27,10 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final LikeService likeService;
+    private final AchievementRepository achievementRepository;
+    private final MemberAchievementRepository memberAchievementRepository;
 
+    @Transactional
     public void createQuestion(QuestionInputRequestDto questionInputRequestDto, Member member) {
 
         Question question = Question.builder()
@@ -33,6 +41,18 @@ public class QuestionService {
                 .build();
 
         questionRepository.save(question);
+
+        // 첫 질문글 -> 업적 달성
+        if (member.getFirstQuestion() == 0) {
+            member.increateFirstQuestion();
+
+            Achievement achievement = achievementRepository.findById(18L)
+                    .orElseThrow(()->new IllegalArgumentException("존재하지 않는 업적 입니다"));
+
+            MemberAchievement memberAchievement = memberAchievementRepository.findByMemberAndAchievement(member, achievement);
+            memberAchievement.updateAchievementStatus();
+            memberAchievementRepository.save(memberAchievement);
+        }
     }
 
     // 최신순으로 질문글 정렬해서 반환
