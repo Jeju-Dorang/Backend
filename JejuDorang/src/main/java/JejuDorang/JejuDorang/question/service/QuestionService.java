@@ -51,6 +51,7 @@ public class QuestionService {
 
             MemberAchievement memberAchievement = memberAchievementRepository.findByMemberAndAchievement(member, achievement);
             memberAchievement.updateAchievementStatus();
+            memberAchievement.incAchievementCnt();
             memberAchievementRepository.save(memberAchievement);
         }
     }

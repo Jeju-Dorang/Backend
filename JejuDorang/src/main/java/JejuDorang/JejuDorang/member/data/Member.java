@@ -170,6 +170,6 @@ public class Member implements UserDetails {
 	}
 
 	public void initDiaryContinueCnt() {
-		this.diaryContinueCnt = 0;
+		this.diaryContinueCnt = 1;
 	}
 }
