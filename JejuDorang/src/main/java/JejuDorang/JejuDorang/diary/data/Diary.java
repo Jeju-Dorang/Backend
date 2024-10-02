@@ -45,7 +45,7 @@ public class Diary {
     private List<DiaryTag> diaryTagList = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "diary")
+    @OneToMany(mappedBy = "diary", cascade = CascadeType.REMOVE)
     private List<LikeDiary> likeDiaryList = new ArrayList<>();
 
 
